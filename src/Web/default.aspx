@@ -1,0 +1,1 @@
+<%@ Page Language="C#" Inherits="Kiss.Web.Controls.MasterPage,Kiss.Web" Templated="true" %>
