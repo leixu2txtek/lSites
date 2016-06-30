@@ -10,6 +10,9 @@ using System.Text.RegularExpressions;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
+    /// <summary>
+    /// 站点管理的控制器接口
+    /// </summary>
     class SiteController : Controller
     {
         public SiteController()

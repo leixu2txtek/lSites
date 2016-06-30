@@ -11,6 +11,9 @@ using System.Linq;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
+    /// <summary>
+    /// 挂件管理的控制器接口
+    /// </summary>
     class WidgetController : Controller
     {
         public WidgetController()

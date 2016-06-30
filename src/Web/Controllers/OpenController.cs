@@ -7,6 +7,9 @@ using System.Web;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
+    /// <summary>
+    /// 无需权限校验的控制器接口
+    /// </summary>
     class OpenController : Controller
     {
         /// <summary>
