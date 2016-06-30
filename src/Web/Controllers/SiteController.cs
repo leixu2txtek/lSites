@@ -1,6 +1,7 @@
 ﻿using Kiss.Utils;
 using Kiss.Web;
 using Kiss.Web.Mvc;
+using Kiss.Web.Utils;
 using System;
 using System.Collections;
 using System.Data;
@@ -11,7 +12,35 @@ namespace Kiss.Components.Site.Web.Controllers
 {
     class SiteController : Controller
     {
-        #region 增加 & 修改 站点
+        public SiteController()
+        {
+            BeforeActionExecute += SiteController_BeforeActionExecute;
+        }
+
+        private void SiteController_BeforeActionExecute(object sender, BeforeActionExecuteEventArgs e)
+        {
+            JContext jc = e.JContext;
+
+            if (jc == null)
+            {
+                //服务器错误
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 500, msg = "不合法请求" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            if (!jc.IsAuth)
+            {
+                //权限验证失败
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            //TODO
+        }
+
+        #region 增加 & 修改站点
 
         /// <summary>
         /// 根据ID获取站点的详细信息

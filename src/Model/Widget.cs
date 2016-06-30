@@ -36,6 +36,12 @@ namespace Kiss.Components.Site
         public string Name { get; set; }
 
         /// <summary>
+        /// 创建者
+        /// </summary>
+        [NotNull(""), Length(50)]
+        public string UserId { get; set; }
+
+        /// <summary>
         /// 挂件的创建时间
         /// </summary>
         [NotNull("")]
