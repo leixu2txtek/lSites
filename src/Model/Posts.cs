@@ -89,12 +89,6 @@ namespace Kiss.Components.Site
         public string UserId { get; set; }
 
         /// <summary>
-        /// 是否等待审核
-        /// </summary>
-        [NotNull(0)]
-        public bool IsPending { get; set; }
-
-        /// <summary>
         /// 是否发布
         /// </summary>
         [NotNull(0)]

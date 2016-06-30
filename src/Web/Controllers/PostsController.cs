@@ -152,7 +152,6 @@ namespace Kiss.Components.Site.Web.Controllers
                     date_created = post.DateCreated,
                     view_count = post.ViewCount,
                     sort_order = post.SortOrder,
-                    is_pending = post.IsPending,
                     is_published = post.IsPublished,
                     date_published = post.DatePublished
                 }
@@ -282,6 +281,121 @@ namespace Kiss.Components.Site.Web.Controllers
             return new { code = 1, msg = "保存成功" };
         }
 
+        /// <summary>
+        /// 删除文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="id">文章ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：指定的文章不存在，-2：文章已被发布，是否确认删除
+        ///     msg = "删除成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年6月30日20:30:59
+        [HttpPost]
+        object delete(string id, bool confirmed)
+        {
+            var site = (Site)jc["site"];
 
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var post = (from q in cx
+                            where q.Id == id && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+                if (post == null) return new { code = -1, msg = "指定的文章不存在" };
+
+                if (!confirmed && post.IsPublished) return new { code = -2, msg = "文章已被发布，是否确认删除" };
+
+                cx.Remove(post);
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "删除成功" };
+        }
+
+        /// <summary>
+        /// 发布文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="ids">文章IDS</param>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：要发布的文章不能为空，-2：指定的文章未查询到
+        ///     msg = "发布成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年6月30日20:44:37
+        [HttpPost]
+        object publish(string[] ids)
+        {
+            if (ids.Length == 0) return new { code = -1, msg = "要发布的文章不能为空" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var posts = (from q in cx
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsPublished == false
+                             select q).ToList();
+
+                if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到" };
+
+                foreach (var item in posts)
+                {
+                    item.IsPublished = true;
+                    item.PublishUserId = jc.UserName;
+                    item.DatePublished = DateTime.Now;
+                }
+
+                cx.SubmitChanges(true);
+            }
+
+            return new { code = 1, msg = "发布成功" };
+        }
+
+        /// <summary>
+        /// 取消发布文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="ids">文章IDS</param>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：要取消发布的文章不能为空，-2：指定的文章未查询到
+        ///     msg = "发布成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年6月30日20:46:26
+        [HttpPost]
+        object unPublish(string[] ids)
+        {
+            if (ids.Length == 0) return new { code = -1, msg = "要取消发布的文章不能为空" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var posts = (from q in cx
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsPublished == true
+                             select q).ToList();
+
+                if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到" };
+
+                foreach (var item in posts)
+                {
+                    item.IsPublished = false;
+                    item.PublishUserId = string.Empty;
+                    item.DatePublished = DateTime.MinValue;
+                }
+
+                cx.SubmitChanges(true);
+            }
+
+            return new { code = 1, msg = "发布成功" };
+        }
     }
 }
