@@ -1,5 +1,7 @@
 ﻿using Kiss.Utils;
+using Kiss.Web;
 using Kiss.Web.Mvc;
+using Kiss.Web.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,70 @@ namespace Kiss.Components.Site.Web.Controllers
     /// </summary>
     class CategoryController : Controller
     {
+        public CategoryController()
+        {
+            BeforeActionExecute += CategoryController_BeforeActionExecute;
+        }
+
+        private void CategoryController_BeforeActionExecute(object sender, BeforeActionExecuteEventArgs e)
+        {
+            JContext jc = e.JContext;
+
+            if (jc == null)
+            {
+                //服务器错误
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 500, msg = "不合法请求" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            if (!jc.IsAuth)
+            {
+                //权限验证失败
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            #region 校验站点信息
+
+            if (string.IsNullOrEmpty(jc.Params["siteId"]))
+            {
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 200, msg = "参数列表不正确，缺少SiteId参数" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            var site = Site.Get(jc.Params["siteId"]);
+
+            if (site == null)
+            {
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 200, msg = "指定的站点不存在" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            #endregion
+
+            #region 校验用户对站点的权限
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+            //只有管理人员才可以对站点的挂件进行编辑
+            if (relation == null || (relation.PermissionLevel != PermissionLevel.ADMIN && relation.PermissionLevel != PermissionLevel.AUDIT))
+            {
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });
+                e.PreventDefault = true;
+                return;
+            }
+
+            #endregion
+
+            jc["site"] = site;
+        }
+
         /// <summary>
         /// 获取栏目列表
         /// </summary>
@@ -73,7 +139,11 @@ namespace Kiss.Components.Site.Web.Controllers
         [HttpPost]
         object detail(string id)
         {
-            var category = Category.Get(id);
+            var site = (Site)jc["site"];
+
+            var category = (from q in Category.CreateContext()
+                            where q.Id == id && q.SiteId == site.Id
+                            select q).FirstOrDefault();
 
             if (category == null) return new { code = -1, msg = "指定的栏目不存在" };
 
@@ -143,17 +213,19 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Category> cx = Category.CreateContext())
             using (ILinqContext<Category> cx_children = Category.CreateContext())
             {
-                var category = Category.Get(cx, id);
+                var category = (from q in cx
+                                where q.Id == id && q.SiteId == site.Id
+                                select q).FirstOrDefault();
 
                 if (category == null)
                 {
-                    if (Category.Where("Title = {0}", title).Count() != 0) return new { code = -5, msg = "已经存在相同的栏目名称，请更换其他栏目名称" };
-                    if (Category.Where("Url = {0}", url).Count() != 0) return new { code = -6, msg = "已经存在相同的栏目URL，请更换其他栏目URL" };
+                    if (Category.Where("Title = {0}", title).Where("SiteId = {0}", site.Id).Count() != 0) return new { code = -5, msg = "已经存在相同的栏目名称，请更换其他栏目名称" };
+                    if (Category.Where("Url = {0}", url).Where("SiteId = {0}", site.Id).Count() != 0) return new { code = -6, msg = "已经存在相同的栏目URL，请更换其他栏目URL" };
                 }
                 else
                 {
-                    if (category.Title != title && Site.Where("Title = {0}", title).Count() != 0) return new { code = -5, msg = "已经存在相同的栏目名称，请更换其他栏目名称" };
-                    if (category.Url != url && Site.Where("Url = {0}", url).Count() != 0) return new { code = -6, msg = "已经存在相同的栏目URL，请更换其他栏目URL" };
+                    if (category.Title != title && Site.Where("Title = {0}", title).Where("SiteId = {0}", site.Id).Count() != 0) return new { code = -5, msg = "已经存在相同的栏目名称，请更换其他栏目名称" };
+                    if (category.Url != url && Site.Where("Url = {0}", url).Where("SiteId = {0}", site.Id).Count() != 0) return new { code = -6, msg = "已经存在相同的栏目URL，请更换其他栏目URL" };
                 }
 
                 if (category == null)
@@ -214,13 +286,17 @@ namespace Kiss.Components.Site.Web.Controllers
         [HttpPost]
         object delete(string id)
         {
+            var site = (Site)jc["site"];
+
             using (ILinqContext<Category> cx = Category.CreateContext())
             {
-                var category = Category.Get(cx, id);
+                var category = (from q in cx
+                                where q.Id == id && q.SiteId == site.Id
+                                select q).FirstOrDefault();
 
                 if (category == null) return new { code = -1, msg = "指定的栏目不存在，删除失败" };
 
-                if (Category.Where("ParentId = {0}", category.Id).Count() > 0) return new { code = -2, msg = "指定的栏目下存在子栏目，不能删除" };
+                if (Category.Where("ParentId = {0}", category.Id).Where("SiteId = {0}", site.Id).Count() > 0) return new { code = -2, msg = "指定的栏目下存在子栏目，不能删除" };
 
                 cx.Remove(category);
                 cx.SubmitChanges();
