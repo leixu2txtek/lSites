@@ -76,12 +76,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="html\css\bootstrap-theme.css" />
+    <Content Include="html\css\bootstrap-theme.min.css" />
+    <Content Include="html\css\bootstrap.css" />
+    <Content Include="html\css\bootstrap.min.css" />
     <Content Include="Web.config" />
     <Content Include="packages.config" />
     <Content Include="App_Data\area.config" />
     <Content Include="App_Data\kiss.config" />
     <Content Include="App_Data\query.config" />
     <Content Include="App_Data\routes.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="html\css\bootstrap-theme.css.map" />
+    <Content Include="html\css\bootstrap-theme.min.css.map" />
+    <Content Include="html\css\bootstrap.css.map" />
+    <Content Include="html\css\bootstrap.min.css.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="html\fonts\" />
+    <Folder Include="html\js\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
