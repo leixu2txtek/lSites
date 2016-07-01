@@ -46,6 +46,10 @@
       <HintPath>..\packages\Kiss.4.9.0602.2\lib\Kiss.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Kiss.Components.TemplateEngine, Version=4.7.602.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Kiss.Components.TemplateEngine.4.7.0602.0\lib\Kiss.Components.TemplateEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Kiss.Web, Version=5.0.627.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Kiss.Web.5.0.0627.0\lib\Kiss.Web.dll</HintPath>
       <Private>True</Private>

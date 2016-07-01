@@ -106,6 +106,12 @@ namespace Kiss.Components.Site
         [NotNull(""), Length(50)]
         public string PublishUserId { get; set; }
 
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        [NotNull(0)]
+        public bool IsDeleted { get; set; }
+
         #endregion
 
         #region extend props
@@ -152,6 +158,48 @@ namespace Kiss.Components.Site
 
             PropertyName = sd.Keys;
             PropertyValue = sd.Values;
+        }
+
+        #endregion
+
+        #region events
+
+        public class ViewEventArgs : EventArgs
+        {
+            public static readonly new ViewEventArgs Empty = new ViewEventArgs();
+        }
+
+        public static event EventHandler<ViewEventArgs> View;
+
+        public void OnView(ViewEventArgs e)
+        {
+            View?.Invoke(this, e);
+        }
+
+        public class AfterSaveEventArgs : EventArgs
+        {
+            public static readonly new BeforeSaveEventArgs Empty = new BeforeSaveEventArgs();
+        }
+
+        public static event EventHandler<AfterSaveEventArgs> AfterSave;
+
+        public void OnAfterSave(AfterSaveEventArgs e)
+        {
+            AfterSave?.Invoke(this, e);
+        }
+
+        public class BeforeSaveEventArgs : EventArgs
+        {
+            public static readonly new BeforeSaveEventArgs Empty = new BeforeSaveEventArgs();
+
+            public string Properties { get; set; }
+        }
+
+        public static event EventHandler<BeforeSaveEventArgs> BeforeSave;
+
+        public void OnBeforeSave(BeforeSaveEventArgs e)
+        {
+            BeforeSave?.Invoke(this, e);
         }
 
         #endregion

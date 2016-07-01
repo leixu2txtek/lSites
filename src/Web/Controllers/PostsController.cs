@@ -3,8 +3,11 @@ using Kiss.Web;
 using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace Kiss.Components.Site.Web.Controllers
@@ -82,11 +85,64 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 文章列表
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
-        /// <returns></returns>
+        /// <param name="key">关键字</param>
+        /// <param name="published">是否发布，为空则表示查询所有状态文章</param>
+        /// <returns>
+        /// {
+        ///         id = "",                    //文章ID
+        ///         title = "",                 //文章标题
+        ///         summary = "",               //文章的摘要
+        ///         category = "",              //文章的分类信息
+        ///         date_created = "",          //文章的创建时间
+        ///         view_count = "",            //文章的查看数
+        ///         sort_order = "",            //文章的排序
+        ///         is_published = "",          //文章是否发布
+        ///         date_published = ""         //文章发布时间
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月1日17:37:13
         [HttpPost]
-        object list()
+        object list(string key, string published)
         {
-            return new { };
+            var site = (Site)jc["site"];
+
+            WebQuery q = new WebQuery();
+            q.Id = "posts.list";
+            q.LoadCondidtion();
+
+            if (!string.IsNullOrEmpty(key)) q["key"] = key;
+            if (!string.IsNullOrEmpty(published)) q["title"] = published.ToBoolean();
+
+            q["siteId"] = site.Id;
+
+            var dt = Posts.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    title = item["title"].ToString(),
+                    summary = item["summary"].ToString(),
+                    category = item["category"] is DBNull ? string.Empty : item["category"].ToString(),
+                    date_created = item["dateCreated"].ToDateTime(),
+                    view_count = item["viewCount"].ToInt(),
+                    sort_order = item["sortOrder"].ToInt(),
+                    is_published = item["isPublished"].ToBoolean(),
+                    date_published = item["datePublished"].ToDateTime()
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                totalCount = q.TotalCount,
+                page = q.PageIndex1,
+                orderbys = q.orderbys
+            };
         }
 
         /// <summary>
@@ -195,7 +251,9 @@ namespace Kiss.Components.Site.Web.Controllers
             if (subTitle.Length > 100) return new { code = -6, msg = "文章副标题的长度不能超过100个字符" };
             if (viewCount < 0) return new { code = -7, msg = "文章的查看次数不能设置为小于0" };
 
-            //TODO 验证文章内容中是否有脚本
+            //过滤文章内容中是否有脚本
+            content = Regex.Replace(content, @"<script[\s\S]+</script *>", string.Empty, RegexOptions.IgnoreCase);
+            content = Regex.Replace(content, @"<[^>]*(src|href)[\s\S]*=[\s\S]*script:[^>]*>", string.Empty, RegexOptions.IgnoreCase);
 
             //获取纯文本
             var text = StringUtil.TrimHtml(content);
@@ -249,33 +307,14 @@ namespace Kiss.Components.Site.Web.Controllers
                 post.SortOrder = sortOrder;
                 post.ViewCount = viewCount;
 
-                #region 处理扩展字段信息
-
-                if (!string.IsNullOrEmpty(props))
-                {
-                    try
-                    {
-                        var extends = new Kiss.Json.JavaScriptSerializer().Deserialize<Dictionary<string, string>>(props);
-
-                        foreach (var item in extends.Keys)
-                        {
-                            post[item] = extends[item];
-                        }
-
-                        //序列化扩展字段
-                        post.SerializeExtAttrs();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.Error(ExceptionUtil.WriteException(ex));
-
-                        return new { code = -8, msg = "扩展字段格式不正确" };
-                    }
-                }
-
-                #endregion
+                //OnBeforeSave
+                post.OnBeforeSave(new Posts.BeforeSaveEventArgs { Properties = props });
+                post.SerializeExtAttrs();
 
                 cx.SubmitChanges();
+
+                //OnBeforeSave
+                post.OnAfterSave(new Posts.AfterSaveEventArgs());
             }
 
             return new { code = 1, msg = "保存成功" };
