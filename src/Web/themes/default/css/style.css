@@ -1,0 +1,422 @@
+body {
+    font-family: "Microsoft YaHei";
+}
+
+
+/*nav*/
+
+.group-top {
+    height: 60px;
+    line-height: 60px;
+    background: #2f333e;
+}
+
+.group-top .navbar-brand {
+    color: #9d9d9d;
+    margin-left: 15px;
+    float: left;
+    height: 60px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.group-top .navbar-brand:hover {
+    color: #fff;
+    background-color: transparent;
+}
+
+.group-top .navbar-right {
+    margin-right: 15px;
+}
+
+.group-top .navbar-right span {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.group-top .glyphicon-chevron-down {
+    color: #fff;
+    font-weight: normal;
+    font-size: 14px;
+    margin-left: 5px;
+}
+
+
+/*main*/
+
+.group-container {
+    margin-top: 60px;
+}
+
+.main {
+    padding-left: 0px;
+}
+
+.group-container .sidebar {
+    position: fixed;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+}
+
+.group-nav-sidebar {
+    margin: 0px -21px 20px -21px;
+}
+
+.group-nav-sidebar li {
+    border-bottom: 1px solid #fff;
+}
+
+.group-nav-sidebar li a {
+    color: #2f333e;
+    padding: 10px 25px;
+}
+
+.group-nav-sidebar li a .iconfont {
+    font-size: 17px;
+    vertical-align: middle;
+    margin-right: 7px;
+}
+
+.group-nav-sidebar li a:hover {
+    color: #23527c;
+}
+
+.group-nav-sidebar li a.active {
+    color: #fff;
+    background-color: #10a1bb;
+}
+
+.group-subMenu {
+    background: #fff;
+}
+
+.group-subMenu li {
+    border-bottom: 1px solid #eee;
+}
+
+.group-subMenu li a {
+    color: #000;
+    padding-left: 45px;
+}
+
+.group-nav-more {
+    float: right;
+    font-size: 22px;
+    font-weight: normal;
+    font-family: "Microsoft YaHei";
+    line-height: 12px;
+}
+
+.group-icon-caidan {
+    font-size: 18px;
+    vertical-align: middle;
+}
+
+.group-icon-yuanquan {
+    margin-right: 6px;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+
+/***  文章  group-article***/
+
+
+/*group-article-top*/
+
+.group-article-top {
+    margin: 0px;
+    border-bottom: 1px solid #eee;
+    background: #FAFBF9;
+    padding: 0px 15px;
+    font-size: 18px;
+    height: 45px;
+    color: #2f333e;
+}
+
+.group-article-top h3 {
+    margin: 0px;
+    height: 45px;
+    line-height: 45px;
+    float: left;
+    font-size: 20px;
+}
+
+.group-article-top h3 span {
+    font-size: 16px;
+}
+
+.group-article-top .group-icon-207 {
+    font-size: 26px;
+    vertical-align: middle;
+}
+
+.group-article-addButton {
+    background: #10a1bb;
+    color: #fff;
+    border-radius: 2px;
+    border: none;
+    font-size: 12px;
+    padding: 5px 10px 5px 7px;
+    margin-left: 24px;
+}
+
+.group-article-addButton:hover {
+    background: #1dc6e4;
+    color: #fff;
+    text-decoration: none;
+}
+
+.group-article-addButton .group-nav-more {
+    float: left;
+    margin-right: 4px;
+}
+
+
+/*group-article-table*/
+
+.group-article-table {
+    padding: 15px 20px;
+}
+
+.group-article-table .table th {
+    border-bottom: 0px;
+}
+
+.group-article-table .table th,
+.group-article-table .table td {
+    text-align: center;
+    padding: 6px 0px;
+}
+
+.group-article-table form {
+    margin-bottom: 10px;
+}
+
+.group-article-table .group-article-form {
+    margin-left: 30px;
+}
+
+.group-article-table .group-article-form label {
+    vertical-align: middle;
+    display: inline-block;
+    padding: 0px;
+}
+
+.group-article-form input {
+    vertical-align: middle;
+}
+
+.group-article-form .form-control {
+    border-radius: 0px;
+}
+
+.group-article-table .group-article-form-btn {
+    background: #10a1bb;
+    color: #fff;
+    border-radius: 2px;
+    border: none;
+    font-size: 14px;
+    padding: 5px 20px;
+    margin-left: 24px;
+}
+
+.group-article-table .group-article-form-btn:hover {
+    background: #1dc6e4;
+}
+
+.group-article-tabelTools a {
+    margin: 0px 3px;
+}
+
+
+/*栏目group-Columns*/
+
+.group-Columns {
+    position: relative
+}
+
+.group-Columns .group-Columns-list {
+    width: 210px;
+    border: 1px solid #eee;
+    position: absolute;
+    top: 20px;
+    left: 12px;
+}
+
+.group-Columns .group-Columns-list h3 {
+    font-size: 16px;
+    margin: 0px;
+    height: 50px;
+    line-height: 50px;
+    background: #10a1bb;
+    color: #fff;
+    text-align: center;
+    border-bottom: 1px solid #f6f6f6;
+}
+
+.group-Columns .group-Columns-ul {
+    box-shadow: none;
+    margin: 0px;
+}
+
+.group-Columns .group-Columns-ul li {
+    border: 0px;
+    background: #f6f6f6;
+    text-align: center;
+    border-radius: 0px;
+}
+
+.group-Columns .group-Columns-ul li a {
+    color: #10a1bb;
+}
+
+.group-Columns .group-Columns-ul .group-Columns-Active {
+    background: #fff;
+    border-left: 2px solid #23b7d2;
+}
+
+.group-Columns .group-Columns-ul .group-Columns-Active a {
+    color: #10a1bb
+}
+
+.group-Columns .group-Columns-ul li a:hover {
+    text-decoration: none;
+}
+
+
+/*栏目详细信息*/
+
+.group-Columns-information {
+    margin-left: 260px;
+    padding-top: 20px;
+}
+
+
+/*information-top*/
+
+.group-Columns-information .information-top {
+    margin: 0px;
+    font-size: 16px;
+    line-height: 50px;
+    border-bottom: 2px solid #f6f6f6;
+}
+
+.group-Columns-information .information-top span {
+    border-bottom: 2px solid #10a1bb;
+    padding: 15px;
+}
+
+
+/*group-information-form*/
+
+.group-information-form {
+    margin-top: 40px;
+}
+
+.group-information-form label {
+    width: 150px;
+    text-align: right;
+    padding: 0px;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+.group-information-form .group-information-input input {
+    border-radius: 0px;
+    border: 1px solid #b6b6b6;
+}
+
+.group-information-form .group-information-input {
+    width: 300px;
+    height: 35px;
+    padding: 0px;
+    margin-left: 15px;
+}
+
+.group-information-form .group-information-Parent {
+    width: 160px;
+}
+
+.group-information-form .group-information-Parent input {
+    width: 160px;
+    height: 32px;
+}
+
+.group-information-form .group-info-ParentButton {
+    padding: 0px;
+    background: #e0e0e0;
+    width: 124px;
+    height: 32px;
+    border: none;
+    margin-left: 16px;
+    color: #2f333e;
+    font-size: 12px;
+}
+
+.group-information-form .group-info-select {
+    display: inline-block;
+    width: 300px;
+    border-radius: 0px;
+    border: 1px solid #b6b6b6;
+    margin-left: 11px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 12px;
+}
+
+.group-information-form .group-information-Sort {
+    width: 95px;
+}
+
+.group-information-form .group-Columns-button button {
+    width: 90px;
+    height: 32px;
+    color: #fff;
+    border-radius: 0px;
+    border: 0px;
+}
+
+.group-information-form .group-Columns-button .group-Columns-save {
+    margin-left: 165px;
+    background: #13abc6;
+}
+
+.group-information-form .group-Columns-button .group-Columns-dele {
+    margin-left: 15px;
+    background: #e0e0e0;
+    color: #2f333e;
+}
+
+
+/*用户管理*/
+
+.group-users-form {
+    padding: 15px 20px;
+}
+
+.group-users-table .group-users-form label {
+    padding: 0px;
+}
+
+.group-users-table {
+    padding: 15px 20px;
+}
+
+.group-users-table .group-users-form-btn {
+    background: #10a1bb;
+    color: #fff;
+    border-radius: 2px;
+    border: none;
+    font-size: 14px;
+    padding: 5px 20px;
+    margin-left: 24px;
+}
