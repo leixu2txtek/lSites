@@ -2,6 +2,14 @@ body {
     font-family: "Microsoft YaHei";
 }
 
+html a:hover {
+    text-decoration: none;
+}
+
+body .group-container button:focus {
+    outline: none;
+}
+
 
 /*nav*/
 
@@ -42,6 +50,42 @@ body {
     margin-left: 5px;
 }
 
+.group-top-userbox {
+    position: relative;
+}
+
+.group-top-user {
+    display: -webkit-inline-box;
+    display: inline-block;
+}
+
+.group-user-dropdown {
+    position: relative;
+    z-index: 999;
+    width: 156px;
+    margin-left: -10px;
+    background-color: #FFF;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .2);
+    border-top: 3px solid #10a1bb;
+}
+
+.group-user-dropdown li a {
+    padding: 0px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+}
+
+.group-user-dropdown i.group-user-dropdownIcon {
+    position: absolute;
+    top: -71px;
+    left: 80px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #10a1bb;
+    ;
+}
+
 
 /*main*/
 
@@ -77,11 +121,11 @@ body {
 .group-nav-sidebar li a {
     color: #2f333e;
     padding: 10px 25px;
+    display: block;
 }
 
 .group-nav-sidebar li a .iconfont {
     font-size: 17px;
-    vertical-align: middle;
     margin-right: 7px;
 }
 
@@ -123,7 +167,6 @@ body {
 .group-icon-yuanquan {
     margin-right: 6px;
     font-size: 14px;
-    vertical-align: middle;
 }
 
 
@@ -142,15 +185,46 @@ body {
     color: #2f333e;
 }
 
-.group-article-top h3 {
+.group-article-top h3.navbar-brand {
     margin: 0px;
     height: 45px;
     line-height: 45px;
     float: left;
     font-size: 20px;
+    padding: 0px;
 }
 
-.group-article-top h3 span {
+.group-operation-btn .btn-primary,
+.group-operation-btn .btn-danger {
+    padding: 3px 16px;
+    border: 0px;
+    border-radius: 0px;
+    font-size: 14px;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.group-operation-btn {
+    margin-top: 12px;
+}
+
+.group-operation-btn .btn-primary {
+    color: #fff;
+    background: #10a1bb;
+    border-radius: 2px;
+}
+
+.group-operation-btn .btn-danger {
+    color: #fff;
+    background: #d9534f;
+    border-radius: 2px;
+}
+
+.group-operation-btn .btn-danger:hover {
+    background: #f16e6a;
+}
+
+.group-operation-btn .group-article-top h3 span {
     font-size: 16px;
 }
 
@@ -169,7 +243,8 @@ body {
     margin-left: 24px;
 }
 
-.group-article-addButton:hover {
+.group-article-addButton:hover,
+.group-operation-btn .btn-primary:hover {
     background: #1dc6e4;
     color: #fff;
     text-decoration: none;
@@ -202,21 +277,33 @@ body {
 }
 
 .group-article-table .group-article-form {
-    margin-left: 30px;
+    margin-left: 0px;
+    margin-right: 20px;
 }
 
 .group-article-table .group-article-form label {
-    vertical-align: middle;
+    vertical-align: initial;
     display: inline-block;
     padding: 0px;
+    font-weight: normal;
+    font-size: 14px;
 }
 
 .group-article-form input {
-    vertical-align: middle;
+    vertical-align: initial;
 }
 
 .group-article-form .form-control {
     border-radius: 0px;
+    height: 28px;
+    line-height: 28px;
+    width: 210px;
+}
+
+.group-article-form select {
+    width: 120px;
+    height: 28px;
+    border: 1px solid #ccc;
 }
 
 .group-article-table .group-article-form-btn {
@@ -225,8 +312,8 @@ body {
     border-radius: 2px;
     border: none;
     font-size: 14px;
-    padding: 5px 20px;
-    margin-left: 24px;
+    padding: 4px 20px;
+    margin-left: 15px;
 }
 
 .group-article-table .group-article-form-btn:hover {
@@ -234,11 +321,79 @@ body {
 }
 
 .group-article-tabelTools a {
+    cursor: pointer;
+    border: 1px solid #10a1bb;
     margin: 0px 3px;
+    color: #10a1bb;
+    font-size: 14px;
+    padding: 2px 4px;
+}
+
+.group-article-tabelTools a:hover {
+    color: #bfbfbe;
+    border: 1px solid #bfbfbe;
+}
+
+.group-article .group-article-table table td,
+.group-article .group-article-table table th {
+    text-align: center;
+    padding: 11px 0px;
+}
+
+.group-article .group-article-table table th {
+    cursor: pointer;
+}
+
+.group-article-table .group-icon-sort {
+    font-size: 13px;
+    margin-left: 4px;
+}
+
+.group-article .group-article-table .group-article-tabelTools {
+    width: 10%;
+}
+
+.group-article .group-article-table .group-article-checkbox {
+    width: 3%;
+}
+
+.group-article-width5 {
+    width: 6%;
+}
+
+.group-article-zy {
+    width: 320px;
+}
+
+.group-article-zy .autocut {
+    width: inherit;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -icab-text-overflow: ellipsis;
+    -khtml-text-overflow: ellipsis;
+    -moz-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    word-break: normal;
+    word-wrap: normal;
+    padding: 0px 8px;
 }
 
 
 /*栏目group-Columns*/
+
+.group-Columns-list .ztree {
+    margin: 0px;
+    background: #fff;
+    width: 208px;
+    border: 0px;
+    overflow: hidden;
+}
+
+.group-Columns-list .ztree li a {
+    padding: 0px;
+}
 
 .group-Columns {
     position: relative
@@ -419,4 +574,152 @@ body {
     font-size: 14px;
     padding: 5px 20px;
     margin-left: 24px;
+}
+
+
+/*站点group-site-table*/
+
+.group-site-table {
+    margin: 15px 20px;
+}
+
+.group-site-table table {
+    border: none;
+}
+
+.group-site-table .form-horizontal {
+    height: 35px;
+    background: #10a1bb;
+    padding: 0px 15px;
+    line-height: 35px;
+}
+
+.group-site-table .group-site-tableTitle {
+    font-size: 14px;
+    color: #fff;
+}
+
+.group-site-table .group-site-control {
+    height: 23px;
+    border: 0px;
+    border-radius: 0px;
+}
+
+.group-container .group-site-table table th,
+.group-container .group-site-table table td {
+    text-align: center;
+    border: none;
+    padding: 11px 0px;
+}
+
+.group-site-table .table-striped>tbody>tr:nth-of-type(odd),
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #ebf9fb;
+}
+
+.group-site-table .group-site-tabelTools a {
+    border: 1px solid #aaaaaa;
+    color: #3d3d3d;
+    padding: 2px 6px;
+    background: #fff;
+    margin: 0px 5px;
+}
+
+.group-site-table .group-site-tabelTools .tabelTools-edit,
+.group-site-table .group-site-tabelTools a:hover {
+    color: #10a1bb;
+}
+
+.group-site-table .group-site-tabelTools .tabelTools-edit:hover {
+    color: #018af7;
+}
+
+.group-site-pagination {
+    text-align: center;
+}
+
+.group-site-pagination .pagination {
+    margin: 0 auto;
+    height: 34px;
+    line-height: 26px;
+    float: right;
+}
+
+.group-site-pagination .pagination li span,
+.group-site-pagination .pagination li a {
+    border-radius: 0px;
+    margin: 0px 1px;
+    padding: 2px 12px;
+}
+
+.group-site-pagination .pagination-active a {
+    background: #10a1bb;
+    color: #fff;
+    border-color: #ddd;
+}
+
+.group-site-pagination .pagination li span.pagination-Ellipsis {
+    border: 0px;
+    padding: 0px;
+}
+
+.group-site-pagination .pagination li span.pagination-Ellipsis:hover {
+    background: 0px;
+}
+
+.group-site-pagination .pagination-left {
+    float: left;
+    text-align: left;
+    margin-left: 24px;
+}
+
+.group-site-pagination .pagination-left span,
+.group-site-pagination .pagination-last span {
+    border: none;
+    color: #10a1bb;
+    float: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.group-site-pagination .pagination-last {
+    margin: 0px 15px;
+    color: #333;
+}
+
+.group-site-pagination .pagination li.pagination-last span {
+    margin: 0px;
+    padding: 0px;
+    color: #333;
+}
+
+.group-site-pagination .pagination-last input {
+    float: none;
+    width: 40px;
+    height: 20px;
+    padding: 0px 7px;
+    margin: 0px 8px;
+    border: 1px solid #ddd;
+}
+
+.group-pagination-btn {
+    border-radius: 2px;
+    border: none;
+    font-size: 14px;
+    padding: 1px 12px;
+    margin-right: 12px;
+    margin-left: 11px;
+    color: #171717;
+}
+
+.group-pagination-btn:hover {
+    background: #10a1bb;
+    color: #fff;
+    text-decoration: none;
+}
+
+.pagination-left .select2-container .select2-choice {
+    width: 68px;
+    height: 20px;
+    line-height: 20px;
 }
