@@ -10,6 +10,10 @@ body .group-container button:focus {
     outline: none;
 }
 
+body a:focus {
+    text-decoration: none;
+}
+
 
 /*nav*/
 
@@ -120,7 +124,7 @@ body .group-container button:focus {
 
 .group-nav-sidebar li a {
     color: #2f333e;
-    padding: 10px 25px;
+    padding: 13px 25px;
     display: block;
 }
 
@@ -181,17 +185,21 @@ body .group-container button:focus {
     background: #FAFBF9;
     padding: 0px 15px;
     font-size: 18px;
-    height: 45px;
     color: #2f333e;
+    top: 60px;
+    z-index: 99;
 }
 
-.group-article-top h3.navbar-brand {
+.group-article-top h3 {
     margin: 0px;
-    height: 45px;
-    line-height: 45px;
-    float: left;
-    font-size: 20px;
+    height: 47px;
+    line-height: 47px;
     padding: 0px;
+    font-size: 18px;
+}
+
+.group-operation-btn {
+    margin-right: 22px;
 }
 
 .group-operation-btn .btn-primary,
@@ -205,7 +213,7 @@ body .group-container button:focus {
 }
 
 .group-operation-btn {
-    margin-top: 12px;
+    margin-top: 14px;
 }
 
 .group-operation-btn .btn-primary {
@@ -260,9 +268,11 @@ body .group-container button:focus {
 
 .group-article-table {
     padding: 15px 20px;
+    margin-top: 55px;
 }
 
-.group-article-table .table th {
+.group-article-table .table th,
+.group-users-table .table th {
     border-bottom: 0px;
 }
 
@@ -293,7 +303,8 @@ body .group-container button:focus {
     vertical-align: initial;
 }
 
-.group-article-form .form-control {
+.group-article-form .form-control,
+.group-users-form .form-control {
     border-radius: 0px;
     height: 28px;
     line-height: 28px;
@@ -334,8 +345,8 @@ body .group-container button:focus {
     border: 1px solid #bfbfbe;
 }
 
-.group-article .group-article-table table td,
-.group-article .group-article-table table th {
+.group-container table td,
+.group-container table th {
     text-align: center;
     padding: 11px 0px;
 }
@@ -349,16 +360,12 @@ body .group-container button:focus {
     margin-left: 4px;
 }
 
-.group-article .group-article-table .group-article-tabelTools {
-    width: 10%;
-}
-
 .group-article .group-article-table .group-article-checkbox {
     width: 3%;
 }
 
 .group-article-width5 {
-    width: 6%;
+    width: 9%;
 }
 
 .group-article-zy {
@@ -383,6 +390,11 @@ body .group-container button:focus {
 
 /*栏目group-Columns*/
 
+.group-info-select .select2-choice {
+    border-radius: 0px;
+    border: 0px;
+}
+
 .group-Columns-list .ztree {
     margin: 0px;
     background: #fff;
@@ -393,10 +405,12 @@ body .group-container button:focus {
 
 .group-Columns-list .ztree li a {
     padding: 0px;
+    display: inline;
 }
 
 .group-Columns {
-    position: relative
+    position: relative;
+    margin-top: 45px;
 }
 
 .group-Columns .group-Columns-list {
@@ -410,8 +424,8 @@ body .group-container button:focus {
 .group-Columns .group-Columns-list h3 {
     font-size: 16px;
     margin: 0px;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     background: #10a1bb;
     color: #fff;
     text-align: center;
@@ -452,7 +466,7 @@ body .group-container button:focus {
 
 .group-Columns-information {
     margin-left: 260px;
-    padding-top: 20px;
+    padding-top: 8px;
 }
 
 
@@ -473,7 +487,7 @@ body .group-container button:focus {
 
 /*group-information-form*/
 
-.group-information-form {
+.group-Columns-information .group-information-form {
     margin-top: 40px;
 }
 
@@ -481,7 +495,6 @@ body .group-container button:focus {
     width: 150px;
     text-align: right;
     padding: 0px;
-    font-size: 12px;
     font-weight: normal;
 }
 
@@ -492,7 +505,6 @@ body .group-container button:focus {
 
 .group-information-form .group-information-input {
     width: 300px;
-    height: 35px;
     padding: 0px;
     margin-left: 15px;
 }
@@ -526,6 +538,12 @@ body .group-container button:focus {
     height: 35px;
     line-height: 35px;
     font-size: 12px;
+}
+
+.group-info-select .select2-choice {
+    width: 298px;
+    margin: 0px;
+    border-radius: 0px;
 }
 
 .group-information-form .group-information-Sort {
@@ -564,6 +582,7 @@ body .group-container button:focus {
 
 .group-users-table {
     padding: 15px 20px;
+    margin-top: 45px;
 }
 
 .group-users-table .group-users-form-btn {
@@ -722,4 +741,100 @@ body .group-container button:focus {
     width: 68px;
     height: 20px;
     line-height: 20px;
+}
+
+@media screen and (min-width: 768px) {
+    .group-article-top {
+        width: 75%;
+    }
+    .group-article-top {
+        left: 25%;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .group-article-top {
+        width: 83.333%;
+    }
+    .group-article-top {
+        left: 16.66666667%;
+    }
+}
+
+
+/*选项 option*/
+
+.group-article-top .navbar-brand .breadcrumb {
+    padding: 0px;
+    margin: 0px;
+    background: #FAFBF9;
+    display: inline-block;
+}
+
+.group-article-top .breadcrumb li a {
+    color: #000;
+    font-size: 18px;
+}
+
+.group-article-top .breadcrumb li a:hover {
+    color: #10a1bb;
+}
+
+.group-optionForm-container .group-information-form {
+    margin-top: 30px;
+}
+
+.group-information-input textarea {
+    resize: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: #555;
+    width: 100%;
+    border: 1px solid #b6b6b6;
+    border-radius: 0px;
+}
+
+.group-optionForm-container .group-info-select {
+    margin-left: 15px;
+}
+
+
+/*已发布的文章 posts-publish*/
+
+.group-postspublish-table {
+    margin-top: 20px;
+}
+
+.group-postspublish-table .form-horizontal {
+    margin-bottom: 10px;
+}
+
+.group-postspublish-table form .group-article-form {
+    margin-left: 0px;
+    margin-right: 20px;
+}
+
+.group-postspublish-table form label {
+    vertical-align: initial!important;
+    display: inline-block;
+    padding: 0px;
+    font-weight: normal;
+    font-size: 14px;
+}
+
+.group-postpublish-table {
+    margin-left: 260px;
+}
+
+.group-postpublish-table form {
+    padding-top: 5px;
+}
+
+.breadcrumb {
+    padding: 0px;
+    margin: 0px;
+}
+
+.group-article .group-article-top .breadcrumb li {
+    font-size: 18px;
 }

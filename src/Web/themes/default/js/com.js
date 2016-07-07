@@ -1,9 +1,10 @@
 ﻿$(function() {
+    // 头部下拉框
     $(".group-top-user").click(function() {
         $(".group-user-dropdown").toggle();
     });
-    // 头部下拉框
 
+    // 左边联动菜单
     $('.inactive').click(function() {
         if ($(this).siblings('ul').css('display') == 'none') {
             $(this).parent('li').siblings('li').removeClass('active');
@@ -30,6 +31,5 @@
             //控制同级菜单只保持一个是展开的（-号显示）
             _child.children('li').children('a').removeClass('active');
         }
-    })
-
+    });
 })
