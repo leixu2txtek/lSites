@@ -86,7 +86,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="key">关键字</param>
-        /// <param name="published">是否发布，为空则表示查询所有状态文章</param>
+        /// <param name="status">文章状态，为空则表示查询所有状态文章</param>
         /// <returns>
         /// {
         ///         id = "",                    //文章ID
@@ -103,7 +103,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月1日17:37:13
         [HttpPost]
-        object list(string key, string published)
+        object list(string key, string status)
         {
             var site = (Site)jc["site"];
 
@@ -111,8 +111,8 @@ namespace Kiss.Components.Site.Web.Controllers
             q.Id = "posts.list";
             q.LoadCondidtion();
 
-            if (!string.IsNullOrEmpty(key)) q["key"] = key;
-            if (!string.IsNullOrEmpty(published)) q["title"] = published.ToBoolean();
+            if (!string.IsNullOrEmpty(key)) q["title"] = key;
+            if (!string.IsNullOrEmpty(status)) q["status"] = status;
 
             q["siteId"] = site.Id;
 

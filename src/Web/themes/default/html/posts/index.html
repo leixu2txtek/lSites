@@ -10,6 +10,7 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../css/bootstrap-theme.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
+    <link href="../../js/vendor/select2/select2.min.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
 </head>
 
@@ -45,10 +46,29 @@
                             <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新文章</a>
                         </h3>
                         <div class="navbar-collapse collapsc navbar-right group-operation-btn">
-                            <button type="button" class="btn btn-default btn-primary">导入内容</button>
+                            <button type="button" class="btn btn-default btn-primary">导入</button>
                             <button type="button" class="btn btn-default btn-danger">批量删除</button>
                         </div>
                     </nav>
+
+                    <div class="table-responsive group-article-table">
+                        <form class="form-inline form-horizontal" id="post_form">
+                            <div class="form-group group-article-form">
+                                <label class="control-label">关键字：</label>
+                                <input placeholder="关键字" class="form-control" name="key">
+                            </div>
+                            <div class="form-group group-article-form">
+                                <label class="control-label">状态：</label>
+                                <select data-placeholder="全部" name="status">
+                                    <option></option>
+                                    <option>待审核</option>
+                                    <option>已发布</option>
+                                    <option>草稿</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn group-article-form-btn">查询</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

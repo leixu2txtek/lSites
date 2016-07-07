@@ -3,17 +3,19 @@ requirejs.config({
     shim: {
         'ztree': ['jquery'],
         'bootstrap': ['jquery'],
-        'select2': ['jquery']
+        'select2': ['jquery'],
+        'form': ['jquery']
     },
     paths: {
         'ztree': 'ztree',
         'bootstrap': 'bootstrap.min',
-        'select2': 'select2/select2.min'
+        'select2': 'select2/select2.min',
+        'form': 'jquery.form'
     }
 });
 
 const config = {
-    host: 'http://192.168.1.94:6547/',
+    host: '/',
     prefix: '/sites/html/',
 };
 
@@ -86,6 +88,30 @@ const menus = [
         url: config.prefix + 'sites/index.html',
     },
 ];
+
+const util = {
+    get_query: function (key) {
+        var arr = [],
+            obj = {},
+            location = window.location.href,
+            has = location.indexOf('?') > -1,
+            isHash = location.indexOf('#');
+
+        if (!has) return null;
+        arr = location.substring(location.indexOf('?') + 1, isHash > -1 ? isHash : location.length).split('&');
+
+        for (var i = 0, len = arr.length; i < len; i++) {
+            var temp = arr[i].split('=');
+            if (temp.length) obj[temp[0]] = temp[1].replace(/#/g, '');
+        }
+
+        if (key) {
+            return obj[key];
+        } else {
+            return obj;
+        }
+    }
+}
 
 define(['jquery'], function ($) {
     var menu = $('<ul class="nav nav-stacked group-nav-sidebar"></ul>'),
