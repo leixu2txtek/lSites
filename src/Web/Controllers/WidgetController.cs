@@ -134,7 +134,22 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="name">挂件名称（模糊匹配）</param>
-        /// <returns></returns>
+        /// <returns>
+        /// {
+        ///     code = 1,
+        ///     data = 
+        ///     [
+        ///         id = "",                //挂件ID
+        ///         site_id = "",           //挂件所在站点
+        ///         name = "",              //挂件名称
+        ///         date_created = "",      //挂件创建时间
+        ///         display_name = ""       //挂件创建者
+        ///     ],
+        ///     totalCount = 0,             //总数
+        ///     page = 1,                   //当前第几页
+        ///     orderbys = ""               //排序字段
+        /// }
+        /// </returns>
         /// leixu 
         /// 2016年6月30日11:18:57
         [HttpPost]

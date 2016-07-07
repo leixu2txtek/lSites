@@ -46,6 +46,9 @@
       <HintPath>..\packages\Kiss.4.9.0602.2\lib\Kiss.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Kiss.Components.Security">
+      <HintPath>users\bin\Kiss.Components.Security.dll</HintPath>
+    </Reference>
     <Reference Include="Kiss.Components.TemplateEngine, Version=4.7.602.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Kiss.Components.TemplateEngine.4.7.0602.0\lib\Kiss.Components.TemplateEngine.dll</HintPath>
       <Private>True</Private>
@@ -94,7 +97,9 @@
     <Content Include="App_Data\query.config" />
     <Content Include="App_Data\routes.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_Data\query.open.config" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="themes\default\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="themes\default\fonts\glyphicons-halflings-regular.ttf" />
@@ -134,9 +139,11 @@
     <Error Condition="!Exists('..\packages\Kiss.Linq.4.8.0814.1\build\Kiss.Linq.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Kiss.Linq.4.8.0814.1\build\Kiss.Linq.targets'))" />
     <Error Condition="!Exists('..\packages\logs.4.8.1116.6\build\logs.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\logs.4.8.1116.6\build\logs.targets'))" />
     <Error Condition="!Exists('..\packages\xdoc.1.0.0901.0\build\xdoc.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xdoc.1.0.0901.0\build\xdoc.targets'))" />
+    <Error Condition="!Exists('..\packages\users.4.9.1106.2\build\users.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\users.4.9.1106.2\build\users.targets'))" />
   </Target>
   <Import Project="..\packages\logs.4.8.1116.6\build\logs.targets" Condition="Exists('..\packages\logs.4.8.1116.6\build\logs.targets')" />
   <Import Project="..\packages\xdoc.1.0.0901.0\build\xdoc.targets" Condition="Exists('..\packages\xdoc.1.0.0901.0\build\xdoc.targets')" />
+  <Import Project="..\packages\users.4.9.1106.2\build\users.targets" Condition="Exists('..\packages\users.4.9.1106.2\build\users.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

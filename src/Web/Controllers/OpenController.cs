@@ -1,7 +1,12 @@
-﻿using Kiss.Web.Mvc;
+﻿using Kiss.Components.Security;
+using Kiss.Security;
+using Kiss.Utils;
+using Kiss.Web;
+using Kiss.Web.Mvc;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -112,6 +117,72 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 code = 1,
                 data = categories
+            };
+        }
+
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <returns>
+        /// {
+        ///     code = 1,                   //-1：未登录，没有权限获取信息，-2：登录用户信息不存在
+        ///     msg = "",
+        ///     return_url = ""             //跳转的页面
+        ///     display_name = "",          //用户名称
+        ///     avatar = "",                //用户头像
+        ///     sites = 
+        ///     [
+        ///         {
+        ///             id = "",            //站点ID
+        ///             title = ""          //站点标题
+        ///         }
+        ///     ]
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月7日09:37:06
+        //[HttpPost]
+        object get_user_info()
+        {
+            if (!jc.IsAuth) return new { code = -1, msg = "未登录，没有权限获取信息" };
+
+            User user = User.Get(jc.UserName);
+
+            Site.Get("1");
+            SiteUsers.Get("1");
+
+            if (user == null) return new { code = -2, msg = "登录用户信息不存在", return_url = jc.url("~/") };
+
+            #region 查询用户和站点关系
+
+            WebQuery q = new WebQuery();
+            q.Id = "user.sites";
+
+            q.NoPaging();
+            q["userId"] = user.Id;
+
+            var sites = SiteUsers.GetDataTable(q);
+
+            var result = new ArrayList();
+
+            foreach (DataRow item in sites.Rows)
+            {
+                result.Add(new
+                {
+                    id = item["id"].ToString(),
+                    title = item["title"].ToString()
+                });
+            }
+
+            #endregion
+
+            return new
+            {
+                code = 1,
+                display_name = user.DisplayName,
+                avatar = StringUtil.templatestring(jc.ViewData, "$!security.avatorUrl($!jc.user.info,'50')"),
+                sites = result
             };
         }
     }
