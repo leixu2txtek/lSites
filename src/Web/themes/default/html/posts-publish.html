@@ -142,328 +142,332 @@
                         <!--以上是 左边栏目-->
                         <div class="group-article-table group-postpublish-table">
                             <form class="form-inline form-horizontal">
-                                <div class="form-group group-article-form">
-                                    <label class="control-label">状态：</label>
-                                    <select data-placeholder="全部" tabindex="-1" title="" class="select2-offscreen">
+                                <div class="group-articleform-top">
+                                    <div class="form-group group-article-form">
+                                        <label class="control-label">状态：</label>
+                                        <select data-placeholder="全部" tabindex="-1" title="" class="select2-offscreen">
                                     <option></option>
                                     <option>待审核</option>
                                     <option>已发布</option>
                                     <option>草稿</option>
                                 </select>
+                                    </div>
+                                    <div class="form-group group-article-form">
+                                        <label class="control-label">关键字：</label>
+                                        <input placeholder="关键字" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn group-article-form-btn">查询</button>
                                 </div>
-                                <div class="form-group group-article-form">
-                                    <label class="control-label">关键字：</label>
-                                    <input placeholder="关键字" class="form-control">
-                                </div>
-                                <button type="submit" class="btn group-article-form-btn">查询</button>
-                            </form>
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th class="group-article-checkbox"><input type="checkbox" title="全选" id="all-checkbox"></th>
-                                        <th>文章标题<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th class="group-article-zy">摘要<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th>栏目信息<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th>创建时间<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th>发布时间<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th class="group-article-width5">预览数<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th class="group-article-width5">是否发布<i class="iconfont group-icon group-icon-sort"></i></th>
-                                        <th>操作<i class="iconfont group-icon group-icon-sort"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">
-                                            <div class="autocut">艺术与科技的摘要</div>
-                                        </td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>30</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>科目介绍</td>
-                                        <td class="group-article-zy">科目介绍摘要</td>
-                                        <td>图片新闻</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>临床医学</td>
-                                        <td class="group-article-zy">临床医学摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>财务会计类</td>
-                                        <td class="group-article-zy">财务会计类摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="group-article-checkbox">
-                                            <input type="checkbox" data-id="">
-                                        </td>
-                                        <td>艺术与科技</td>
-                                        <td class="group-article-zy">艺术与科技的摘要</td>
-                                        <td>普通文章</td>
-                                        <td>2016-06-12</td>
-                                        <td>2016-10-12</td>
-                                        <td>3</td>
-                                        <td>是</td>
-                                        <td class="group-article-tabelTools">
-                                            <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                                            <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                                            <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <!--以上是 右边文章列表-->
-                    </div>
-                    <!--以上是 已发布的文章  的整体内容-->
-                    <div class=" group-site-pagination ">
-                        <div class="pagination-left ">
-                            共
-                            <span>31</span> 条 每页显示
-                            <select class="b1 " id="page-select " name="pageSize ">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th class="group-article-checkbox"><input type="checkbox" title="全选" id="all-checkbox"></th>
+                                            <th><span>文章标题<span></th>
+                                             <th class="group-article-zy"><span>摘要</span></th>
+                                            <th><span>栏目信息</span></th>
+                                            <th><span>创建时间</span></th>
+                                            <th><span>发布时间</span></th>
+                                            <th class="group-article-width5"><span>预览数</span></th>
+                                            <th class="group-article-width5"><span>是否发布</span></th>
+                                            <th><span>操作</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">
+                                                <div class="autocut">艺术与科技的摘要</div>
+                                            </td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>30</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>科目介绍</td>
+                                            <td class="group-article-zy">科目介绍摘要</td>
+                                            <td>图片新闻</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>临床医学</td>
+                                            <td class="group-article-zy">临床医学摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>财务会计类</td>
+                                            <td class="group-article-zy">财务会计类摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="group-article-checkbox">
+                                                <input type="checkbox" data-id="">
+                                            </td>
+                                            <td>艺术与科技</td>
+                                            <td class="group-article-zy">艺术与科技的摘要</td>
+                                            <td>普通文章</td>
+                                            <td>2016-06-12</td>
+                                            <td>2016-10-12</td>
+                                            <td>3</td>
+                                            <td>是</td>
+                                            <td class="group-article-tabelTools">
+                                                <a href="javascript:(0);" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                                                <a href="javascript:(0);" title="删除"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                                                <a href="javascript:(0);" title="发布"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class=" group-site-pagination ">
+                                    <div class="pagination-left ">
+                                        共
+                                        <span>31</span> 条 每页显示
+                                        <select class="b1 " id="page-select " name="pageSize ">
 				              	<option value="10 ">10</option>
 				            	<option value="20 ">20</option>
 					            <option value="50 ">50</option>
 					            <option value="100 ">100</option>
 				                </select> 条
+                                    </div>
+                                    <ul class="pagination ">
+                                        <li><a href="# ">首页</a></li>
+                                        <li><a href="# ">«</a></li>
+                                        <li class="pagination-active "><a href="# ">1</a></li>
+                                        <li><a href="# ">2</a></li>
+                                        <li><a href="# ">3</a></li>
+                                        <li><span class="pagination-Ellipsis ">…</span></li>
+                                        <li><a href="# ">9</a></li>
+                                        <li><a href="# ">»</a></li>
+                                        <li><a href="# ">尾页</a></li>
+                                        <li class="pagination-last ">
+                                            共
+                                            <span>10</span>页，到
+                                            <input type="text " value=" ">页
+                                            <button type="submit " class="btn group-pagination-btn ">确定</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </form>
+
                         </div>
-                        <ul class="pagination ">
-                            <li><a href="# ">首页</a></li>
-                            <li><a href="# ">«</a></li>
-                            <li class="pagination-active "><a href="# ">1</a></li>
-                            <li><a href="# ">2</a></li>
-                            <li><a href="# ">3</a></li>
-                            <li><span class="pagination-Ellipsis ">…</span></li>
-                            <li><a href="# ">9</a></li>
-                            <li><a href="# ">»</a></li>
-                            <li><a href="# ">尾页</a></li>
-                            <li class="pagination-last ">
-                                共
-                                <span>10</span>页，到
-                                <input type="text " value=" ">页
-                                <button type="submit " class="btn group-pagination-btn ">确定</button>
-                            </li>
-                        </ul>
+                        <!--以上是 右边文章列表-->
                     </div>
+                    <!--以上是 已发布的文章  的整体内容-->
+
                 </div>
                 <!--以上是 “我创建的文章-->
             </div>

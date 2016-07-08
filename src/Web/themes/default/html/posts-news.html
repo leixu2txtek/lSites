@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>文章</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/bootstrap-theme.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../fonts/iconfonts/iconfont.css">
+    <link rel="stylesheet" href="../js/vendor/select2/select2.min.css">
+    <link href="../css/style.css" rel="stylesheet">
+    <script src="../js/vendor/jquery.js"></script>
+    <script src="../js/vendor/select2/select2.min.js"></script>
+    <script src="../js/com.js"></script>
+</head>
+
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top group-top" role="navigation">
+        <a href="javascript:(0);" class="navbar-brand">
+                站群管理
+            </a>
+        <div class="navbar-collapse collapsc navbar-right group-top-userbox">
+            <span>欢迎您，管理员</span>
+            <a href="javascript:(0)" class="group-top-user">
+                <img src="../img/user.jpg" class="img-circle" width="38px" height="38px" />
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="nav group-user-dropdown" style="display:none;">
+                <i class="group-user-dropdownIcon">&nbsp;</i>
+                <li><a href="" title="退出">退出</a> </li>
+            </ul>
+        </div>
+
+    </nav>
+    <!-- 以上是头部 -->
+    <div class="container-fluid group-container">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+                <ul class="nav nav-stacked group-nav-sidebar">
+                    <li>
+                        <a href="#" class="active inactive">
+                            <i class="iconfont group-icon group-icon-207"></i> 文章
+                            <i class="glyphicon glyphicon-plus group-nav-more"></i>
+                        </a>
+                        <ul class="nav nav-stacked group-subMenu" style="display: none">
+                            <li><a href="posts.html">我创建的</a></li>
+                            <li><a href="posts-examine.html">待审核的</a></li>
+                            <li><a href="posts-publish.html">已发布的</a></li>
+                            <li><a href="posts-recover.html">回收站</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="columns.html" class="inactive">
+                            <i class="iconfont group-icon group-icon-nav"></i> 栏目
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="inactive">
+                            <i class="iconfont group-icon group-icon-androidoptions"></i> 选项
+                            <i class="glyphicon glyphicon-plus group-nav-more"></i>
+                        </a>
+                        <ul class="nav nav-stacked group-subMenu" style="display: none">
+                            <li><a href="option.html">站点信息</a></li>
+                            <li><a href="">挂件管理</a></li>
+                            <li><a href="">参数配置</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="users.html" class="inactive"> <i class="iconfont group-icon group-icon-yonghu"></i>用户管理</a>
+                    </li>
+                    <li>
+                        <a href="site.html" class="inactive"> <i class="iconfont group-icon group-icon-zhandianguanli"></i>站点管理</a>
+                    </li>
+                </ul>
+            </div>
+            <!--以上是左边栏目列表-->
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="group-page1 group-article">
+                    <nav class="navbar group-article-top navbar-fixed-top">
+                        <h3 class="navbar-brand">
+                          <i class="iconfont group-icon group-icon-207"></i>
+                        我创建的文章<span>(共80篇)</span>
+                        <a href=" javascript:(0); " class="btn btn-link group-article-addButton">
+                            <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新文章</a>
+                        </h3>
+                        <div class="navbar-collapse collapsc navbar-right group-operation-btn">
+                            <button type="button" class="btn btn-default btn-primary">导入内容</button>
+                            <button type="button" class="btn btn-default btn-danger">批量删除</button>
+                        </div>
+                    </nav>
+                    <!--以上是 “我创建的文章头部”-->
+                    <div class="table-responsive group-article-table">
+                        <div class=""></div>
+                    </div>
+                    <!--以上是 “我创建的文章”table-->
+                    <div class="group-site-pagination">
+                        <div class="pagination-left">
+                            共
+                            <span>31</span> 条 每页显示
+                            <select class="b1" id="page-select" name="pageSize">
+				              	<option value="10">10</option>
+				            	<option value="20">20</option>
+					            <option value="50">50</option>
+					            <option value="100">100</option>
+				                </select> 条
+                        </div>
+                        <ul class="pagination">
+                            <li><a href="#">首页</a></li>
+                            <li><a href="#">«</a></li>
+                            <li class="pagination-active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><span class="pagination-Ellipsis">…</span></li>
+                            <li><a href="#">9</a></li>
+                            <li><a href="#">»</a></li>
+                            <li><a href="#">尾页</a></li>
+                            <li class="pagination-last">
+                                共
+                                <span>10</span>页，到
+                                <input type="text" value="">页
+                                <button type="submit" class="btn group-pagination-btn">确定</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--以上是 “我创建的文章-->
+            </div>
+            <!--以上是整体内容 container-fluid-->
+        </div>
+    </div>
+    <script src=" ../js/vendor/bootstrap.min.js "></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('select').select2({
+                minimumResultsForSearch: -1,
+                allowClear: true
+            });
+        });
+    </script>
+</body>
+
+</html>

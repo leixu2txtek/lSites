@@ -286,7 +286,7 @@ body a:focus {
     padding: 6px 0px;
 }
 
-.group-article-table form {
+.group-article-table .group-articleform-top {
     margin-bottom: 10px;
 }
 
