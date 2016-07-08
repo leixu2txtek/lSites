@@ -30,12 +30,12 @@ define(['../common'], function () {
                 }
 
                 //更新总数
-                $('#total_count').html(r.total_count);
+                $('#total_count').html(r.paging.total_count);
                 $('#table_container', form).html(template('post_table', r));
 
                 var table = $('table', form).gtable();
 
-                $('.x-paging-container', form).paging({ total_count: r.total_count });
+                $('.x-paging-container', form).paging(r.paging);
             },
             callback: function (form) {
                 form.submit();

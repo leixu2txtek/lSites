@@ -148,8 +148,12 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 code = 1,
                 data = data,
-                total_count = Posts.Count(q),
-                page = q.PageIndex1,
+                paging = new
+                {
+                    total_count = Posts.Count(q),
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                },
                 orderbys = q.orderbys
             };
         }
