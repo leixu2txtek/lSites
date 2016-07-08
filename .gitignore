@@ -247,3 +247,5 @@ ModelManifest.xml
 xdoc/
 .vscode/
 users/
+*.exe
+*.bat
