@@ -16,6 +16,11 @@ body a:focus {
 
 .form-horizontal .select2-container--default .select2-selection--single {
     border-radius: 0px;
+    border: 1px solid #ccc;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background: #10a1bb;
 }
 
 
@@ -500,6 +505,7 @@ body a:focus {
     text-align: right;
     padding: 0px;
     font-weight: normal;
+    margin-right: 11px;
 }
 
 .group-information-form .group-information-input input {
@@ -510,7 +516,6 @@ body a:focus {
 .group-information-form .group-information-input {
     width: 300px;
     padding: 0px;
-    margin-left: 15px;
 }
 
 .group-information-form .group-information-Parent {
@@ -841,4 +846,64 @@ body a:focus {
 
 .group-article .group-article-top .breadcrumb li {
     font-size: 18px;
+}
+
+
+/*分页样式*/
+
+.x-paging .x-paging-pagination-left {
+    float: left;
+}
+
+.x-paging-right {
+    margin: 0 auto;
+    height: 34px;
+    line-height: 26px;
+    float: right;
+    display: block;
+    padding-left: 0;
+    border-radius: 4px;
+}
+
+.x-paging-right>li {
+    display: inline;
+}
+
+.x-paging-right>li>a,
+.x-paging-right>li>span {
+    position: relative;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.x-paging-right li a {
+    border-radius: 0px;
+    margin: 0px 1px;
+    padding: 2px 12px;
+}
+
+.x-paging-right .pagination-Ellipsis {
+    border: 0px;
+    margin: 0px 4px;
+}
+
+.x-paging-pagination-left .select2-container .select2-selection--single {
+    height: 20px;
+    line-height: 20px;
+}
+
+.x-paging-pagination-left .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 20px;
+    padding-left: 0px;
+}
+
+.x-paging-pagination-left .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 18px;
+}
+
+.x-paging-right .pagination-last {
+    margin-left: 10px;
 }
