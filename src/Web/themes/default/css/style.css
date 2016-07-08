@@ -608,7 +608,8 @@ body a:focus {
 /*站点group-site-table*/
 
 .group-site-table {
-    margin: 15px 20px;
+    padding: 15px 20px;
+    margin-top: 55px;
 }
 
 .group-site-table table {
