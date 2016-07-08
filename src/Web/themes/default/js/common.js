@@ -20,76 +20,6 @@ const config = {
     prefix: '/sites/html/',
 };
 
-const menus = [
-    {
-        title: '文章',
-        icon: 'group-icon-207',
-        key: 'posts',
-        children: [
-            {
-                title: '我创建的',
-                url: config.prefix + 'posts/index.html',
-                key: 'posts/index'
-            },
-            {
-                title: '待审核的',
-                url: config.prefix + 'posts/audit.html',
-                key: 'posts/audit'
-            },
-            {
-                title: '已发布的',
-                url: config.prefix + 'posts/publish.html',
-                key: 'posts/publish'
-            },
-            {
-                title: '回收站',
-                url: config.prefix + 'posts/trash.html',
-                key: 'posts/trash'
-            }
-        ]
-    },
-    {
-        title: '栏目',
-        icon: 'group-icon-nav',
-        key: 'category',
-        url: config.prefix + 'category/index.html',
-    },
-    {
-        title: '选项',
-        icon: 'group-icon-androidoptions',
-        key: 'settings',
-        children: [
-            {
-                title: '站点信息',
-                url: config.prefix + 'settings/index.html',
-                key: 'settings/index'
-            },
-            {
-                title: '挂件管理',
-                url: config.prefix + 'settings/widgets.html',
-                key: 'settings/widgets'
-            },
-            {
-                title: '参数配置',
-                url: config.prefix + 'settings/config.html',
-                key: 'settings/config'
-            }
-        ]
-    },
-    {
-        title: '用户管理',
-        icon: 'group-icon-yonghu',
-        key: 'users/index',
-        url: config.prefix + 'users/index.html',
-    },
-    {
-        title: '站点管理',
-        icon: 'group-icon-zhandianguanli',
-        key: 'sites/index',
-        url: config.prefix + 'sites/index.html',
-    },
-];
-
 const util = {
     get_query: function (key) {
         var arr = [],
@@ -113,6 +43,76 @@ const util = {
         }
     }
 }
+
+const menus = [
+    {
+        title: '文章',
+        icon: 'group-icon-207',
+        key: 'posts',
+        children: [
+            {
+                title: '我创建的',
+                url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
+                key: 'posts/index'
+            },
+            {
+                title: '待审核的',
+                url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
+                key: 'posts/audit'
+            },
+            {
+                title: '已发布的',
+                url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
+                key: 'posts/publish'
+            },
+            {
+                title: '回收站',
+                url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
+                key: 'posts/trash'
+            }
+        ]
+    },
+    {
+        title: '栏目',
+        icon: 'group-icon-nav',
+        key: 'category',
+        url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
+    },
+    {
+        title: '选项',
+        icon: 'group-icon-androidoptions',
+        key: 'settings',
+        children: [
+            {
+                title: '站点信息',
+                url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
+                key: 'settings/index'
+            },
+            {
+                title: '挂件管理',
+                url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
+                key: 'settings/widgets'
+            },
+            {
+                title: '参数配置',
+                url: config.prefix + 'settings/config.html?siteId=' + util.get_query('siteId'),
+                key: 'settings/config'
+            }
+        ]
+    },
+    {
+        title: '用户管理',
+        icon: 'group-icon-yonghu',
+        key: 'users/index',
+        url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
+    },
+    {
+        title: '站点管理',
+        icon: 'group-icon-zhandianguanli',
+        key: 'sites/index',
+        url: config.prefix + 'sites/index.html',
+    },
+];
 
 define(['jquery'], function ($) {
     var menu = $('<ul class="nav nav-stacked group-nav-sidebar"></ul>'),

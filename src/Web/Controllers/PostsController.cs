@@ -86,7 +86,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="key">关键字</param>
-        /// <param name="status">文章状态，为空则表示查询所有状态文章</param>
+        /// <param name="status">文章状态，为空则表示查询所有状态文章，0：草稿，1：待审核，2：已发布</param>
         /// <returns>
         /// {
         ///     code = 1,                           //1：获取成功
