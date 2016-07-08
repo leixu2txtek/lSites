@@ -608,7 +608,8 @@ body a:focus {
 /*站点group-site-table*/
 
 .group-site-table {
-    margin: 15px 20px;
+    padding: 15px 20px;
+    margin-top: 55px;
 }
 
 .group-site-table table {
@@ -883,6 +884,11 @@ body a:focus {
     border-radius: 0px;
     margin: 0px 1px;
     padding: 2px 12px;
+}
+
+.x-paging-right li.pagination-active a {
+    background: #337ab7;
+    color: #fff;
 }
 
 .x-paging-right .pagination-Ellipsis {
