@@ -5,12 +5,14 @@ requirejs.config({
         'bootstrap': ['jquery'],
         'select2': ['jquery'],
         'form': ['jquery'],
+        'paging': ['jquery']
     },
     paths: {
         'ztree': 'ztree',
         'bootstrap': 'bootstrap.min',
         'select2': 'select2/select2.min',
         'form': 'jquery.form',
+        'paging': 'jquery.paging',
         'art-template': 'art-template'
     }
 });

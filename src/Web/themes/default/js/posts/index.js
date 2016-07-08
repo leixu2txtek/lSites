@@ -3,7 +3,7 @@ define(['../common'], function () {
     //更新html
     document.title = '我创建的文章 - 站群管理';
 
-    require(['art-template', 'moment', 'select2', 'form',], function (template, moment) {
+    require(['art-template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         var form = $('#post_form');
         template.helper('format_date', function (date) {
@@ -35,9 +35,7 @@ define(['../common'], function () {
 
                 var table = $('table', form).gtable();
 
-                $('', table).on('click', function () {
-
-                });
+                $('.x-paging-container', form).paging({ total_count: r.total_count });
             },
             callback: function (form) {
                 form.submit();

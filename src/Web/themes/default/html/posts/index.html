@@ -79,7 +79,7 @@
     <script type="text/javascript" data-main="../../js/posts/index.js" src="../../js/require.js"></script>
 </body>
 <script type="text/html" id="post_table">
-    <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}" data-total={{totalCount}} data-page="{{page}}">
+    <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
         <thead>
             <tr>
                 <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
@@ -114,35 +114,7 @@
             </tr>
             {{/each}}
     </table>
-    <div class="group-site-pagination">
-        <div class="pagination-left">
-            共
-            <span>31</span> 条 每页显示
-            <select class="b1" id="page-select" name="pageSize">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select> 条
-        </div>
-        <ul class="pagination">
-            <li><a href="#">首页</a></li>
-            <li><a href="#">«</a></li>
-            <li class="pagination-active"><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><span class="pagination-Ellipsis">…</span></li>
-            <li><a href="#">9</a></li>
-            <li><a href="#">»</a></li>
-            <li><a href="#">尾页</a></li>
-            <li class="pagination-last">
-                共
-                <span>10</span>页，到
-                <input type="text" value="">页
-                <button type="submit" class="btn group-pagination-btn">确定</button>
-            </li>
-        </ul>
-    </div>
+    <div class="x-paging-container"></div>
 </script>
 
 </html>
