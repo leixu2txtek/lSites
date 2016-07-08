@@ -123,6 +123,9 @@ namespace Kiss.Components.Site.Web.Controllers
             if (!string.IsNullOrEmpty(key)) q["key"] = key;
             if (!string.IsNullOrEmpty(status)) q["status"] = status;
 
+            q.TotalCount = Posts.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
             q["siteId"] = site.Id;
 
             var dt = Posts.GetDataTable(q);
@@ -150,7 +153,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 data = data,
                 paging = new
                 {
-                    total_count = Posts.Count(q),
+                    total_count = q.TotalCount,
                     page_size = q.PageSize,
                     page_index = q.PageIndex1
                 },
