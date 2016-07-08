@@ -886,6 +886,11 @@ body a:focus {
     padding: 2px 12px;
 }
 
+.x-paging-right li.pagination-active a {
+    background: #337ab7;
+    color: #fff;
+}
+
 .x-paging-right .pagination-Ellipsis {
     border: 0px;
     margin: 0px 4px;
