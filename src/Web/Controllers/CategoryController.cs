@@ -179,7 +179,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </returns>
         /// leixu
         /// 2016年6月30日15:26:38
-        [HttpPost]
+        //[HttpPost]
         object save(string id, string title, string url, string parentId, int sortOrder, bool needLogin2Read)
         {
             #region 校验参数

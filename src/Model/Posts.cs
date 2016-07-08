@@ -1,5 +1,6 @@
 ﻿using Kiss.Validation;
 using System;
+using System.ComponentModel;
 
 namespace Kiss.Components.Site
 {
@@ -89,10 +90,10 @@ namespace Kiss.Components.Site
         public string UserId { get; set; }
 
         /// <summary>
-        /// 是否发布
+        /// 文章状态
         /// </summary>
         [NotNull(0)]
-        public bool IsPublished { get; set; }
+        public Status Status { get; set; }
 
         /// <summary>
         /// 文章发布时间
@@ -203,5 +204,26 @@ namespace Kiss.Components.Site
         }
 
         #endregion
+    }
+
+    public enum Status
+    {
+        /// <summary>
+        /// 草稿 0
+        /// </summary>
+        [Description("草稿")]
+        DRAFT = 0,
+
+        /// <summary>
+        /// 待审核 1
+        /// </summary>
+        [Description("待审核")]
+        PENDING = 1,
+
+        /// <summary>
+        /// 已发布 2
+        /// </summary>
+        [Description("已发布")]
+        PUBLISHED = 2
     }
 }

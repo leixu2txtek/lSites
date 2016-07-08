@@ -4,13 +4,14 @@ requirejs.config({
         'ztree': ['jquery'],
         'bootstrap': ['jquery'],
         'select2': ['jquery'],
-        'form': ['jquery']
+        'form': ['jquery'],
     },
     paths: {
         'ztree': 'ztree',
         'bootstrap': 'bootstrap.min',
         'select2': 'select2/select2.min',
-        'form': 'jquery.form'
+        'form': 'jquery.form',
+        'art-template': 'art-template'
     }
 });
 

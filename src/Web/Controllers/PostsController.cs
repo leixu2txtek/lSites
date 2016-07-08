@@ -89,15 +89,24 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="status">文章状态，为空则表示查询所有状态文章</param>
         /// <returns>
         /// {
-        ///         id = "",                    //文章ID
-        ///         title = "",                 //文章标题
-        ///         summary = "",               //文章的摘要
-        ///         category = "",              //文章的分类信息
-        ///         date_created = "",          //文章的创建时间
-        ///         view_count = "",            //文章的查看数
-        ///         sort_order = "",            //文章的排序
-        ///         is_published = "",          //文章是否发布
-        ///         date_published = ""         //文章发布时间
+        ///     code = 1,                           //1：获取成功
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //文章ID
+        ///             title = "",                 //文章标题
+        ///             summary = "",               //文章的摘要
+        ///             category = "",              //文章的分类信息
+        ///             date_created = "",          //文章的创建时间
+        ///             view_count = "",            //文章的查看数
+        ///             sort_order = "",            //文章的排序
+        ///             is_published = "",          //文章是否发布
+        ///             date_published = ""         //文章发布时间
+        ///         }
+        ///     ],
+        ///     totalCount = q.TotalCount,
+        ///     page = q.PageIndex1,
+        ///     orderbys = q.orderbys
         /// }
         /// </returns>
         /// leixu
@@ -111,7 +120,7 @@ namespace Kiss.Components.Site.Web.Controllers
             q.Id = "posts.list";
             q.LoadCondidtion();
 
-            if (!string.IsNullOrEmpty(key)) q["title"] = key;
+            if (!string.IsNullOrEmpty(key)) q["key"] = key;
             if (!string.IsNullOrEmpty(status)) q["status"] = status;
 
             q["siteId"] = site.Id;
@@ -130,7 +139,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     date_created = item["dateCreated"].ToDateTime(),
                     view_count = item["viewCount"].ToInt(),
                     sort_order = item["sortOrder"].ToInt(),
-                    is_published = item["isPublished"].ToBoolean(),
+                    status = StringEnum<Status>.ToString(StringEnum<Status>.SafeParse(item["status"].ToString())),
                     date_published = item["datePublished"].ToDateTime()
                 });
             }
@@ -139,7 +148,7 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 code = 1,
                 data = data,
-                totalCount = q.TotalCount,
+                total_count = Posts.Count(q),
                 page = q.PageIndex1,
                 orderbys = q.orderbys
             };
@@ -208,7 +217,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     date_created = post.DateCreated,
                     view_count = post.ViewCount,
                     sort_order = post.SortOrder,
-                    is_published = post.IsPublished,
+                    status = StringEnum<Status>.ToString(post.Status),
                     date_published = post.DatePublished
                 }
             };
@@ -235,7 +244,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </returns>
         /// leixu
         /// 2016年6月30日20:19:36
-        [HttpPost]
+        //[HttpPost]
         object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string props)
         {
             #region 校验参数
@@ -245,10 +254,11 @@ namespace Kiss.Components.Site.Web.Controllers
 
             title = title.Trim();
             content = content.Trim();
-            subTitle = subTitle.Trim();
+
+            if (!string.IsNullOrWhiteSpace(subTitle)) subTitle = subTitle.Trim();
 
             if (title.Length > 50) return new { code = -5, msg = "文章标题的长度不能超过50个字符" };
-            if (subTitle.Length > 100) return new { code = -6, msg = "文章副标题的长度不能超过100个字符" };
+            if (!string.IsNullOrWhiteSpace(subTitle) && subTitle.Length > 100) return new { code = -6, msg = "文章副标题的长度不能超过100个字符" };
             if (viewCount < 0) return new { code = -7, msg = "文章的查看次数不能设置为小于0" };
 
             //过滤文章内容中是否有脚本
@@ -346,7 +356,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 if (post == null) return new { code = -1, msg = "指定的文章不存在" };
 
-                if (!confirmed && post.IsPublished) return new { code = -2, msg = "文章已被发布，是否确认删除" };
+                if (!confirmed && post.Status == Status.PUBLISHED) return new { code = -2, msg = "文章已被发布，是否确认删除" };
 
                 cx.Remove(post);
                 cx.SubmitChanges();
@@ -378,14 +388,14 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
                 var posts = (from q in cx
-                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsPublished == false
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.Status == Status.DRAFT
                              select q).ToList();
 
                 if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到" };
 
                 foreach (var item in posts)
                 {
-                    item.IsPublished = true;
+                    item.Status = Status.PENDING;
                     item.PublishUserId = jc.UserName;
                     item.DatePublished = DateTime.Now;
                 }
@@ -419,14 +429,14 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
                 var posts = (from q in cx
-                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsPublished == true
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.Status == Status.PUBLISHED
                              select q).ToList();
 
                 if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到" };
 
                 foreach (var item in posts)
                 {
-                    item.IsPublished = false;
+                    item.Status = Status.DRAFT;
                     item.PublishUserId = string.Empty;
                     item.DatePublished = DateTime.MinValue;
                 }
