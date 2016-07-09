@@ -137,7 +137,6 @@ namespace Kiss.Components.Site.Web.Controllers
                 {
                     id = item["id"].ToString(),
                     title = item["title"].ToString(),
-                    summary = item["summary"].ToString(),
                     category = item["category"] is DBNull ? string.Empty : item["category"].ToString(),
                     date_created = item["dateCreated"].ToDateTime(),
                     view_count = item["viewCount"].ToInt(),
@@ -251,7 +250,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </returns>
         /// leixu
         /// 2016年6月30日20:19:36
-        //[HttpPost]
+        [HttpPost]
         object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string props)
         {
             #region 校验参数
@@ -428,7 +427,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月30日20:46:26
         [HttpPost]
-        object unPublish(string[] ids)
+        object unpublish(string[] ids)
         {
             if (ids.Length == 0) return new { code = -1, msg = "要取消发布的文章不能为空" };
 
@@ -453,6 +452,151 @@ namespace Kiss.Components.Site.Web.Controllers
             }
 
             return new { code = 1, msg = "发布成功" };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpPost]
+        object audit(string key)
+        {
+            return new { };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <param name="pass"></param>
+        /// <returns></returns>
+        [HttpPost]
+        object update_audit(string[] ids, bool pass)
+        {
+            return new { };
+        }
+
+        /// <summary>
+        /// 回收站列表
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="key">关键字</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                           //1：获取成功
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //文章ID
+        ///             title = "",                 //文章标题
+        ///             category = "",              //文章的分类信息
+        ///             date_created = "",          //文章的创建时间
+        ///             view_count = "",            //文章的查看数
+        ///             sort_order = "",            //文章的排序
+        ///             is_published = "",          //文章是否发布
+        ///             date_published = ""         //文章发布时间
+        ///         }
+        ///     ],
+        ///     totalCount = q.TotalCount,
+        ///     page = q.PageIndex1,
+        ///     orderbys = q.orderbys
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月9日14:47:50
+        [HttpPost]
+        object trash(string key)
+        {
+            var site = (Site)jc["site"];
+
+            WebQuery q = new WebQuery();
+            q.Id = "trash.list";
+            q.LoadCondidtion();
+
+            if (!string.IsNullOrEmpty(key)) q["key"] = key;
+
+            q.TotalCount = Posts.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            q["siteId"] = site.Id;
+
+            var dt = Posts.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    title = item["title"].ToString(),
+                    category = item["category"] is DBNull ? string.Empty : item["category"].ToString(),
+                    date_created = item["dateCreated"].ToDateTime(),
+                    view_count = item["viewCount"].ToInt(),
+                    sort_order = item["sortOrder"].ToInt(),
+                    status = StringEnum<Status>.ToString(StringEnum<Status>.SafeParse(item["status"].ToString())),
+                    date_published = item["datePublished"].ToDateTime()
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                },
+                orderbys = q.orderbys
+            };
+        }
+
+        /// <summary>
+        /// 彻底删除文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="ids">要删除的文章ID数组</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                       //-1：指定的文章未查询到，文章可能已经彻底删除或者未放置回收站
+        ///     msg = "成功将指定的文章删除"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月9日14:52:14
+        [HttpPost]
+        object delete_completely(string[] ids)
+        {
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var query = (from q in cx
+                             where q.SiteId == site.Id && q.IsDeleted == true
+                             select q);
+
+                if (ids.Length > 0)
+                {
+                    query = (from q in cx
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsDeleted == true
+                             select q);
+                }
+
+                var posts = query.ToList();
+
+                if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到，文章可能已经彻底删除或者未放置回收站" };
+
+                foreach (var item in posts)
+                {
+                    cx.Remove(item);
+                }
+
+                cx.SubmitChanges(true);
+            }
+
+            return new { code = 1, msg = "成功将指定的文章删除" };
         }
     }
 }
