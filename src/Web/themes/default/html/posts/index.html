@@ -16,9 +16,7 @@
 
 <body>
     <nav class="navbar navbar-default navbar-fixed-top group-top" role="navigation">
-        <a href="javascript:(0);" class="navbar-brand">
-                站群管理
-            </a>
+        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
         <div class="navbar-collapse collapsc navbar-right group-top-userbox">
             <span>欢迎您，管理员</span>
             <a href="javascript:(0)" class="group-top-user">
@@ -30,9 +28,8 @@
                 <li><a href="" title="退出">退出</a> </li>
             </ul>
         </div>
-
     </nav>
-    <div class="container-fluid group-container">
+    <div class="container-fluid group-container" id="content_container" style="display:none;">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
             </div>
@@ -46,7 +43,7 @@
                             <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新文章</a>
                         </h3>
                         <div class="navbar-collapse collapsc navbar-right group-operation-btn">
-                            <button type="button" class="btn btn-default btn-primary">导入</button>
+                            <button type="button" class="btn btn-default btn-primary" class="btn_publish">发布</button>
                             <button type="button" class="btn btn-default btn-danger">批量删除</button>
                         </div>
                     </nav>
@@ -107,9 +104,9 @@
                 <td>{{item.view_count}}</td>
                 <td>{{item.status}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="javascript:(0);" title="编辑" id="{{item.id}}" class="edit"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="发布" id="{{item.id}}" class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                    <a href="javascript:(0);" title="删除" id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="javascript:(0);" title="编辑" class="edit"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="发布" data-id="{{item.id}}" class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                    <a href="javascript:(0);" title="删除" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}

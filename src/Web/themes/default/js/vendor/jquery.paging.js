@@ -81,7 +81,7 @@
                 }
             } else {
 
-                //构造当前页码附近的页数，左边2个，右边2个
+                //构造当前页码附近的页数，左边2个
                 for (var i = 2; i >= 0; i--) {
 
                     if (opts.page_index - i <= 0) continue;
@@ -89,6 +89,7 @@
                     p.push({ type: 'item', value: opts.page_index - i });
                 }
 
+                //构造当前页码附近的页数，右边2个
                 for (var i = 1; i <= (display_count - p.length + 1); i++) {
 
                     if (opts.page_index + i > page_count) continue;
@@ -96,11 +97,13 @@
                     p.push({ type: 'item', value: opts.page_index + i });
                 }
 
+                //如果 左侧最小的大于1 则表示 1 与 最小的中间还有分页信息，使用 ... 代替                
                 if (p[0].value > 1) {
                     p.splice(0, 0, { type: 'item', value: 1 });
                     p.splice(1, 0, { type: 'ellipsis' });
                 }
 
+                //如果 左侧最大的大于分页总数 则表示 最大的 与 分页总数 中间还有分页信息，使用 ... 代替                
                 if (p[p.length - 1].value < page_count) {
                     p[p.length] = { type: 'ellipsis' };
                     p[p.length] = { type: 'item', value: page_count };

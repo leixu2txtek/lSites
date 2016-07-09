@@ -2,18 +2,17 @@ requirejs.config({
     baseUrl: '../../js/vendor',
     shim: {
         'ztree': ['jquery'],
-        'bootstrap': ['jquery'],
         'select2': ['jquery'],
         'form': ['jquery'],
         'paging': ['jquery']
     },
     paths: {
         'ztree': 'ztree',
-        'bootstrap': 'bootstrap.min',
         'select2': 'select2/select2.min',
         'form': 'jquery.form',
         'paging': 'jquery.paging',
-        'art-template': 'art-template'
+        'art-template': 'art-template',
+        'pace': 'pace.min'
     }
 });
 
@@ -116,7 +115,14 @@ const menus = [
     },
 ];
 
-define(['jquery'], function ($) {
+define(['jquery', 'pace'], function ($) {
+
+    //统一定义加载动画
+    Pace.start();
+
+    //加载成功后显示主体内容    
+    Pace.on('hide', function () { $('#content_container').show(); });
+
     var menu = $('<ul class="nav nav-stacked group-nav-sidebar"></ul>'),
         path = window.location.pathname;
 

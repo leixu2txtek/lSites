@@ -338,14 +338,14 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
-        /// 删除文章
+        /// 文章移至回收站
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="id">文章ID</param>
         /// <returns>
         /// {
-        ///     code = 1,           //-1：指定的文章不存在，-2：文章已被发布，是否确认删除
-        ///     msg = "删除成功"
+        ///     code = 1,           //-1：指定的文章不存在，2：文章已被发布，是否确认删除
+        ///     msg = "移至回收站成功"
         /// }
         /// </returns>
         /// leixu
@@ -358,18 +358,19 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
                 var post = (from q in cx
-                            where q.Id == id && q.SiteId == site.Id
+                            where q.Id == id && q.SiteId == site.Id && q.IsDeleted == false
                             select q).FirstOrDefault();
 
-                if (post == null) return new { code = -1, msg = "指定的文章不存在" };
+                if (post == null) return new { code = -1, msg = "指定的文章不存在，可能已被移至回收站" };
 
-                if (!confirmed && post.Status == Status.PUBLISHED) return new { code = -2, msg = "文章已被发布，是否确认删除" };
+                if (!confirmed && post.Status == Status.PUBLISHED) return new { code = 2, msg = "文章已被发布，是否确认删除" };
 
-                cx.Remove(post);
+                post.IsDeleted = true;
+
                 cx.SubmitChanges();
             }
 
-            return new { code = 1, msg = "删除成功" };
+            return new { code = 1, msg = "移至回收站成功" };
         }
 
         /// <summary>
@@ -395,14 +396,14 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
                 var posts = (from q in cx
-                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.Status == Status.DRAFT
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.Status == Status.DRAFT && q.IsDeleted == false
                              select q).ToList();
 
-                if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到" };
+                if (posts.Count == 0) return new { code = -2, msg = "指定的未发布文章未查询到，文章可能已经被删除或者已发布" };
 
                 foreach (var item in posts)
                 {
-                    item.Status = Status.PENDING;
+                    item.Status = Status.PUBLISHED;
                     item.PublishUserId = jc.UserName;
                     item.DatePublished = DateTime.Now;
                 }

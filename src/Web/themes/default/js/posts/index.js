@@ -1,11 +1,11 @@
 define(['../common'], function () {
 
-    //更新html
     document.title = '我创建的文章 - 站群管理';
 
     require(['art-template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         var form = $('#post_form');
+
         template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
@@ -19,6 +19,7 @@ define(['../common'], function () {
             form.append('<input type="hidden" name="siteId" value="' + util.get_query('siteId') + '" />');
         }
 
+        //绑定表单
         form.gform({
             url: config.host + 'posts/list',
             onSuccess: function (r) {
@@ -33,17 +34,70 @@ define(['../common'], function () {
                 $('#total_count').html(r.paging.total_count);
                 $('#table_container', form).html(template('post_table', r));
 
+                //绑定表格                
                 var table = $('table', form).gtable();
 
+                //发布
+                $('.publish', table).on('click', function () {
+
+                    var siteId = util.get_query('siteId'),
+                        id = $(this).data('id');
+
+                    if (!confirm('是否确认发布该文章？')) return false;
+
+                    $.post(config.host + 'posts/publish', { ids: [id], siteId: siteId }, function (r) {
+
+                        if (!r || r.code < 0) {
+                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                            return false;
+                        }
+
+                        alert('发布成功');
+                        form.submit();
+
+                    }, 'json');
+
+                    return false;
+                });
+
+                //移至回收站                
+                $('.delete', table).on('click', function () {
+
+                    var siteId = util.get_query('siteId'),
+                        id = $(this).data('id');
+
+                    if (!confirm('是否确认将该文章移至回收站？')) return false;
+
+                    var p_delete = function (confirmed) {
+
+                        $.post(config.host + 'posts/delete', { id: id, siteId: siteId, confirmed: confirmed || false }, function (r) {
+
+                            if (!r || r.code < 0) {
+                                alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                                return false;
+                            }
+
+                            if (r.code == 1) {
+
+                                alert('已成功将文章移至回收站');
+                                form.submit();
+
+                                return false;
+                            }
+
+                            confirm('选中的文章已经发布，是否确认要移至回收站？') && p_delete(true);
+
+                        }, 'json');
+                    };
+
+                    p_delete(false);
+                    return false;
+                });
+
+                //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) {
-                form.submit();
-            }
+            callback: function (form) { form.submit(); }
         });
     });
-
-    var bind_table = function (table) {
-
-    };
 });
