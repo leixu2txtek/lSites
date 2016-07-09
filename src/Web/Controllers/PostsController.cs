@@ -557,7 +557,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 彻底删除文章
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
-        /// <param name="ids">要删除的文章ID数组</param>
+        /// <param name="ids">要删除的文章ID数组，如果不传递该参数，则默认清空回收站所有文章</param>
         /// <returns>
         /// {
         ///     code = 1,                       //-1：指定的文章未查询到，文章可能已经彻底删除或者未放置回收站
