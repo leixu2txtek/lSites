@@ -8,12 +8,12 @@ requirejs.config({
 		'pace': ['jquery']
     },
     paths: {
-        'ztree': 'ztree',
-        'select2': 'select2/select2.min',
+        'ztree': 'ztree/ztree.js',
+        'select2': 'select2/select2',
         'form': 'jquery.form',
         'paging': 'jquery.paging',
-        'art-template': 'art-template',
-        'pace': 'pace.min'
+        'template': 'template',
+        'pace': 'pace'
     }
 });
 

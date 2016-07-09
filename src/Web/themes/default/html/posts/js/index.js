@@ -1,8 +1,8 @@
-define(['../common'], function () {
+define(['../../../js/common'], function () {
 
     document.title = '我创建的文章 - 站群管理';
 
-    require(['art-template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         var form = $('#post_form');
 

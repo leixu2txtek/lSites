@@ -65,8 +65,6 @@
                     checkbox.prop('checked', !checked);
 
                     $('thead input[type=checkbox]:first', table).prop('checked', $('tbody tr input[type=checkbox]:not(:checked)', table).length == 0);
-
-                    return false;
                 });
 
                 //处理 checkbox 事件冒泡
