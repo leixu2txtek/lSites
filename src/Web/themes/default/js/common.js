@@ -4,7 +4,8 @@ requirejs.config({
         'ztree': ['jquery'],
         'select2': ['jquery'],
         'form': ['jquery'],
-        'paging': ['jquery']
+        'paging': ['jquery'],
+		'pace': ['jquery']
     },
     paths: {
         'ztree': 'ztree',
