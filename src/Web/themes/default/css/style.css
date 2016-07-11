@@ -18,6 +18,10 @@ ul li {
     list-style: none;
 }
 
+span:focus {
+    outline: 0px;
+}
+
 .select2-dropdown {
     border-radius: 0px;
 }
