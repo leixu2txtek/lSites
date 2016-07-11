@@ -18,12 +18,6 @@ ul li {
     list-style: none;
 }
 
-body a:hover,
-body a:focus {
-    outline: 0px;
-    text-decoration: none;
-}
-
 .select2-dropdown {
     border-radius: 0px;
 }
@@ -173,6 +167,11 @@ body a:focus {
     border-bottom: 1px solid #eee;
 }
 
+.group-subMenu li.active a {
+    background-color: #eee;
+    color: #23527c;
+}
+
 .group-subMenu li a {
     color: #000;
     padding-left: 45px;
@@ -255,6 +254,10 @@ body a:focus {
     background: #f16e6a;
 }
 
+.group-operation-btn .btn-danger:focus {
+    background: #f16e6a;
+}
+
 .group-operation-btn .group-article-top h3 span {
     font-size: 16px;
 }
@@ -276,6 +279,14 @@ body a:focus {
 
 .group-article-addButton:hover,
 .group-operation-btn .btn-primary:hover {
+    background: #1dc6e4;
+    color: #fff;
+    text-decoration: none;
+}
+
+.group-article-addButton:focus,
+.group-article-table .group-article-form-btn:focus,
+.group-operation-btn .btn-primary:focus {
     background: #1dc6e4;
     color: #fff;
     text-decoration: none;
