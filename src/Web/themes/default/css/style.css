@@ -18,6 +18,16 @@ ul li {
     list-style: none;
 }
 
+body a:hover,
+body a:focus {
+    outline: 0px;
+    text-decoration: none;
+}
+
+.select2-dropdown {
+    border-radius: 0px;
+}
+
 .form-horizontal .select2-container--default .select2-selection--single {
     border-radius: 0px;
     border: 1px solid #ccc;
