@@ -14,6 +14,10 @@ body a:focus {
     text-decoration: none;
 }
 
+ul li {
+    list-style: none;
+}
+
 .form-horizontal .select2-container--default .select2-selection--single {
     border-radius: 0px;
     border: 1px solid #ccc;
@@ -543,7 +547,7 @@ body a:focus {
     width: 300px;
     border-radius: 0px;
     border: 1px solid #b6b6b6;
-    margin-left: 11px;
+    margin-left: -3px;
     height: 35px;
     line-height: 35px;
     font-size: 12px;
@@ -847,4 +851,56 @@ body a:focus {
 
 .group-article .group-article-top .breadcrumb li {
     font-size: 18px;
+}
+
+
+/*分页 x-paging*/
+
+.x-paging .x-paging-pagination-left {
+    float: left;
+}
+
+.x-paging .x-paging-right {
+    float: right;
+}
+
+.x-paging-right ul {
+    clear: both;
+    float: left;
+    margin-right: 10px;
+}
+
+.x-paging-right ul li {
+    float: left;
+}
+
+.x-paging-right ul li a,
+.x-paging-right ul li span {
+    position: relative;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    color: #337ab7;
+    text-decoration: none;
+    line-height: 1.42857143;
+}
+
+.x-paging-right ul li a {
+    margin: 0px 1px;
+    padding: 2px 12px;
+    border-radius: 0px;
+}
+
+.x-paging-right ul li span.pagination-Ellipsis {
+    border: none;
+    margin: 0px 5px;
+}
+
+.x-paging-right li.x-paging-active a,
+.x-paging-right li a:hover {
+    background: #337ab7;
+    color: #fff;
+}
+
+.pagination-last {
+    float: left;
 }
