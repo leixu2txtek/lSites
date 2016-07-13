@@ -39,7 +39,6 @@ define(['../../../js/common'], function() {
 
                 //发布
                 $('.publish', table).on('click', function() {
-
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
