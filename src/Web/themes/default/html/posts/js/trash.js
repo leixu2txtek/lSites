@@ -1,12 +1,12 @@
-define(['../../../js/common'], function() {
+define(['../../../js/common'], function () {
 
     document.title = '回收站 - 站群管理';
 
-    require(['template', 'moment', 'select2', 'form', 'paging'], function(template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         var form = $('#trash_form');
 
-        template.helper('format_date', function(date) {
+        template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
 
@@ -23,11 +23,12 @@ define(['../../../js/common'], function() {
         // 绑定表单
         form.gform({
             url: config.host + 'posts/trash',
-            onSuccess: function(r) {
+            onSuccess: function (r) {
                 if (!r || r.code < 0) {
                     alert(r.msg || '发生未知错误，请刷新尝试');
                     return false;
                 }
+
                 // 更新
                 $('#trash_count').html(r.paging.total_count);
                 $('#trashtable_container', form).html(template('trash_table', r));
@@ -36,7 +37,8 @@ define(['../../../js/common'], function() {
                 var table = $('table', form).gtable();
 
                 // 发布
-                $('.publish', table).on('click', function() {
+                $('.publish', table).on('click', function () {
+
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
@@ -45,19 +47,24 @@ define(['../../../js/common'], function() {
                     $.post(config.host + 'posts/publish', {
                         ids: [id],
                         siteId: siteId
-                    }, function(r) {
+                    }, function (r) {
+
                         if (!r || r.cod < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
                         }
+
                         alert('发布成功');
                         form.submit();
+
                     }, 'json');
+
                     return false;
                 });
 
                 // 彻底删除
-                $('.removes', table).on('click', function() {
+                $('.remove', table).on('click', function () {
+
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
@@ -66,22 +73,25 @@ define(['../../../js/common'], function() {
                     $.post(config.host + 'posts/delete_completely', {
                         ids: [id],
                         siteId: siteId
-                    }, function(r) {
+                    }, function (r) {
+
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
                         }
+
                         alert('文章已彻底删除');
                         form.submit();
+
                     }, 'json');
+
                     return false;
                 });
 
                 // 绑定分页
                 $('.x-paging-container', form).paging(r.paging);
-
             },
-            callback: function(form) {
+            callback: function (form) {
                 form.submit();
             }
         });
