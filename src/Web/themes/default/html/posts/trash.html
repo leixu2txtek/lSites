@@ -18,7 +18,7 @@
         <div class="navbar-collapse collapsc navbar-right group-top-userbox">
             <span>欢迎您，管理员</span>
             <a href="javascript:(0)" class="group-top-user">
-                <img src="http://192.168.1.230:9000/avator/a@001B0336FED8947D8CA4B447C0C3AF71.jpeg/50.jpeg" class="img-circle" width="38px" height="38px" />
+                <img src="http://192.168.1.230:9000/avator/a@001B0336FED8947D8CA4B447C0C3AF71.jpeg/50.jpg" class="img-circle" width="38px" height="38px" />
                 <i class="glyphicon glyphicon-chevron-down"></i>
             </a>
             <ul class="nav group-user-dropdown" style="display:none;">
@@ -35,14 +35,12 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon group-icon-207"></i>我创建的文章
+                          <i class="iconfont group-icon group-icon-207"></i>回收站
                           <span>（共<span id="trash_count">...</span>篇）</span>
-                        <a href="javascript:(0);" class="btn btn-link group-article-addButton">
-                            <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新文章</a>
                         </h3>
                         <div class="navbar-collapse collapsc navbar-right group-operation-btn">
                             <button type="button" class="btn btn-default btn-primary" class="btn_publish">发布</button>
-                            <button type="button" class="btn btn-default btn-danger">批量删除</button>
+                            <button type="button" class="btn btn-default btn-danger">清空回收站</button>
                         </div>
                     </nav>
                     <div class="table-responsive group-article-table">
@@ -102,8 +100,8 @@
                 <td>{{item.status}}</td>
                 <td class="group-article-tabelTools">
                     <a href="edit.html?id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="发布" data-id="{{item.id}}" class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a>
-                    <a href="javascript:(0);" title="删除" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="javascript:(0);" title="撤回" data-id="{{item.id}}" class="Revoke"><i class="iconfont group-icon group-icon-chexiao"></i></a>
+                    <a href="javascript:(0);" title="彻底删除" data-id="{{item.id}}" class="removes"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}

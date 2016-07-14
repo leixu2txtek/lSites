@@ -929,3 +929,41 @@ span:focus {
 .pagination-last {
     float: left;
 }
+
+
+/*添加新文章*/
+
+.group-addNews {
+    position: relative;
+}
+
+.group-addNews-right {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.group-addNews-left {
+    margin-right: 300px;
+}
+
+.addNews-title-input input {
+    border-radius: 0px;
+}
+
+.addNews-Columns {
+    margin-top: 70px;
+    padding: 0px 50px;
+}
+
+.addNews-title-input {
+    padding: 0px;
+}
+
+.addNews-title label {
+    width: initial;
+}
+
+.addNews-title input {
+    width: 500px;
+}
