@@ -65,12 +65,17 @@
                     checkbox.prop('checked', !checked);
 
                     $('thead input[type=checkbox]:first', table).prop('checked', $('tbody tr input[type=checkbox]:not(:checked)', table).length == 0);
+
+                    table.trigger('gtable.checked', [table.get_selected_row_id()]);
                 });
 
                 //处理 checkbox 事件冒泡
                 $('tbody tr input[type=checkbox]', table).on('click', function (e) {
 
                     $('thead input[type=checkbox]:first', table).prop('checked', $('tbody tr input[type=checkbox]:not(:checked)', table).length == 0);
+
+                    table.trigger('gtable.checked', [table.get_selected_row_id()]);
+
                     e.stopPropagation();
                 });
 
@@ -85,6 +90,8 @@
                     _this.prop('title', checked ? '全不选' : '全选');
 
                     $('tbody tr input[type=checkbox]', table).prop('checked', checked);
+
+                    table.trigger('gtable.checked', [table.get_selected_row_id()]);
                 });
             } ();
 
