@@ -221,6 +221,12 @@ namespace Kiss.Components.Site
         PENDING = 1,
 
         /// <summary>
+        /// 审核失败 -1
+        /// </summary>
+        [Description("审核失败")]
+        AUDIT_FAILD = -1,
+
+        /// <summary>
         /// 已发布 2
         /// </summary>
         [Description("已发布")]

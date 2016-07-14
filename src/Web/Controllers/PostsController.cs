@@ -81,6 +81,8 @@ namespace Kiss.Components.Site.Web.Controllers
             jc["site"] = site;
         }
 
+        #region 文章
+
         /// <summary>
         /// 文章列表
         /// </summary>
@@ -100,7 +102,7 @@ namespace Kiss.Components.Site.Web.Controllers
         ///             date_created = "",          //文章的创建时间
         ///             view_count = "",            //文章的查看数
         ///             sort_order = "",            //文章的排序
-        ///             is_published = "",          //文章是否发布
+        ///             status = "",                //文章的状态
         ///             date_published = ""         //文章发布时间
         ///         }
         ///     ],
@@ -372,6 +374,10 @@ namespace Kiss.Components.Site.Web.Controllers
             return new { code = 1, msg = "移至回收站成功" };
         }
 
+        #endregion
+
+        #region 发布
+
         /// <summary>
         /// 发布文章
         /// </summary>
@@ -454,28 +460,139 @@ namespace Kiss.Components.Site.Web.Controllers
             return new { code = 1, msg = "发布成功" };
         }
 
+        #endregion
+
+        #region 审核
+
         /// <summary>
-        /// 
+        /// 待审核的文章列表
         /// </summary>
+        /// <remarks>请求方式：POST</remarks>
         /// <param name="key"></param>
-        /// <returns></returns>
+        /// <returns>
+        /// {
+        ///     code = 1,                           //1：获取成功
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //文章ID
+        ///             title = "",                 //文章标题
+        ///             category = "",              //文章的分类信息
+        ///             date_created = "",          //文章的创建时间
+        ///             view_count = "",            //文章的查看数
+        ///             sort_order = "",            //文章的排序
+        ///             display_name = "",          //文章创建者
+        ///         }
+        ///     ],
+        ///     totalCount = q.TotalCount,
+        ///     page = q.PageIndex1,
+        ///     orderbys = q.orderbys
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月14日10:14:54
         [HttpPost]
         object audit(string key)
         {
-            return new { };
+            var site = (Site)jc["site"];
+
+            WebQuery q = new WebQuery();
+            q.Id = "audit.list";
+            q.LoadCondidtion();
+
+            if (!string.IsNullOrEmpty(key)) q["key"] = key;
+
+            q.TotalCount = Posts.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            q["siteId"] = site.Id;
+
+            var dt = Posts.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    title = item["title"].ToString(),
+                    category = item["category"] is DBNull ? string.Empty : item["category"].ToString(),
+                    date_created = item["dateCreated"].ToDateTime(),
+                    view_count = item["viewCount"].ToInt(),
+                    sort_order = item["sortOrder"].ToInt(),
+                    display_name = item["displayName"] is DBNull ? "未知用户" : item["displayName"].ToString()
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                },
+                orderbys = q.orderbys
+            };
         }
 
         /// <summary>
-        /// 
+        ///  审核文章
         /// </summary>
-        /// <param name="ids"></param>
-        /// <param name="pass"></param>
-        /// <returns></returns>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="ids">要审核的文章ID，数组</param>
+        /// <param name="pass">1：审核通过，0：审核不通过</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                      //-1：要审核的文章ID不能为空，-2：指定的文章ID在当前站点下未找到，可能文章已经审核过，请刷新后尝试
+        ///     msg = "审核成功",
+        ///     count = 0                      //审核成功的文章数量
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月14日10:14:50
         [HttpPost]
         object update_audit(string[] ids, bool pass)
         {
-            return new { };
+            if (ids.Length == 0) return new { code = -1, msg = "要审核的文章ID不能为空" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var posts = (from q in cx
+                             where q.SiteId == site.Id && new List<string>().Contains(q.Id) && q.Status == Status.PENDING
+                             select q).ToList();
+
+                if (posts.Count == 0) return new { code = -2, msg = "指定的文章ID在当前站点下未找到，可能文章已经审核过，请刷新后尝试" };
+
+                foreach (var item in posts)
+                {
+                    if (pass)
+                    {
+                        item.Status = Status.PUBLISHED;
+                        item.DatePublished = DateTime.Now;
+                        item.PublishUserId = jc.UserName;
+                    }
+                    else
+                    {
+                        //TODO 
+
+                        item.Status = Status.AUDIT_FAILD;
+                    }
+                }
+
+                cx.SubmitChanges(true);
+
+                return new { code = 1, msg = "审核成功", count = posts.Count };
+            }
         }
+
+        #endregion
+
+        #region 回收站
 
         /// <summary>
         /// 回收站列表
@@ -494,7 +611,8 @@ namespace Kiss.Components.Site.Web.Controllers
         ///             date_created = "",          //文章的创建时间
         ///             view_count = "",            //文章的查看数
         ///             sort_order = "",            //文章的排序
-        ///             is_published = "",          //文章是否发布
+        ///             status = "",                //文章状态
+        ///             display_name = ""           //文章创建者
         ///             date_published = ""         //文章发布时间
         ///         }
         ///     ],
@@ -535,6 +653,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     view_count = item["viewCount"].ToInt(),
                     sort_order = item["sortOrder"].ToInt(),
                     status = StringEnum<Status>.ToString(StringEnum<Status>.SafeParse(item["status"].ToString())),
+                    display_name = item["displayName"] is DBNull ? "未知用户" : item["displayName"].ToString(),
                     date_published = item["datePublished"].ToDateTime()
                 });
             }
@@ -598,5 +717,47 @@ namespace Kiss.Components.Site.Web.Controllers
 
             return new { code = 1, msg = "成功将指定的文章删除" };
         }
+
+        /// <summary>
+        /// 恢复回收站的文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="ids">要恢复的文章ID，数组</param>
+        /// <returns>
+        /// {
+        ///     code = 1,               //-1：要恢复的文章ID不能为空，-2：指定的文章ID在当前站点下未找到，请刷新后尝试
+        ///     msg = "恢复成功",
+        ///     count = 0               //恢复成功的数据数量
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月14日10:17:11
+        [HttpPost]
+        object restore(string[] ids)
+        {
+            if (ids.Length == 0) return new { code = -1, msg = "要恢复的文章ID不能为空" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var posts = (from q in cx
+                             where q.SiteId == site.Id && new List<string>(ids).Contains(q.Id)
+                             select q).ToList();
+
+                if (posts.Count == 0) return new { code = -2, msg = "指定的文章ID在当前站点下未找到，请刷新后尝试" };
+
+                foreach (var item in posts)
+                {
+                    item.IsDeleted = false;
+                }
+
+                cx.SubmitChanges(true);
+
+                return new { code = 1, msg = "恢复成功", count = posts.Count };
+            }
+        }
+
+        #endregion
     }
 }

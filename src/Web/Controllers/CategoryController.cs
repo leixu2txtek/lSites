@@ -104,7 +104,7 @@ namespace Kiss.Components.Site.Web.Controllers
             var site = (Site)jc["site"];
 
             var data = (from q in Category.CreateContext()
-                        where q.ParentId == parentId && q.SiteId == site.Id
+                        where q.ParentId == (string.IsNullOrWhiteSpace(parentId) ? string.Empty : parentId) && q.SiteId == site.Id
                         select new
                         {
                             id = q.Id,
@@ -179,7 +179,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </returns>
         /// leixu
         /// 2016年6月30日15:26:38
-        //[HttpPost]
+        [HttpPost]
         object save(string id, string title, string url, string parentId, int sortOrder, bool needLogin2Read)
         {
             #region 校验参数
@@ -248,11 +248,11 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 #region 子集栏目信息变更
 
+                category.NodePath = parent == null ? category.Id : string.Format("{0}/{1}", parent.NodePath, category.Id);
+
                 var children = (from q in cx_children
                                 where q.NodePath.StartsWith(category.NodePath)
                                 select q).ToList();
-
-                category.NodePath = parent == null ? category.Id : string.Format("{0}/{1}", parent.NodePath, category.Id);
 
                 foreach (var item in children)
                 {
