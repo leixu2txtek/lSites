@@ -11,8 +11,11 @@
     <link rel="stylesheet" href="../fonts/iconfonts/iconfont.css">
     <link rel="stylesheet" href="../js/vendor/select2/select2.min.css">
     <link href="../css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
     <script src="../js/vendor/jquery.js"></script>
     <script src="../js/vendor/select2/select2.min.js"></script>
+    <script src="../ueditor/ueditor.config.js"></script>
+    <script src="../ueditor/ueditor.parse.js"></script>
     <script src="../js/com.js"></script>
 </head>
 
@@ -83,6 +86,10 @@
                         <h3 class="navbar-brand">
                           <i class="iconfont group-icon group-icon-207"></i>添加新文章
                         </h3>
+                        <div class="navbar-collapse collapsc navbar-right group-operation-btn">
+                            <button type="button" class="btn btn-default btn-primary">保存草稿</button>
+                            <button type="button" class="btn btn-default btn-danger">发布</button>
+                        </div>
                     </nav>
                     <div class="addNews-Columns">
                         <div class="group-addNews-left">
@@ -96,13 +103,37 @@
                                 <div class="form-group addNews-title">
                                     <label for="firstname" class="col-sm-2 control-label">内容：</label>
                                     <div class="col-sm-10 addNews-title-editor">
-
+                                        <textarea class="form-control" rows="3" style="resize: none;border-radius:0px;min-height:500px;"></textarea>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div class="group-addNews-right">
-
+                            <div class="addNews-tools">
+                                <h2 class="addNews-right-top">栏目</h2>
+                                <form>
+                                    <div class="form-group group-addNews-form">
+                                        <label class="control-label">栏目：</label>
+                                        <select data-placeholder="全部" style="width: 95px;height: 28px;border: 1px solid #c5c5c5;">
+                                    <option></option>
+                                    <option>热点新闻</option>
+                                    <option>招生信息</option>
+                                    <option>高校新闻</option>
+                                </select>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="addNews-tools">
+                                <h2 class="addNews-right-top">栏目</h2>
+                                <form>
+                                    <div class="form-group addNews-summary clearfix">
+                                        <label for="firstname" class="col-sm-2 control-label">摘要：</label>
+                                        <div class="col-sm-10 addNews-title-summary">
+                                            <textarea class="form-control" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -111,7 +142,7 @@
             <!--以上是整体内容 container-fluid-->
         </div>
     </div>
-    <script src=" ../js/vendor/bootstrap.min.js "></script>
+    <script src=" ../js/vendor/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             $('select').select2({

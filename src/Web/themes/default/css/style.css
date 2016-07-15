@@ -967,3 +967,65 @@ span:focus {
 .addNews-title input {
     width: 500px;
 }
+
+.addNews-title-editor {
+    padding-left: 0px;
+}
+
+.addNews-title label {
+    font-size: 16px;
+    font-weight: normal;
+    padding-right: 10px;
+    padding-top: 6px;
+}
+
+.group-addNews-right {
+    width: 300px;
+}
+
+.group-addNews-right .addNews-right-top {
+    font-size: 16px;
+    margin: 0px;
+    height: 36px;
+    line-height: 36px;
+    background: #10a1bb;
+    color: #fff;
+    border-bottom: 1px solid #f6f6f6;
+    padding-left: 23px;
+}
+
+.addNews-tools {
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+}
+
+.addNews-tools form {
+    padding: 10px 22px;
+    background: #f6f6f6;
+}
+
+.group-addNews-form label {
+    font-size: 14px;
+    font-weight: normal;
+    font-size: 16px;
+    font-weight: normal;
+    color: #161616;
+}
+
+.addNews-summary label {
+    font-size: 14px;
+    font-weight: normal;
+    padding: 0px;
+    float: left;
+}
+
+.addNews-title-summary {
+    padding: 0px;
+    width: 210px;
+    float: left;
+}
+
+.addNews-title-summary textarea {
+    resize: none;
+    border-radius: 0px;
+}
