@@ -51,7 +51,7 @@
         ];
 
         $(document).ready(function() {
-            $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+
         });
     </script>
 
@@ -200,7 +200,7 @@
         </div>
     </div>
 
-    <div class="Dialog-bg"></div>
+    <div class="ui-MDialog-lock" style="display:none;"></div>
     <script type="text/html" id="choice-dialog">
         <div class="choice-dialog">
             <ul id="treeDemo" class="ztree"></ul>
@@ -209,18 +209,26 @@
 
     <!--以上是 选择栏目 弹出框-->
     <script>
-        var html = $(template('choice-dialog', {}));
-        _this = $('.group-Columns-list');
+        $('.addNwes-choice').on('click', function() {
 
-        _this.dialog = $M({
-            title: '选择栏目',
-            content: html[0],
-            ok: function() {
-                this.title('正在提交...');
-            },
-            okVal: '提交',
-            cancel: false,
-            cancelVal: '关闭'
+            var html = $(template('choice-dialog', {}));
+
+            $.fn.zTree.init($("#treeDemo", html), setting, zNodes);
+
+            var dialog = $M({
+                title: '选择栏目',
+                content: html[0],
+                lock: true,
+                fixed: true,
+                ok: function() {
+                    this.title('正在提交...');
+                },
+                okVal: '提交',
+                cancel: false,
+                cancelVal: '关闭'
+            });
+
+            return false;
         });
     </script>
 </body>
