@@ -171,23 +171,23 @@
                                 <h2 class="addNews-right-top ">选项：</h2>
                                 <form>
                                     <div class="form-group addNews-summary clearfix ">
-                                        <label for="firstname " class="col-sm-2 control-label ">链接：</label>
-                                        <input type="text " name=" " value=" " class="simpletext ">
+                                        <label class="col-sm-2 control-label" for="summary-lj">链接：</label>
+                                        <input type="text " name=" " value=" " class="simpletext" id="summary-lj">
                                     </div>
                                     <div class="form-group addNews-gformbox clearfix ">
                                         <span>  
-                                            <input type="checkbox " name="FlagTop " selected="False " value="True ">
-                                             <label for="firstname " class="col-sm-2 control-label ">置顶：</label>
-                                         </span>
-                                        <span>   
-                                            <input type="checkbox " name="FlagTop " selected="False " value="True ">
-                                             <label for="firstname " class="col-sm-2 control-label ">排序：</label>
+                                            <label class="col-sm-2 control-label" for="addNews-zd">置顶</label>
+                                            <input type=checkbox " name="FlagTop " selected="False" value="True" id="addNews-zd">
                                          </span>
                                         <span>  
-                                             <input type="checkbox " name="FlagTop " selected="False " value="True ">
-                                              <label for="firstname " class="col-sm-2 control-label ">允许评论：</label>                                           
+                                            <label class="col-sm-2 control-label" for="addNews-lj">排序</label>
+                                            <input type=checkbox " id="addNews-lj" name="FlagTop " selected="False " value="True" onclick="$('#SortOrder').toggle(); if (!this.checked) $('#SortOrder').val('');">
+                                            <input type="text" name="" value="" id="SortOrder" style="width: 30px; display: none; height: 18px;line-height: 18px;padding-left: 1px; vertical-align: inherit;">
                                          </span>
-
+                                        <span>  
+                                            <label class="col-sm-2 control-label" for="addNews-yxpl">允许评论</label>
+                                            <input type=checkbox " name="FlagTop " selected="False " value="True " id="addNews-yxpl">
+                                         </span>
                                     </div>
                                 </form>
                             </div>
