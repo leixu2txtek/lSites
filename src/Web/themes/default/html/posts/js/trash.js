@@ -92,6 +92,32 @@ define(['../../../js/common'], function() {
 
                     return false;
                 });
+                // 恢复回收站的文章
+                $('.q-restore', table).on('click', function() {
+
+
+                    var siteId = util.get_query('siteId'),
+                        id = $(this).data('id');
+
+                    if (!confirm('是否撤销删除的文章？')) return false;
+
+                    $.post(config.host + 'posts/restore', {
+                        ids: [id],
+                        siteId: siteId
+                    }, function(r) {
+                        if (!r || r.code < 0) {
+
+                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                            return false;
+                        }
+
+                        alert('撤销成功');
+                        form.submit();
+
+                    }, 'json');
+
+                    return false;
+                });
 
                 // 绑定分页
                 $('.x-paging-container', form).paging(r.paging);
