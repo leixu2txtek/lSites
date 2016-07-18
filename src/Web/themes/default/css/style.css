@@ -965,12 +965,9 @@ span:focus {
     width: initial;
 }
 
-.addNews-title input {
-    width: 98.5%;
-}
-
 .addNews-title-editor {
     padding-left: 0px;
+    padding-right: 0px;
 }
 
 .addNews-title label {
