@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1468398543'); /* IE9*/
-  src: url('iconfont.eot?t=1468398543#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1468398543') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1468398543') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1468398543#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1468828645'); /* IE9*/
+  src: url('iconfont.eot?t=1468828645#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1468828645') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1468828645') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1468828645#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -17,6 +17,7 @@
 }
 .group-icon-caidan:before { content: "\e600"; }
 .group-icon-51:before { content: "\e603"; }
+.group-icon-quxiao:before { content: "\e619"; }
 .group-icon-zhandianguanli:before { content: "\e60e"; }
 .group-icon-nav:before { content: "\e60d"; }
 .group-icon-down:before { content: "\e615"; }

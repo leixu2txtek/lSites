@@ -92,6 +92,7 @@ define(['../../../js/common'], function() {
 
                     return false;
                 });
+
                 // 恢复回收站的文章
                 $('.q-restore', table).on('click', function() {
 
