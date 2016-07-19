@@ -1,10 +1,10 @@
 
 @font-face {font-family: "iconfont";
-  src: url('iconfont.eot?t=1468828645'); /* IE9*/
-  src: url('iconfont.eot?t=1468828645#iefix') format('embedded-opentype'), /* IE6-IE8 */
-  url('iconfont.woff?t=1468828645') format('woff'), /* chrome, firefox */
-  url('iconfont.ttf?t=1468828645') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
-  url('iconfont.svg?t=1468828645#iconfont') format('svg'); /* iOS 4.1- */
+  src: url('iconfont.eot?t=1468908525'); /* IE9*/
+  src: url('iconfont.eot?t=1468908525#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1468908525') format('woff'), /* chrome, firefox */
+  url('iconfont.ttf?t=1468908525') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1468908525#iconfont') format('svg'); /* iOS 4.1- */
 }
 
 .iconfont {
@@ -28,6 +28,7 @@
 .group-icon-chexiao:before { content: "\e618"; }
 .group-icon-zbgl1:before { content: "\e604"; }
 .group-icon-shenhe3:before { content: "\e605"; }
+.group-icon-audit-pass2:before { content: "\e61a"; }
 .group-icon-trash:before { content: "\e606"; }
 .group-icon-207:before { content: "\e602"; }
 .group-icon-up:before { content: "\e616"; }

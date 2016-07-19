@@ -5,7 +5,7 @@ requirejs.config({
         'select2': ['jquery'],
         'form': ['jquery'],
         'paging': ['jquery'],
-		'pace': ['jquery']
+        'pace': ['jquery']
     },
     paths: {
         'ztree': 'ztree/ztree.js',
@@ -13,7 +13,8 @@ requirejs.config({
         'form': 'jquery.form',
         'paging': 'jquery.paging',
         'template': 'template',
-        'pace': 'pace'
+        'pace': 'pace',
+        'MDialog': 'Mdialog/MDialog'
     }
 });
 
@@ -23,7 +24,7 @@ const config = {
 };
 
 const util = {
-    get_query: function (key) {
+    get_query: function(key) {
         var arr = [],
             obj = {},
             location = window.location.href,
@@ -46,93 +47,81 @@ const util = {
     }
 }
 
-const menus = [
-    {
-        title: '文章',
-        icon: 'group-icon-207',
-        key: 'posts',
-        children: [
-            {
-                title: '我创建的',
-                url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
-                key: 'posts/index'
-            },
-            {
-                title: '待审核的',
-                url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
-                key: 'posts/audit'
-            },
-            {
-                title: '已发布的',
-                url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
-                key: 'posts/publish'
-            },
-            {
-                title: '回收站',
-                url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
-                key: 'posts/trash'
-            }
-        ]
-    },
-    {
-        title: '栏目',
-        icon: 'group-icon-nav',
-        key: 'category',
-        url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
-    },
-    {
-        title: '选项',
-        icon: 'group-icon-androidoptions',
-        key: 'settings',
-        children: [
-            {
-                title: '站点信息',
-                url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
-                key: 'settings/index'
-            },
-            {
-                title: '挂件管理',
-                url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
-                key: 'settings/widgets'
-            },
-            {
-                title: '参数配置',
-                url: config.prefix + 'settings/config.html?siteId=' + util.get_query('siteId'),
-                key: 'settings/config'
-            }
-        ]
-    },
-    {
-        title: '用户管理',
-        icon: 'group-icon-yonghu',
-        key: 'users/index',
-        url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
-    },
-    {
-        title: '站点管理',
-        icon: 'group-icon-zhandianguanli',
-        key: 'sites/index',
-        url: config.prefix + 'sites/index.html',
-    },
-];
+const menus = [{
+    title: '文章',
+    icon: 'group-icon-207',
+    key: 'posts',
+    children: [{
+        title: '我创建的',
+        url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/index'
+    }, {
+        title: '待审核的',
+        url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/audit'
+    }, {
+        title: '已发布的',
+        url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/publish'
+    }, {
+        title: '回收站',
+        url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/trash'
+    }]
+}, {
+    title: '栏目',
+    icon: 'group-icon-nav',
+    key: 'category',
+    url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
+}, {
+    title: '选项',
+    icon: 'group-icon-androidoptions',
+    key: 'settings',
+    children: [{
+        title: '站点信息',
+        url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
+        key: 'settings/index'
+    }, {
+        title: '挂件管理',
+        url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
+        key: 'settings/widgets'
+    }, {
+        title: '参数配置',
+        url: config.prefix + 'settings/config.html?siteId=' + util.get_query('siteId'),
+        key: 'settings/config'
+    }]
+}, {
+    title: '用户管理',
+    icon: 'group-icon-yonghu',
+    key: 'users/index',
+    url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
+}, {
+    title: '站点管理',
+    icon: 'group-icon-zhandianguanli',
+    key: 'sites/index',
+    url: config.prefix + 'sites/index.html',
+}, ];
 
-define(['jquery', 'pace'], function ($) {
+define(['jquery', 'pace'], function($) {
 
     //统一定义加载动画
     Pace.start();
 
     //加载成功后显示主体内容    
-    Pace.on('hide', function () { $('#content_container').show(); });
+    Pace.on('hide', function() {
+        $('#content_container').show();
+    });
 
     var menu = $('<ul class="nav nav-stacked group-nav-sidebar"></ul>'),
         path = window.location.pathname;
 
-    $.each(menus, function (i, v) {
+    $.each(menus, function(i, v) {
 
         var li = $(['<li>',
             '<a href="' + (v.url || 'javascript:void(0);') + '" class="inactive">',
             '<i class="iconfont group-icon ' + v.icon + '"></i>' + v.title + '</a>',
-            '</li>'].join(''));
+            '</li>'
+        ].join(''));
 
         //active current menu        
         if (path.indexOf(v.key) != -1) $('a', li).addClass('active');
@@ -143,7 +132,7 @@ define(['jquery', 'pace'], function ($) {
 
             var subs = '<ul class="nav nav-stacked group-subMenu" style="display: none">';
 
-            $.each(v.children, function (i, v) {
+            $.each(v.children, function(i, v) {
 
                 if (path.indexOf(v.key) != -1) {
                     subs += '<li class="active"><a href="' + v.url + '">' + v.title + '</a></li>'
@@ -164,7 +153,7 @@ define(['jquery', 'pace'], function ($) {
 
     $('.sidebar').append(menu);
 
-    $('.inactive').click(function () {
+    $('.inactive').click(function() {
         if ($(this).siblings('ul').css('display') == 'none') {
             $(this).parent('li').siblings('li').removeClass('active');
             $(this).addClass('active');

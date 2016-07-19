@@ -190,6 +190,10 @@ define(['../../../js/common'], function() {
                     return false;
                 });
 
+                // 改变发布取消状态
+
+
+
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
