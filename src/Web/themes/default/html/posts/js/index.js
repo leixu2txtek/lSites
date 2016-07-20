@@ -46,7 +46,7 @@ define(['../../../js/common'], function() {
 
         //批量放入回收站      
         $('.btn_delete', nav).on('click', function() {
-
+            debugger;
             var siteId = util.get_query('siteId'),
                 ids = $('table:first', form).get_selected_row_id();
 
