@@ -1,10 +1,10 @@
-define(['../../../js/common'], function () {
+define(['../../../js/common'], function() {
 
     document.title = '站点列表 - 站群管理';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function(template, moment) {
 
-        template.helper('format_date', function (date) {
+        template.helper('format_date', function(date) {
 
             return moment(date).format('YYYY-MM-DD');
         });
@@ -18,7 +18,7 @@ define(['../../../js/common'], function () {
         });
 
         // 添加新站点    
-        $('.add-site', nav).on('click', function () {
+        $('.add-site', nav).on('click', function() {
 
             var add_form = $(template('site_add_form', {})),
                 dlg = $M({
@@ -27,32 +27,60 @@ define(['../../../js/common'], function () {
                     width: '450px',
                     height: '350px',
                     position: '50% 50%',
-                    ok: function () {
-
-                        if (!confirm('是否确认添加站点？')) return false;
-
+                    ok: function() {
                         add_form.submit();
                     },
                     okVal: '保存',
                     cancel: false,
-                    cancelVal: '取消'
+                    cancelVal: '取消',
+                    init: function() {
+                        $('select', add_form).select2({
+                            minimumResultsForSearch: -1,
+                            allowClear: true
+                        });
+                    }
                 });
 
             add_form.gform({
                 url: config.host + 'site/save',
-                beforeSubmit: function () {
+                beforeSubmit: function() {
+
                     var title = $('[name=title]', add_form).val(),
                         domain = $('[name=domain]', add_form).val();
+                    keyWords = $('[name=keyWords]', add_form).val();
 
                     if (title.length == 0) {
 
-                        alert('站点名称不能为空');
+                        var errorInput = $('[name=title]', add_form);
+                        $(errorInput).parent().addClass('has-error');
+
+
+                        alert('名称不能为空');
+
                         return false;
                     }
 
-                    return false;
+                    if (domain.length == 0) {
+
+                        var errordomain = $('[name=domain]', add_form);
+                        $(errordomain).parent().addClass('has-error');
+                        alert('域名不能为空');
+
+                        return false;
+                    }
+
+
+                    if (keyWords.length == 0) {
+
+                        var errorkeyWords = $('[name=keyWords]', add_form);
+                        $(errorkeyWords).parent().addClass('has-error');
+                        alert('关键字不能为空');
+
+                        return false;
+                    }
+
                 },
-                onSuccess: function (r) {
+                onSuccess: function(r) {
 
                     if (!r || r.code < 0) {
 
@@ -63,7 +91,7 @@ define(['../../../js/common'], function () {
                     dlg.close();
 
                     alert('已成功添加站点信息');
-                    form.submit();      //重新刷新站点列表
+                    form.submit(); //重新刷新站点列表
                 }
             });
         });
@@ -71,7 +99,7 @@ define(['../../../js/common'], function () {
         //绑定表单
         form.gform({
             url: config.host + 'site/list',
-            onSuccess: function (r) {
+            onSuccess: function(r) {
 
                 if (!r || r.code < 0) {
 
@@ -88,18 +116,38 @@ define(['../../../js/common'], function () {
 
                 //TODO 绑定按钮事件
 
-                $('.edit', table).on('click', function () {
+                $('.edit', table).on('click', function() {
 
                 });
 
-                $('.delete', table).on('click', function () {
+                $('.delete', table).on('click', function() {
+                    debugger;
 
+                    var siteId = util.get_query('siteId'),
+                        id = $(this).data('id');
+
+                    if (!confirm('是否确定彻底删除此文章')) return false;
+
+                    $.post(config.host + 'site/delete', {
+                        id: id,
+                        siteId: siteId
+                    }, function(r) {
+
+                        if (!r || r.code < 0) {
+                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                            return false;
+                        }
+
+                        alert('文章已彻底删除');
+                        form.submit();
+
+                    }, 'json');
                 });
 
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) {
+            callback: function(form) {
                 form.submit();
             }
         });
