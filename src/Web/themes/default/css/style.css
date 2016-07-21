@@ -1102,3 +1102,7 @@ span:focus {
 .addForm-input .select2-container {
     width: 150px;
 }
+
+.addForm-input .select2-container--default .select2-selection--single {
+    border: 1px solid #ccc;
+}

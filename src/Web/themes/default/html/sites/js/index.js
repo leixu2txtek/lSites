@@ -121,8 +121,6 @@ define(['../../../js/common'], function() {
                 });
 
                 $('.delete', table).on('click', function() {
-                    debugger;
-
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
