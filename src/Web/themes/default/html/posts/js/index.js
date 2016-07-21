@@ -1,6 +1,6 @@
 define(['../../../js/common'], function() {
 
-    document.title = '我创建的文章 - 站群管理';
+    document.title = '我创建的文章 - CMS内容管理系统';
 
     require(['template', 'moment', 'select2', 'form', 'paging'], function(template, moment) {
 
