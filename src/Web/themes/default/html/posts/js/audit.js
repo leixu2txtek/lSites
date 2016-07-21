@@ -1,12 +1,12 @@
-define(['../../../js/common'], function() {
+define(['../../../js/common'], function () {
 
-    document.title = '待审核的文章 - 站群管理';
+    document.title = '待审核的文章 - CMS内容管理系统';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function(template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
 
         var form = $('#trash_form');
 
-        template.helper('format_date', function(date) {
+        template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
 
@@ -23,7 +23,7 @@ define(['../../../js/common'], function() {
         // 绑定表单
         form.gform({
             url: config.host + 'posts/audit',
-            onSuccess: function(r) {
+            onSuccess: function (r) {
 
                 if (!r || r.code < 0) {
                     alert(r.msg || '发生未知错误，请刷新尝试');
@@ -37,18 +37,18 @@ define(['../../../js/common'], function() {
                 var table = $('table', form).gtable();
 
                 // 审核通过
-                $('.q-approved', table).on('click', function() {
+                $('.q-approved', table).on('click', function () {
 
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id'),
                         dlg = undefined,
-                        audit = function(pass) {
+                        audit = function (pass) {
 
                             $.post(config.host + 'posts/update_audit', {
                                 ids: [id],
                                 siteId: siteId,
                                 pass: pass
-                            }, function(r) {
+                            }, function (r) {
 
                                 if (!r || r.code < 0) {
                                     alert(r.msg || '发生未知错误，请刷新尝试');
@@ -64,12 +64,12 @@ define(['../../../js/common'], function() {
 
                     dlg = $M({
                         content: '<p>是否通过审核</p>',
-                        ok: function() {
+                        ok: function () {
 
                             audit(1);
                         },
                         okVal: '审核通过',
-                        cancel: function() {
+                        cancel: function () {
 
                             audit(0);
                         },
@@ -78,13 +78,11 @@ define(['../../../js/common'], function() {
                     });
                 });
 
-
-
                 // 绑定分页
                 $('.x-paging-container', form).paging(r.paging);
             },
 
-            callback: function(form) {
+            callback: function (form) {
                 form.submit();
             }
 
