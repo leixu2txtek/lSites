@@ -91,7 +91,7 @@
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{item.sort_order}}</td>
                 <td class="group-site-tabelTools">
-                    <a href="javascript:(0);" class="tabelTools-edit edit" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" class="tabelTools-edit edit" data-domain="{{item.domain}}" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
                     <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
@@ -104,34 +104,34 @@
     <form class="add-form" method="post">
         <div class="form-group addForm-input">
             <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>名称：</lable>
-            <input type="text" name="title" class="form-control" />
+            <input type="text" name="title" class="form-control" value="{{title}}" />
         </div>
         <div class="addForm-input">
             <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>域名：</lable>
-            <input type="text" name="domain" class="form-control" />
+            <input type="text" name="domain" class="form-control" value="domain" />
         </div>
         <div class="addForm-input">
             <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>关键字：</lable>
-            <input type="text" name="keyWords" class="form-control" />
+            <input type="text" name="keyWords" class="form-control" value="keyWords" />
         </div>
         <div class="addForm-input">
             <lable class="addForm-label">描述：</lable>
-            <textarea style="resize:none;height:50px;" name="description" class="form-control"></textarea>
+            <textarea style="resize:none;height:50px;" name="description" class="form-control" value="description"></textarea>
         </div>
-        <div class="form-group addForm-input">
-            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>主题：</lable>
-            <select data-placeholder="default" name="theme">
-                                        <option></option>
-                                        <option value="0">草稿</option>
-                                        <option value="1">待审核</option>
-                                        <option value="2">已发布</option>
-                                        <option value="-1">审核不通过</option>
-                                    </select>
+        <div class=" form-group addForm-input ">
+            <lable class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>主题：</lable>
+            <select data-placeholder="default " name="theme " value="theme">
+                <option></option>
+                <option value="0 ">模版一</option>
+                <option value="1 ">模版二</option>
+                <option value="2 ">模版三</option>
+                <option value="-1 ">模版四</option>
+            </select>
         </div>
-        <div class="addForm-input">
-            <lable class="addForm-label">
+        <div class="addForm-input ">
+            <lable class="addForm-label ">
                 </em>站点序号：</lable>
-            <input type="text" name="sortOrder" class="form-control" />
+            <input type="text " name="sortOrder " class="form-control " />
         </div>
     </form>
 </script>

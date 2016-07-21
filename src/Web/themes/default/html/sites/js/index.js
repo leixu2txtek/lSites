@@ -117,6 +117,43 @@ define(['../../../js/common'], function() {
                 //TODO 绑定按钮事件
 
                 $('.edit', table).on('click', function() {
+                    var siteId = util.get_query('siteId'),
+                        domain = $(this).data('domain');
+
+
+                    $.post(config.host + 'site/detail_with_domain', {
+                        domain: domain,
+                        siteId: siteId
+                    }, function(r) {
+
+                        if (!r || r.code < 0) {
+                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                            return false;
+                        }
+                        debugger;
+                        var add_form = $(template('site_add_form', r)),
+
+                            dlg = $M({
+                                title: '编辑站点',
+                                content: add_form[0],
+                                width: '450px',
+                                height: '350px',
+                                position: '50% 50%',
+                                ok: function() {
+                                    add_form.submit();
+                                },
+                                okVal: '保存',
+                                cancel: false,
+                                cancelVal: '取消',
+                                init: function() {
+                                    $('select', add_form).select2({
+                                        minimumResultsForSearch: -1,
+                                        allowClear: true
+                                    });
+
+                                }
+                            });
+                    }, 'json');
 
                 });
 
