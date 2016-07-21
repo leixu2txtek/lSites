@@ -563,7 +563,7 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
                 var posts = (from q in cx
-                             where q.SiteId == site.Id && new List<string>().Contains(q.Id) && q.Status == Status.PENDING
+                             where q.SiteId == site.Id && new List<string>(ids).Contains(q.Id) && q.Status == Status.PENDING
                              select q).ToList();
 
                 if (posts.Count == 0) return new { code = -2, msg = "指定的文章ID在当前站点下未找到，可能文章已经审核过，请刷新后尝试" };

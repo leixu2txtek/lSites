@@ -249,7 +249,7 @@ namespace Kiss.Components.Site.Web.Controllers
             q.Id = "site.list";
             q.LoadCondidtion();
 
-            if (!string.IsNullOrEmpty(id)) q["id"] = id;
+            if (!string.IsNullOrEmpty(id)) q["siteId"] = id;
             if (!string.IsNullOrEmpty(title)) q["title"] = id;
             if (!string.IsNullOrEmpty(domain)) q["domain"] = id;
 
@@ -275,8 +275,12 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 code = 1,
                 data = data,
-                totalCount = q.TotalCount,
-                page = q.PageIndex1,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                },
                 orderbys = q.orderbys
             };
         }
