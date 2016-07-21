@@ -99,8 +99,8 @@ const menus = [{
     title: '站点管理',
     icon: 'group-icon-zhandianguanli',
     key: 'sites/index',
-    url: config.prefix + 'sites/index.html',
-}, ];
+    url: config.prefix + 'sites/index.html?siteId=' + util.get_query('siteId'),
+}];
 
 define(['jquery', 'pace'], function($) {
 
