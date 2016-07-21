@@ -108,15 +108,11 @@ namespace Kiss.Components.Site.Web.Controllers
                         select new
                         {
                             id = q.Id,
-                            title = q.Title,
-                            hasChild = q.HasChildren
+                            name = q.Title,
+                            isParent = q.HasChildren
                         }).ToList();
 
-            return new
-            {
-                code = 1,
-                data = data
-            };
+            return data;
         }
 
         /// <summary>
@@ -147,17 +143,34 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (category == null) return new { code = -1, msg = "指定的栏目不存在" };
 
+            object parent = new { id = string.Empty, title = string.Empty };
+
+            if (!string.IsNullOrEmpty(category.ParentId))
+            {
+                parent = (from q in Category.CreateContext()
+                          where q.Id == category.ParentId
+                          select new
+                          {
+                              id = q.Id,
+                              title = q.Title
+                          }).FirstOrDefault();
+            }
+
             return new
             {
-                id = category.Id,
-                site_id = category.SiteId,
-                title = category.Title,
-                url = category.Url,
-                parent_id = category.ParentId,
-                date_created = category.DateCreated,
-                sort_order = category.SortOrder,
-                node_path = category.NodePath,
-                need_login_read = category.NeedLogin2Read
+                code = 1,
+                data = new
+                {
+                    id = category.Id,
+                    site_id = category.SiteId,
+                    title = category.Title,
+                    url = category.Url,
+                    parent = parent,
+                    date_created = category.DateCreated,
+                    sort_order = category.SortOrder,
+                    node_path = category.NodePath,
+                    need_login_read = category.NeedLogin2Read
+                }
             };
         }
 
@@ -265,6 +278,9 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 cx.SubmitChanges();
                 cx_children.SubmitChanges(true);
+
+                //将父级栏目更新为有子集
+                if (parent != null) Category.Where("Id = {0}", parent.Id).Set("HasChildren", 1).Update();
             }
 
             return new { code = 1, msg = "保存成功" };

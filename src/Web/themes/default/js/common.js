@@ -8,7 +8,7 @@ requirejs.config({
         'pace': ['jquery']
     },
     paths: {
-        'ztree': 'ztree/ztree.js',
+        'ztree': 'ztree/ztree',
         'select2': 'select2/select2',
         'form': 'jquery.form',
         'paging': 'jquery.paging',
