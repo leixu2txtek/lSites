@@ -676,7 +676,7 @@ span:focus {
     background-color: #ebf9fb;
 }
 
-.group-site-table .group-site-tabelTools a {
+.group-site-tabelTools a {
     border: 1px solid #aaaaaa;
     color: #3d3d3d;
     padding: 2px 6px;
@@ -1066,4 +1066,27 @@ span:focus {
     border: 1px solid #ccc;
     margin: 0px;
     padding: 15px 17px;
+}
+
+
+/*添加站点*/
+
+.addForm-label {
+    width: 25%;
+    text-align: right;
+    display: inline-block
+}
+
+.addForm-label em {
+    color: #f00;
+}
+
+.addForm-input input {
+    width: 70%;
+    border: 1px solid #ccc;
+    text-indent: 5px;
+}
+
+.addForm-input {
+    margin-bottom: 15px;
 }

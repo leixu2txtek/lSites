@@ -10,6 +10,7 @@
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
+    <link href="../../js/vendor/Mdialog/MDialog.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
 </head>
 
@@ -36,15 +37,11 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon group-icon-207"></i>我创建的文章
+                          <i class="iconfont group-icon group-icon-207"></i>站点列表
                           <span>（共<span id="total_count">...</span>篇）</span>
-                        <a href="edit.html" class="btn btn-link group-article-addButton" title="添加新文章">
-                            <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新文章</a>
+                        <a href="javascript:(0);" class="btn btn-link group-article-addButton add-site" title="添加新文章">
+                            <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新站点</a>
                         </h3>
-                        <div class="navbar-collapse collapsc navbar-right group-operation-btn">
-                            <button type="button" class="btn btn-default btn-primary btn_publish" title="将选中的文章发布">发布</button>
-                            <button type="button" class="btn btn-default btn-danger btn_delete" title="将选中的文章放入回收站">放入回收站</button>
-                        </div>
                     </nav>
 
                     <div class="table-responsive group-article-table">
@@ -70,27 +67,55 @@
         <thead>
             <tr>
                 <th>站点名称</th>
-                <th>站点标识</th>
-                <th>创建时间</th>
+                <th>站点域名</th>
+                <th>站点关键字</th>
+                <th>站点描述文字</th>
+                <th>站点创建者</th>
+                <th>站点创建时间</th>
+                <th>站点序号</th>
                 <th style="width:30%;">编辑</th>
             </tr>
         </thead>
         <tbody>
             {{each data as item i}}
-            <tr id={{item.id}}>
+            <tr id="{{item.id}}">
                 <td>{{item.title }}</td>
                 <td>{{item.domain}}</td>
-                <td>{{item.date_created}}</td>
+                <td>{{item.key_words}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.display_name}}</td>
+                <td>{{item.date_created | format_date}}</td>
+                <td>{{item.sort_order}}</td>
                 <td class="group-site-tabelTools">
-                    <a href="javascript:(0);" class="tabelTools-edit">编辑</a>
-                    <a href="javascript:(0);">复制到当前站点</a>
-                    <a href="javascript:(0);">复制到新站点</a>
-                    <a href="javascript:(0);">删除</a>
+                    <a href="javascript:(0);" class="tabelTools-edit" title="编辑">编辑</a>
+                    <a href="javascript:(0);" data-id="{{item.id}}" title="删除站点">删除</a>
                 </td>
             </tr>
             {{/each}}
     </table>
     <div class="x-paging-container"></div>
+</script>
+<script type="text/html" id="addSite">
+    <form class="add-form">
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点名称：</lable><input type="text"></input>
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点主题：</lable><input type="text"></input>
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点域名：</lable><input type="text"></input>
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点关键字：</lable><input type="text"></input>
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点描述：</lable><input type="text"></input>
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点序号：</lable><input type="text"></input>
+        </div>
+    </form>
 </script>
 
 </html>

@@ -104,11 +104,13 @@
                 <td>{{item.view_count}}</td>
                 <td>{{item.status}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="edit.html?id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a> {{if item.status == '已发布' }}
-                    <a href="javascript:(0);" title="取消发布" data-id="{{item.id}}" class="unpublished"><i class="iconfont group-icon group-icon-quxiao"></i></a> {{else}}
-                    <a href="javascript:(0);" title="发布" data-id="{{item.id}}" data-status='{{item.status}}' class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a> {{/if}}
+                    <a href="edit.html?id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a> 
+                    {{if item.status == '已发布' }}
+                    <a href="javascript:(0);" title="取消发布" data-id="{{item.id}}" class="unpublished"><i class="iconfont group-icon group-icon-quxiao"></i></a> 
+                    {{else}}
+                    <a href="javascript:(0);" title="发布" data-id="{{item.id}}" data-status='{{item.status}}' class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a> 
+                    {{/if}}
                     <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-
                 </td>
             </tr>
             {{/each}}
