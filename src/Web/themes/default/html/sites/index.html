@@ -77,7 +77,7 @@
                 <th>创建者</th>
                 <th>创建时间</th>
                 <th>序号</th>
-                <th style="width:30%;">操作</th>
+                <th>操作</th>
             </tr>
         </thead>
         <tbody>
@@ -91,8 +91,8 @@
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{item.sort_order}}</td>
                 <td class="group-site-tabelTools">
-                    <a href="javascript:(0);" class="tabelTools-edit edit" title="编辑">编辑</a>
-                    <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点">删除</a>
+                    <a href="javascript:(0);" class="tabelTools-edit edit" data-domain="{{item.domain}}" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}
@@ -102,31 +102,36 @@
 
 <script type="text/html" id="site_add_form">
     <form class="add-form" method="post">
-        <div class="form-group addForm-input has-error">
+        <div class="form-group addForm-input">
             <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>名称：</lable>
-            <input type="text" name="title" />
+            <input type="text" name="title" class="form-control" value="{{title}}" />
         </div>
         <div class="addForm-input">
             <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>域名：</lable>
-            <input type="text" name="domain" />
+            <input type="text" name="domain" class="form-control" value="domain" />
         </div>
         <div class="addForm-input">
             <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>关键字：</lable>
-            <input type="text" name="keyWords" />
+            <input type="text" name="keyWords" class="form-control" value="keyWords" />
         </div>
         <div class="addForm-input">
-            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>描述：</lable>
-            <textarea style="resize:none;height:50px;" name="description"></textarea>
+            <lable class="addForm-label">描述：</lable>
+            <textarea style="resize:none;height:50px;" name="description" class="form-control" value="description"></textarea>
         </div>
-        <div class="addForm-input">
-            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>主题：</lable>
-            <select name="theme">
-                <option value="default">default</option>
+        <div class=" form-group addForm-input ">
+            <lable class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>主题：</lable>
+            <select data-placeholder="default " name="theme " value="theme">
+                <option></option>
+                <option value="0 ">模版一</option>
+                <option value="1 ">模版二</option>
+                <option value="2 ">模版三</option>
+                <option value="-1 ">模版四</option>
             </select>
         </div>
-        <div class="addForm-input">
-            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>站点序号：</lable>
-            <input type="text" name="sortOrder" />
+        <div class="addForm-input ">
+            <lable class="addForm-label ">
+                </em>站点序号：</lable>
+            <input type="text " name="sortOrder " class="form-control " />
         </div>
     </form>
 </script>

@@ -370,7 +370,8 @@ span:focus {
     background: #1dc6e4;
 }
 
-.group-article-tabelTools a {
+.group-article-tabelTools a,
+.group-site-tabelTools a {
     cursor: pointer;
     border: 1px solid #10a1bb;
     margin: 0px 3px;
@@ -674,14 +675,6 @@ span:focus {
 .group-site-table .table-striped>tbody>tr:nth-of-type(odd),
 .table-striped>tbody>tr:nth-of-type(odd) {
     background-color: #ebf9fb;
-}
-
-.group-site-tabelTools a {
-    border: 1px solid #aaaaaa;
-    color: #3d3d3d;
-    padding: 2px 6px;
-    background: #fff;
-    margin: 0px 5px;
 }
 
 .group-site-table .group-site-tabelTools .tabelTools-edit,
@@ -1072,9 +1065,9 @@ span:focus {
 /*添加站点*/
 
 .addForm-label {
-    width: 25%;
+    width: 20%;
     text-align: right;
-    display: inline-block
+    display: inline-block;
 }
 
 .addForm-label em {
@@ -1082,11 +1075,34 @@ span:focus {
 }
 
 .addForm-input input {
-    width: 70%;
-    border: 1px solid #ccc;
-    text-indent: 5px;
+    width: 75%;
+    border-radius: 0px;
+    height: 28px;
+    line-height: 28px;
+    display: inline-block;
 }
 
 .addForm-input {
     margin-bottom: 15px;
+}
+
+.addForm-input textarea {
+    resize: none;
+    height: 50px;
+    width: 75%;
+    display: inline-block;
+    vertical-align: -webkit-baseline-middle;
+    border-radius: 0px;
+}
+
+.addForm-input .select2-container--default .select2-selection--single {
+    border-radius: 0px;
+}
+
+.addForm-input .select2-container {
+    width: 150px;
+}
+
+.addForm-input .select2-container--default .select2-selection--single {
+    border: 1px solid #ccc;
 }
