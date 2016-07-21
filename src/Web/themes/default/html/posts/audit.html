@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>站群管理</title>
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
+    <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
+    <link href="../../js/vendor/Mdialog/MDialog.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top group-top" role="navigation">
+        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <div class="navbar-collapse collapsc navbar-right group-top-userbox">
+            <span>欢迎您，管理员</span>
+            <a href="javascript:(0)" class="group-top-user">
+                <img src="http://192.168.1.230:9000/avator/a@001B0336FED8947D8CA4B447C0C3AF71.jpeg/50.jpg" class="img-circle" width="38px" height="38px" />
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="nav group-user-dropdown" style="display:none;">
+                <i class="group-user-dropdownIcon">&nbsp;</i>
+                <li><a href="" title="退出">退出</a> </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid group-container" id="content_container" style="display:none;">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="group-page1 group-article">
+                    <nav class="navbar group-article-top navbar-fixed-top">
+                        <h3 class="navbar-brand">
+                          <i class="iconfont group-icon group-icon-207"></i>待审核的文章
+                          <span>（共<span id="trash_count">...</span>篇）</span>
+                        </h3>
+                    </nav>
+                    <div class="table-responsive group-article-table">
+                        <form class="form-inline form-horizontal" id="trash_form">
+                            <div class="group-articleform-top">
+                                <div class="form-group group-article-form">
+                                    <label class="control-label">关键字：</label>
+                                    <input placeholder="关键字" class="form-control" name="key">
+                                </div>
+                                <button type="submit" class="btn group-article-form-btn">查询</button>
+                            </div>
+                            <div id="trashtable_container"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" data-main="./js/audit.js" src="../../js/require.js"></script>
+</body>
+<script type="text/html" id="trash_table">
+    <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
+        <thead>
+            <tr>
+                <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
+                <th>文章标题</th>
+                <th>栏目信息</th>
+                <th id="dateCreated">创建时间</th>
+                <th>发布时间</th>
+                <th class="group-article-width5">预览数</th>
+                <th class="group-article-width5">作者</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each data as item i}}
+            <tr id="{{item.id}}">
+                <td class="group-article-checkbox">
+                    <input type="checkbox">
+                </td>
+                <td class="group-article-zy">
+                    <div class="autocut" title="{{item.title}}">{{item.title}}</div>
+                </td>
+                <td>{{item.category}}</td>
+                <td>{{item.date_created | format_date}}</td>
+                <td>{{item.date_created | format_date}}</td>
+                <td>{{item.view_count}}</td>
+                <td>{{item.display_name}}</td>
+                <td class="group-article-tabelTools">
+                    <a href="edit.html?id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="审核" data-id="{{item.id}}" class="approved q-approved addNwes-choice"><i class="iconfont group-icon group-icon-audit-pass2"></i></a>
+                </td>
+            </tr>
+            {{/each}}
+    </table>
+    <div class="x-paging-container"></div>
+</script>
+
+<div class="ui-MDialog-lock" style="display:none;"></div>
+<script type="text/html" id="choice-dialog">
+    <div class="choice-dialog">
+    </div>
+</script>
+
+</html>
