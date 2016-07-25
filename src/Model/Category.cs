@@ -80,6 +80,12 @@ namespace Kiss.Components.Site
         [NotNull(0)]
         public bool NeedLogin2Read { get; set; }
 
+        /// <summary>
+        /// 是否显示在菜单中
+        /// </summary>
+        [NotNull(0)]
+        public bool ShowInMenu { get; set; }
+
         #region extend props
 
         [NotNull(""), Length(int.MaxValue)]

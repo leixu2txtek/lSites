@@ -532,7 +532,7 @@ span:focus {
 }
 
 .group-information-form label {
-    width: 150px;
+    width: 100px;
     text-align: right;
     padding: 0px;
     font-weight: normal;
@@ -599,7 +599,7 @@ span:focus {
 }
 
 .group-information-form .group-Columns-button .group-Columns-save {
-    margin-left: 165px;
+    margin-left: 111px;
     background: #13abc6;
 }
 

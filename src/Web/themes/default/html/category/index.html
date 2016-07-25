@@ -12,6 +12,7 @@
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../js/vendor/ztree/ztree.css" rel="stylesheet">
+    <link href="../../js/vendor/Mdialog/MDialog.css" rel="stylesheet">
 </head>
 
 <body>
@@ -80,9 +81,37 @@
                 <label for="firstname" class="col-sm-2 control-label">上级栏目：</label>
                 <div class="col-sm-10 group-information-input group-information-Parent">
                     <input type="hidden" name="parentId" value="{{item.parent.id}}" />
-                    <input type="text" class="form-control" placeholder="选择上级栏目" value="{{item.parent.title}}">
+                    <input type="text" id="parent_name" class="form-control" placeholder="选择上级栏目" value="{{item.parent.title}}">
                 </div>
                 <button type="button" id="select_parent" class="group-info-ParentButton">选择上级栏目</button>
+            </div>
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">访问文章权限：</label>
+                <div class="col-sm-10 group-information-input group-information-Sort">
+                    <select name="needLogin2Read" style="width:210px;">
+                        {{if item.need_login_read}}
+                            <option value="false">无限制</option>
+                            <option value="true" selected="selected">登录后方可访问</option>
+                        {{else}}
+                            <option value="false" selected="selected">无限制</option>
+                            <option value="true">登录后方可访问</option>
+                        {{/if}}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstname" class="col-sm-2 control-label">显示在菜单：</label>
+                <div class="col-sm-10 group-information-input group-information-Sort">
+                    <select name="showInMenu" style="width:210px;">
+                        {{if item.show_in_menu}}
+                            <option value="false">不显示</option>
+                            <option value="true" selected="selected">显示在菜单上</option>
+                        {{else}}
+                            <option value="false" selected="selected">不显示</option>
+                            <option value="true">显示在菜单上</option>
+                        {{/if}}
+                    </select>
+                </div>
             </div>
             <div class="form-group">
                 <label for="firstname" class="col-sm-2 control-label">排序：</label>
@@ -91,8 +120,8 @@
                 </div>
             </div>
             <div class="form-group group-Columns-button">
-                <button type="submit" class="btn btn-default group-Columns-save">保存</button>
-                <button type="button" class="btn btn-default group-Columns-dele">删除</button>
+                <button type="submit" class="btn btn-default group-Columns-save">保存</button> {{if item.id}}
+                <button type="button" class="btn btn-default group-Columns-dele btn_delete" data-id="{{item.id}}">删除</button> {{/if}}
             </div>
         </form>
     </script>
