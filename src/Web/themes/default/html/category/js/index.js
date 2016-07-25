@@ -60,6 +60,8 @@ define(['../../../js/common'], function () {
                             });
                         });
 
+                        //TODO 清除父级
+
                         form.gform({
                             url: config.host + 'category/save',
                             onSuccess: function (r) {
@@ -103,6 +105,8 @@ define(['../../../js/common'], function () {
                 });
             });
 
+            //TODO 清除父级
+
             form.gform({
                 url: config.host + 'category/save',
                 onSuccess: function (r) {
@@ -130,6 +134,7 @@ define(['../../../js/common'], function () {
                 dlg = $M({
                     title: '选择父级栏目',
                     content: p_tree[0],
+                    lock: true,
                     width: '250px',
                     height: '250px',
                     position: '50% 50%',

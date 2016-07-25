@@ -1106,3 +1106,11 @@ span:focus {
 .addForm-input .select2-container--default .select2-selection--single {
     border: 1px solid #ccc;
 }
+
+.ui-MDialog-lock {
+    z-index: 899 !important;
+}
+
+.ui-MDialog-wrap {
+    z-index: 900 !important;
+}

@@ -138,6 +138,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 data.Add(new
                 {
                     id = item["id"].ToString(),
+                    site_id = site.Id,
                     title = item["title"].ToString(),
                     category = item["category"] is DBNull ? string.Empty : item["category"].ToString(),
                     date_created = item["dateCreated"].ToDateTime(),

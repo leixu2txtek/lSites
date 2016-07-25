@@ -152,10 +152,10 @@ namespace Kiss.Components.Site.Web.Controllers
             if (!regex.IsMatch(domain)) return new { code = -3, msg = "站点域名支持大小写英文以及点号，下划线" };
 
             title = title.Trim();
-            domain = title.Trim();
+            domain = domain.Trim();
             keyWords = keyWords.Trim();
             description = description.Trim();
-            theme = theme.Trim();
+            theme = string.IsNullOrEmpty(theme) ? "default" : theme.Trim();
 
             if (title.Length > 100) return new { code = -6, msg = "站点标题不能超过100个字符" };
             if (domain.Length > 100) return new { code = -6, msg = "站点域名不能超过100个字符" };

@@ -1,10 +1,10 @@
-define(['../../../js/common'], function() {
+define(['../../../js/common'], function () {
 
     document.title = '站点列表 - 站群管理';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function(template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
 
-        template.helper('format_date', function(date) {
+        template.helper('format_date', function (date) {
 
             return moment(date).format('YYYY-MM-DD');
         });
@@ -18,7 +18,7 @@ define(['../../../js/common'], function() {
         });
 
         // 添加新站点    
-        $('.add-site', nav).on('click', function() {
+        $('.add-site', nav).on('click', function () {
 
             var add_form = $(template('site_add_form', {})),
                 dlg = $M({
@@ -26,35 +26,31 @@ define(['../../../js/common'], function() {
                     content: add_form[0],
                     width: '450px',
                     height: '350px',
+                    lock: true,
                     position: '50% 50%',
-                    ok: function() {
+                    ok: function () {
                         add_form.submit();
                     },
                     okVal: '保存',
                     cancel: false,
-                    cancelVal: '取消',
-                    init: function() {
-                        $('select', add_form).select2({
-                            minimumResultsForSearch: -1,
-                            allowClear: true
-                        });
-                    }
+                    cancelVal: '取消'
                 });
+
+            $('[name=theme]', add_form).select2({
+                minimumResultsForSearch: -1
+            });
 
             add_form.gform({
                 url: config.host + 'site/save',
-                beforeSubmit: function() {
+                beforeSubmit: function () {
 
                     var title = $('[name=title]', add_form).val(),
-                        domain = $('[name=domain]', add_form).val();
-                    keyWords = $('[name=keyWords]', add_form).val();
+                        domain = $('[name=domain]', add_form).val(),
+                        keyWords = $('[name=keyWords]', add_form).val();
 
                     if (title.length == 0) {
 
-                        var errorInput = $('[name=title]', add_form);
-                        $(errorInput).parent().addClass('has-error');
-
-
+                        $('[name=title]', add_form).parent().addClass('has-error');
                         alert('名称不能为空');
 
                         return false;
@@ -62,8 +58,7 @@ define(['../../../js/common'], function() {
 
                     if (domain.length == 0) {
 
-                        var errordomain = $('[name=domain]', add_form);
-                        $(errordomain).parent().addClass('has-error');
+                        $('[name=domain]', add_form).parent().addClass('has-error');
                         alert('域名不能为空');
 
                         return false;
@@ -72,15 +67,14 @@ define(['../../../js/common'], function() {
 
                     if (keyWords.length == 0) {
 
-                        var errorkeyWords = $('[name=keyWords]', add_form);
-                        $(errorkeyWords).parent().addClass('has-error');
+                        $('[name=keyWords]', add_form).parent().addClass('has-error');
                         alert('关键字不能为空');
 
                         return false;
                     }
 
                 },
-                onSuccess: function(r) {
+                onSuccess: function (r) {
 
                     if (!r || r.code < 0) {
 
@@ -99,7 +93,7 @@ define(['../../../js/common'], function() {
         //绑定表单
         form.gform({
             url: config.host + 'site/list',
-            onSuccess: function(r) {
+            onSuccess: function (r) {
 
                 if (!r || r.code < 0) {
 
@@ -114,77 +108,128 @@ define(['../../../js/common'], function() {
                 //绑定表格                
                 var table = $('table', form).gtable();
 
-                //TODO 绑定按钮事件
+                $('.edit', table).on('click', function () {
 
-                $('.edit', table).on('click', function() {
-                    var siteId = util.get_query('siteId'),
-                        domain = $(this).data('domain');
-
-
-                    $.post(config.host + 'site/detail_with_domain', {
-                        domain: domain,
-                        siteId: siteId
-                    }, function(r) {
+                    $.post(config.host + 'site/detail', { id: $(this).data('id') }, function (r) {
 
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
                         }
-                        debugger;
-                        var add_form = $(template('site_add_form', r)),
 
+                        var edit_form = $(template('site_add_form', r)),
                             dlg = $M({
                                 title: '编辑站点',
-                                content: add_form[0],
+                                content: edit_form[0],
                                 width: '450px',
                                 height: '350px',
+                                lock: true,
                                 position: '50% 50%',
-                                ok: function() {
-                                    add_form.submit();
+                                ok: function () {
+                                    edit_form.submit();
                                 },
                                 okVal: '保存',
                                 cancel: false,
-                                cancelVal: '取消',
-                                init: function() {
-                                    $('select', add_form).select2({
-                                        minimumResultsForSearch: -1,
-                                        allowClear: true
-                                    });
-
-                                }
+                                cancelVal: '取消'
                             });
-                    }, 'json');
 
+                        $('[name=theme]', edit_form).select2({
+                            minimumResultsForSearch: -1
+                        }).val($('[name=theme]', edit_form).data('selected')).trigger('change');
+
+                        edit_form.gform({
+                            url: config.host + 'site/save',
+                            beforeSubmit: function () {
+
+                                var title = $('[name=title]', edit_form).val(),
+                                    domain = $('[name=domain]', edit_form).val(),
+                                    keyWords = $('[name=keyWords]', edit_form).val();
+
+                                if (title.length == 0) {
+
+                                    $('[name=title]', edit_form).parent().addClass('has-error');
+                                    alert('名称不能为空');
+
+                                    return false;
+                                }
+
+                                if (domain.length == 0) {
+
+                                    $('[name=domain]', edit_form).parent().addClass('has-error');
+                                    alert('域名不能为空');
+
+                                    return false;
+                                }
+
+
+                                if (keyWords.length == 0) {
+
+                                    $('[name=keyWords]', edit_form).parent().addClass('has-error');
+                                    alert('关键字不能为空');
+
+                                    return false;
+                                }
+
+                            },
+                            onSuccess: function (r) {
+
+                                if (!r || r.code < 0) {
+
+                                    alert(r.msg || '发生未知错误，请刷新后尝试');
+                                    return false;
+                                }
+
+                                dlg.close();
+
+                                alert('已修改添加站点信息');
+                                form.submit(); //重新刷新站点列表
+                            }
+                        });
+
+                    }, 'json');
                 });
 
-                $('.delete', table).on('click', function() {
+                $('.delete', table).on('click', function () {
+
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
-                    if (!confirm('是否确定彻底删除此文章')) return false;
+                    if (!confirm('是否确定彻底删除此站点')) return false;
 
-                    $.post(config.host + 'site/delete', {
-                        id: id,
-                        siteId: siteId
-                    }, function(r) {
+                    var delete_site = function (confirmed) {
 
-                        if (!r || r.code < 0) {
-                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
-                            return false;
-                        }
+                        $.post(config.host + 'site/delete', {
+                            id: id,
+                            siteId: siteId,
+                            confirmed: confirmed || false
+                        }, function (r) {
 
-                        alert('文章已彻底删除');
-                        form.submit();
+                            if (!r || r.code < 0) {
+                                alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                                return false;
+                            }
 
-                    }, 'json');
+                            if (r.code == 2 && !confirm('指定的站点下有挂件内容，若确认删除则挂件内容也一并删除，是否确认删除')) return false;
+
+                            if (r.code == 2) {
+
+                                delete_site(true);
+                                return false;
+                            }
+
+                            alert('已彻底删除该站点');
+                            form.submit();
+
+                        }, 'json');
+                    };
+
+                    delete_site(false);
                 });
 
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function(form) {
-                form.submit();
-            }
+            callback: function (form) { form.submit(); }
         });
     });
 });

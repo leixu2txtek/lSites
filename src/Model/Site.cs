@@ -48,6 +48,12 @@ namespace Kiss.Components.Site
         public string Description { get; set; }
 
         /// <summary>
+        /// 站点logo地址
+        /// </summary>
+        [NotNull(""), Length(1000)]
+        public string Logo { get; set; }
+
+        /// <summary>
         /// 站点的主题
         /// </summary>
         [NotNull("default"), Length(20)]

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS内容管理系统</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
+    <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../js/vendor/ztree/ztree.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top group-top" role="navigation">
+        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <div class="navbar-collapse collapsc navbar-right group-top-userbox">
+            <span>欢迎您，管理员</span>
+            <a href="javascript:(0)" class="group-top-user">
+                <img src="http://192.168.1.230:9000/avator/a@001B0336FED8947D8CA4B447C0C3AF71.jpeg/50.jpeg" class="img-circle" width="38px" height="38px" />
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="nav group-user-dropdown" style="display:none;">
+                <i class="group-user-dropdownIcon">&nbsp;</i>
+                <li><a href="" title="退出">退出</a> </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid group-container" id="content_container" style="display:none;">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main ">
+                <div class="group-page1 group-addNews ">
+                    <nav class="navbar group-article-top navbar-fixed-top ">
+                        <h3 class="navbar-brand ">
+                          <i class="iconfont group-icon group-icon-207 "></i>
+                          <span id="txt_header">添加新文章</span>
+                        </h3>
+                        <div class="navbar-collapse collapsc navbar-right group-operation-btn ">
+                            <button type="button" class="btn btn-default btn-primary btn_save">保存草稿</button>
+                            <button type="button" class="btn btn-default btn-danger btn_publish">发布</button>
+                        </div>
+                    </nav>
+                    <div class="addNews-Columns" id="editor_container">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" data-main="./js/edit.js" src="../../js/require.js"></script>
+    <script type="text/html" id="post_edit_form">
+        <form class="form-horizontal " role="form ">
+            <div class="group-addNews-left ">
+                <div class="form-group addNews-title ">
+                    <label class="col-sm-2 control-label">标题：</label>
+                    <div class="col-sm-10 addNews-title-input">
+                        <input type="text" id="txt_title" class="form-control" placeholder="请输入文章标题" value="{{post.title}}">
+                    </div>
+                </div>
+                <div class="form-group addNews-title ">
+                    <label class="col-sm-2 control-label">内容：</label>
+                    <div class="col-sm-10 addNews-title-editor ">
+                        <textarea id="txt_content" class="form-control" rows="3" style="resize: none;border-radius:0px;min-height:500px;">{{post.content}}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="group-addNews-right">
+                <div class="addNews-tools">
+                    <h2 class="addNews-right-top">栏目</h2>
+                    <form>
+                        <div class="form-group group-addNews-form">
+                            <label class="control-label ">栏目：</label>
+                            <a href="javascript:void(0);" class="addNwes-choice">选择栏目</a>
+                        </div>
+                    </form>
+                </div>
+                <div class="addNews-tools ">
+                    <h2 class="addNews-right-top ">摘要</h2>
+                    <form>
+                        <div class="form-group addNews-summary clearfix ">
+                            <label for="firstname " class="col-sm-2 control-label ">摘要：</label>
+                            <div class="col-sm-10 addNews-title-summary">
+                                <textarea class="form-control" rows="3" id="txt_summary">{{post.summary}}</textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="addNews-tools ">
+                    <h2 class="addNews-right-top">选项：</h2>
+                    <form>
+                        <div class="form-group addNews-summary clearfix ">
+                            <label class="col-sm-2 control-label" for="summary-lj">链接：</label>
+                            <input type="text " name=" " value=" " class="simpletext" id="summary-lj">
+                        </div>
+                        <div class="form-group addNews-gformbox clearfix ">
+                            <span>  
+                                <label class="col-sm-2 control-label" for="addNews-zd">置顶</label>
+                                <input type=checkbox " name="FlagTop " selected="False" value="True" id="addNews-zd">
+                            </span>
+                            <span>  
+                                <label class="col-sm-2 control-label" for="addNews-lj">排序</label>
+                                <input type=checkbox " id="addNews-lj" name="FlagTop " selected="False " value="True" onclick="$('#SortOrder').toggle(); if (!this.checked) $('#SortOrder').val('');">
+                                <input type="text" name="" value="" id="SortOrder" style="width: 30px; display: none; height: 18px;line-height: 18px;padding-left: 1px; vertical-align: inherit;">
+                            </span>
+                            <span>  
+                                <label class="col-sm-2 control-label" for="addNews-yxpl">允许评论</label>
+                                <input type=checkbox " name="FlagTop " selected="False " value="True " id="addNews-yxpl">
+                            </span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </form>
+    </script>
+</body>
+
+</html>

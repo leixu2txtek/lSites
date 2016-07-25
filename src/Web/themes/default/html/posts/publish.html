@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../js/vendor/ztree/ztree.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,8 +30,30 @@
         </div>
     </nav>
     <div class="container-fluid group-container" id="content_container" style="display:none;">
-        <!-- TODO @强薇 在此处添加已发布文章的相关代码 -->
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="group-page2">
+                    <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
+                        <h3 class="navbar-brand">
+                          <i class="iconfont group-icon group-icon-207"></i>已发布文章
+                          <span>（共<span id="total_count">...</span>个）</span>
+                        </h3>
+                    </nav>
+                    <div class="group-Columns">
+                        <div class="group-Columns-list">
+                            <ul id="category_tree" class="ztree nav nav-stacked group-nav-sidebar"></ul>
+                        </div>
+                        <div class="group-Columns-information">
+                            <!--TODO -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    <script type="text/javascript" data-main="./js/publish.js" src="../../js/require.js"></script>
 </body>
 
 </html>
