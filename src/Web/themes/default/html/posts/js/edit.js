@@ -27,9 +27,12 @@ define(['../../../js/common'], function () {
 
             //构造HTML
             container.html(template('post_edit_form', r));
-
+            debugger;
             //TODO bind events
-            var editor = UM.getEditor('txt_content');
+            var editor = UM.getEditor('txt_content', {
+                initialFrameWidth: '100%',
+                initialFrameHeight: $(window).height() - 255
+            });
         });
     });
 });

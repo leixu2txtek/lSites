@@ -26,15 +26,12 @@
         , theme: 'default'
         , themePath: URL + "themes/"
         , charset: "utf-8"
-        , initialFrameWidth: '100%' //初始化编辑器宽度,默认500
-        , initialFrameHeight: '400' //初始化编辑器高度,默认500
+        , initialFrameWidth: 500 //初始化编辑器宽度,默认500
+        , initialFrameHeight: 500 //初始化编辑器高度,默认500
         , focus: true //初始化时，是否让编辑器获得焦点true或false
         , autoClearEmptyNode: true //getContent时，是否删除空的inlineElement节点（包括嵌套的情况）
 
         , zIndex: 900     //编辑器层级的基数,默认是900
-
-        // 是否自动长高,默认true
-        , autoHeightEnabled: true
 
         //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
         , topOffset: 30
