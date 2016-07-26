@@ -933,7 +933,7 @@ span:focus {
 
 .group-addNews-right {
     position: absolute;
-    right: 0px;
+    right: 22px;
     top: 0px;
 }
 
@@ -990,7 +990,7 @@ span:focus {
     border: 1px solid #ccc;
 }
 
-.addNews-tools form {
+.addNews-tools .form-group {
     padding: 20px 22px 15px 22px;
 }
 
