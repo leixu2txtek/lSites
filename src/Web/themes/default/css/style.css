@@ -1115,3 +1115,12 @@ span:focus {
 .ui-MDialog-wrap {
     z-index: 900 !important;
 }
+
+
+/*暂无数据*/
+
+.no-data-img {
+    width: 140px;
+    margin: 0 auto;
+    padding: 50px 0px;
+}

@@ -45,8 +45,26 @@
                         <div class="group-Columns-list">
                             <ul id="category_tree" class="ztree nav nav-stacked group-nav-sidebar"></ul>
                         </div>
-                        <div class="group-Columns-information">
-                            <!--TODO -->
+                        <div class="group-article-table group-postpublish-table">
+                            <form class="form-inline form-horizontal">
+                                <div class="group-articleform-top">
+                                    <div class="form-group group-article-form">
+                                        <label class="control-label">状态：</label>
+                                        <select data-placeholder="全部" tabindex="-1" title="" class="select2-offscreen" style="width:210px;">
+                                    <option></option>
+                                    <option>待审核</option>
+                                    <option>已发布</option>
+                                    <option>草稿</option>
+                                </select>
+                                    </div>
+                                    <div class="form-group group-article-form">
+                                        <label class="control-label">关键字：</label>
+                                        <input placeholder="关键字" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn group-article-form-btn">查询</button>
+                                </div>
+                                <div id="table_container"></div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -55,5 +73,44 @@
     </div>
     <script type="text/javascript" data-main="./js/publish.js" src="../../js/require.js"></script>
 </body>
+<script type="text/html" id="post_table">
+    <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
+        <thead>
+            <tr>
+                <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
+                <th>文章标题</th>
+                <th>栏目信息</th>
+                <th id="dateCreated">创建时间</th>
+                <th>发布时间</th>
+                <th class="group-article-width5">预览数</th>
+                <th class="group-article-width5">状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{each data as item i}}
+            <tr id="{{item.id}}">
+                <td class="group-article-checkbox">
+                    <input type="checkbox">
+                </td>
+                <td class="group-article-zy">
+                    <div class="autocut" title="{{item.title}}">{{item.title}}</div>
+                </td>
+                <td>{{item.category}}</td>
+                <td>{{item.date_created | format_date}}</td>
+                <td>{{if item.status == '已发布' }}{{item.date_published | format_date}}{{else}}未发布{{/if}}</td>
+                <td>{{item.view_count}}</td>
+                <td>{{item.status}}</td>
+                <td class="group-article-tabelTools">
+                    <a href="edit.html?siteId={{item.site_id}}&id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a> {{if item.status == '已发布' }}
+                    <a href="javascript:(0);" title="取消发布" data-id="{{item.id}}" class="unpublished"><i class="iconfont group-icon group-icon-quxiao"></i></a> {{else}}
+                    <a href="javascript:(0);" title="发布" data-id="{{item.id}}" data-status='{{item.status}}' class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a> {{/if}}
+                    <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                </td>
+            </tr>
+            {{/each}}
+    </table>
+    <div class="x-paging-container"></div>
+</script>
 
 </html>
