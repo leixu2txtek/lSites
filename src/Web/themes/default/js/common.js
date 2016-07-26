@@ -106,6 +106,29 @@ const menus = [{
         url: config.prefix + 'sites/index.html?siteId=' + util.get_query('siteId'),
     }];
 
+const handleException = function (r) {
+
+    if (!r) {
+
+        alert('发生未知错误，请稍后再次尝试');
+        return false;
+    }
+
+    if (r.code == 500 || r.code == 201 || r.code == 202) {
+        alert(r.msg || '发生未知错误，请稍后再次尝试');
+        return r;
+    }
+
+    if (r.code == 403) {
+        alert('请先登录，再尝试访问该页面');
+
+        window.location = '/users/login?returnUrl=' + window.location.href;
+        return false;
+    };
+
+    return r;
+};
+
 define(['jquery', 'pace'], function ($) {
 
     //统一定义加载动画
