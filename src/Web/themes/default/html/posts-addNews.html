@@ -170,19 +170,12 @@
                                     <input type="text " name=" " value=" " class="simpletext" id="summary-lj">
                                 </div>
                                 <div class="form-group addNews-gformbox clearfix ">
-                                    <span>  
-                                            <label class="col-sm-2 control-label" for="addNews-zd">置顶</label>
-                                            <input type=checkbox " name="FlagTop " selected="False" value="True" id="addNews-zd">
-                                         </span>
-                                    <span>  
-                                            <label class="col-sm-2 control-label" for="addNews-lj">排序</label>
-                                            <input type=checkbox " id="addNews-lj" name="FlagTop " selected="False " value="True" onclick="$('#SortOrder').toggle(); if (!this.checked) $('#SortOrder').val('');">
-                                            <input type="text" name="" value="" id="SortOrder" style="width: 30px; display: none; height: 18px;line-height: 18px;padding-left: 1px; vertical-align: inherit;">
-                                         </span>
-                                    <span>  
-                                            <label class="col-sm-2 control-label" for="addNews-yxpl">允许评论</label>
-                                            <input type=checkbox " name="FlagTop " selected="False " value="True " id="addNews-yxpl">
-                                         </span>
+                                    <label class="col-sm-2 control-label"><input type="checkbox">置顶</label>
+                                    <label class="col-sm-2 control-label"> 
+                                  <input type="checkbox" onclick="$('#SortOrder').toggle(); if (!this.checked) $('#SortOrder').val('');">
+                                  <input type="text" style="width: 30px;height: 15px;line-height: 15px;padding-left: 1px;vertical-align: inherit;float: right;margin-left: 6px;margin-top: 3px;display: none;" id="SortOrder">排序</label>
+                                    <label class="col-sm-2 control-label"> <input type="checkbox">允许评论</label>
+
                                 </div>
                             </div>
                         </div>
@@ -194,10 +187,10 @@
         </div>
     </div>
 
-    <div class="ui-MDialog-lock" style="display:none;"></div>
-    <script type="text/html" id="choice-dialog">
-        <div class="choice-dialog">
-            <ul id="treeDemo" class="ztree"></ul>
+    <div class="ui-MDialog-lock " style="display:none; "></div>
+    <script type="text/html " id="choice-dialog ">
+        <div class="choice-dialog ">
+            <ul id="treeDemo " class="ztree "></ul>
         </div>
     </script>
 
@@ -207,7 +200,7 @@
 
             var html = $(template('choice-dialog', {}));
 
-            $.fn.zTree.init($("#treeDemo", html), setting, zNodes);
+            $.fn.zTree.init($("#treeDemo ", html), setting, zNodes);
 
             var dialog = $M({
                 title: '选择栏目',
