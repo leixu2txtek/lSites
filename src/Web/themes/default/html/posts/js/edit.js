@@ -1,6 +1,6 @@
 define(['../../../js/common'], function () {
 
-    require(['template', 'ztree', 'form', 'select2'], function (template) {
+    require(['template', 'ztree', 'form', 'select2', 'umeditor.config', 'umeditor'], function (template) {
 
         var id = util.get_query('id');
 
@@ -29,6 +29,7 @@ define(['../../../js/common'], function () {
             container.html(template('post_edit_form', r));
 
             //TODO bind events
+            var editor = UM.getEditor('txt_content');
         });
     });
 });
