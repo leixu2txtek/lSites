@@ -1,10 +1,10 @@
-define(['../../../js/common'], function() {
+define(['../../../js/common'], function () {
 
     document.title = '我创建的文章 - CMS内容管理系统';
 
-    require(['template', 'moment', 'select2', 'form', 'paging'], function(template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
-        template.helper('format_date', function(date) {
+        template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
 
@@ -12,7 +12,7 @@ define(['../../../js/common'], function() {
             nav = $('#nav_tools');
 
         //批量发布        
-        $('.btn_publish', nav).on('click', function() {
+        $('.btn_publish', nav).on('click', function () {
 
             var siteId = util.get_query('siteId'),
                 ids = $('table:first', form).get_selected_row_id();
@@ -28,7 +28,7 @@ define(['../../../js/common'], function() {
             $.post(config.host + 'posts/publish', {
                 siteId: siteId,
                 ids: ids
-            }, function(r) {
+            }, function (r) {
 
                 if (!r || r.code < 0) {
 
@@ -45,8 +45,8 @@ define(['../../../js/common'], function() {
         });
 
         //批量放入回收站      
-        $('.btn_delete', nav).on('click', function() {
-            debugger;
+        $('.btn_delete', nav).on('click', function () {
+
             var siteId = util.get_query('siteId'),
                 ids = $('table:first', form).get_selected_row_id();
 
@@ -61,7 +61,7 @@ define(['../../../js/common'], function() {
             $.post(config.host + 'posts/delete', {
                 siteId: siteId,
                 ids: ids
-            }, function(r) {
+            }, function (r) {
 
                 if (!r || r.code < 0) {
 
@@ -89,7 +89,7 @@ define(['../../../js/common'], function() {
         //绑定表单
         form.gform({
             url: config.host + 'posts/list',
-            onSuccess: function(r) {
+            onSuccess: function (r) {
 
                 if (!r || r.code < 0) {
 
@@ -105,7 +105,7 @@ define(['../../../js/common'], function() {
                 var table = $('table', form).gtable();
 
                 //发布
-                $('.publish', table).on('click', function() {
+                $('.publish', table).on('click', function () {
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
@@ -114,7 +114,7 @@ define(['../../../js/common'], function() {
                     $.post(config.host + 'posts/publish', {
                         ids: [id],
                         siteId: siteId
-                    }, function(r) {
+                    }, function (r) {
 
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
@@ -130,20 +130,20 @@ define(['../../../js/common'], function() {
                 });
 
                 //移至回收站                
-                $('.delete', table).on('click', function() {
+                $('.delete', table).on('click', function () {
 
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
                     if (!confirm('是否确认将该文章移至回收站？')) return false;
 
-                    var p_delete = function(confirmed) {
+                    var p_delete = function (confirmed) {
 
                         $.post(config.host + 'posts/delete', {
                             id: id,
                             siteId: siteId,
                             confirmed: confirmed || false
-                        }, function(r) {
+                        }, function (r) {
 
                             if (!r || r.code < 0) {
                                 alert(r.msg || '发生未知错误，请刷新页面后尝试');
@@ -170,7 +170,7 @@ define(['../../../js/common'], function() {
 
                 // 取消发布
 
-                $('.unpublished', table).on('click', function() {
+                $('.unpublished', table).on('click', function () {
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
@@ -179,7 +179,7 @@ define(['../../../js/common'], function() {
                     $.post(config.host + 'posts/unpublish', {
                         ids: [id],
                         siteId: siteId
-                    }, function(r) {
+                    }, function (r) {
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新后尝试');
                             return false;
@@ -197,7 +197,7 @@ define(['../../../js/common'], function() {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function(form) {
+            callback: function (form) {
                 form.submit();
             }
         });

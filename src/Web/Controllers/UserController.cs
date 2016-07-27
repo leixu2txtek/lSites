@@ -13,9 +13,9 @@ using System.Web;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
-    class UsersController : Controller
+    class UserController : Controller
     {
-        public UsersController()
+        public UserController()
         {
             BeforeActionExecute += UsersController_BeforeActionExecute;
         }
@@ -47,6 +47,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <remarks>请求方式：POST</remarks>
         /// <param name="siteId">站点ID</param>
         /// <param name="displayName">用户姓名</param>
+        /// <param name="permission">用户角色</param>
         /// <returns>
         /// {
         ///     code = 1,                           //1：获取成功，-1：指定的站点不存在，-2：指定的站点，没有权限操作
@@ -69,7 +70,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月27日10:42:09
         [HttpPost]
-        object list(string siteId, string displayName)
+        object list(string siteId, string displayName, string permission)
         {
             var site = Site.Get(siteId);
 
@@ -87,6 +88,10 @@ namespace Kiss.Components.Site.Web.Controllers
             q.LoadCondidtion();
 
             if (!string.IsNullOrEmpty(displayName)) q["displayName"] = displayName;
+            if (!string.IsNullOrEmpty(displayName)) q["permission"] = permission;
+
+            q.TotalCount = SiteUsers.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
 
             var dt = SiteUsers.GetDataTable(q);
             var data = new ArrayList();
@@ -100,7 +105,10 @@ namespace Kiss.Components.Site.Web.Controllers
                     display_name = item["displayName"] is DBNull ? "用户不存在" : item["displayName"].ToString(),
                     mobile = item["mobile"] is DBNull ? "用户不存在" : item["mobile"].ToString(),
                     email = item["email"] is DBNull ? "用户不存在" : item["email"].ToString(),
-                    permission = StringEnum<PermissionLevel>.ToString(StringEnum<PermissionLevel>.SafeParse(item["permission"].ToString()))
+                    post_count = item["postCount"].ToInt(),
+                    permission = StringEnum<PermissionLevel>.ToString(StringEnum<PermissionLevel>.SafeParse(item["permission"].ToString())),
+                    date_created = item["dateCreated"].ToDateTime(),
+                    date_last_visit = item["dateLastVisit"].ToDateTime()
                 });
             }
 
@@ -226,7 +234,7 @@ namespace Kiss.Components.Site.Web.Controllers
             if (userName.Length > 50) return new { code = -5, msg = "用户名字符不能超过50" };
             if (displayName.Length > 50) return new { code = -6, msg = "显示名字符符不能超过50" };
 
-            if (!Regex.IsMatch(userName, "[0-9a-zA-Z_]")) return new { code = -7, msg = "用户名只能是 英文/数字/下划线 组成" };
+            if (!Regex.IsMatch(userName, "^[a-zA-Z0-9_]+$")) return new { code = -7, msg = "用户名只能是 英文/数字/下划线 组成" };
 
             #endregion
 
@@ -273,6 +281,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 if (relation == null)
                 {
+                    relation = new SiteUsers();
+
                     relation.Id = StringUtil.UniqueId();
                     relation.SiteId = site.Id;
                     relation.DateCreated = DateTime.Now;
