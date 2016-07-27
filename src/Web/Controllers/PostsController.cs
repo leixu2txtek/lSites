@@ -379,6 +379,84 @@ namespace Kiss.Components.Site.Web.Controllers
         #region 发布
 
         /// <summary>
+        /// 已发布文章列表
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="key">关键字</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                           //1：获取成功
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //文章ID
+        ///             title = "",                 //文章标题
+        ///             summary = "",               //文章的摘要
+        ///             category = "",              //文章的分类信息
+        ///             date_created = "",          //文章的创建时间
+        ///             view_count = "",            //文章的查看数
+        ///             sort_order = "",            //文章的排序
+        ///             date_published = ""         //文章发布时间
+        ///         }
+        ///     ],
+        ///     totalCount = q.TotalCount,
+        ///     page = q.PageIndex1,
+        ///     orderbys = q.orderbys
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月1日17:37:13
+        [HttpPost]
+        object publish_list(string key, string status)
+        {
+            var site = (Site)jc["site"];
+
+            WebQuery q = new WebQuery();
+            q.Id = "posts.publish_list";
+            q.LoadCondidtion();
+
+            if (!string.IsNullOrEmpty(key)) q["key"] = key;
+
+            q["status"] = (int)Status.PUBLISHED;
+
+            q.TotalCount = Posts.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            q["siteId"] = site.Id;
+
+            var dt = Posts.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    site_id = site.Id,
+                    title = item["title"].ToString(),
+                    category = item["category"] is DBNull ? string.Empty : item["category"].ToString(),
+                    date_created = item["dateCreated"].ToDateTime(),
+                    view_count = item["viewCount"].ToInt(),
+                    sort_order = item["sortOrder"].ToInt(),
+                    date_published = item["datePublished"].ToDateTime()
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                },
+                orderbys = q.orderbys
+            };
+        }
+
+        /// <summary>
         /// 发布文章
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
