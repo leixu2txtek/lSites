@@ -190,7 +190,6 @@ define(['../../../js/common'], function() {
                     return false;
                 });
 
-                // 改变发布取消状态
 
 
 
