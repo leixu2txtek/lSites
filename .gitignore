@@ -246,7 +246,6 @@ ModelManifest.xml
 
 xdoc/
 .vscode/
-users/
 xtest/
 *.exe
 *.bat
