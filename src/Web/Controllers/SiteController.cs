@@ -78,7 +78,8 @@ namespace Kiss.Components.Site.Web.Controllers
                 key_words = site.KeyWords,
                 description = site.Description,
                 theme = site.Theme,
-                sort_order = site.SortOrder
+                sort_order = site.SortOrder,
+                need_audit_post = site.NeedAuditPost
             };
         }
 
@@ -117,7 +118,8 @@ namespace Kiss.Components.Site.Web.Controllers
                 key_words = site.KeyWords,
                 description = site.Description,
                 theme = site.Theme,
-                sort_order = site.SortOrder
+                sort_order = site.SortOrder,
+                need_audit_post = site.NeedAuditPost
             };
         }
 
@@ -125,12 +127,14 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 添加单个站点
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
+        /// <param name="id">站点ID</param>
         /// <param name="title">站点标题</param>
         /// <param name="domain">站点域名</param>
         /// <param name="keyWords">站点关键字</param>
         /// <param name="description">站点描述</param>
         /// <param name="theme">站点主题，默认：default</param>
         /// <param name="sortOrder">站点序号</param>
+        /// <param name="needAuditPost">是否需要审核文章</param>
         /// <returns>
         /// {
         ///     code = 1,       //-1：站点名称不能为空，-2：站点域名不能为空，-3：站点域名支持大小写英文以及点号，下划线，-4：已经存在相同的站点名称，请更换其他站点名称，-5：已经存在相同的站点域名，请更换其他站点名称，-6：站点标题不能超过100个字符，-6：站点域名不能超过100个字符，-6：站点关键字不能超过500个字符，-6：站点描述不能超过1000个字符，-6：站点的主题名不能超过20个字符
@@ -140,7 +144,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月29日19:55:25
         [HttpPost]
-        object save(string id, string title, string domain, string keyWords, string description, string theme, int sortOrder)
+        object save(string id, string title, string domain, string keyWords, string description, string theme, int sortOrder, bool needAuditPost)
         {
             #region 校验参数 & 校验参数的长度
 
@@ -201,6 +205,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 site.Description = description;
                 site.Theme = theme;
                 site.SortOrder = sortOrder;
+                site.NeedAuditPost = needAuditPost;
 
                 cx.SubmitChanges();
             }

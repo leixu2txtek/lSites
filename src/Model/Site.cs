@@ -75,5 +75,11 @@ namespace Kiss.Components.Site
         /// 站点的序号
         /// </summary>
         public int SortOrder { get; set; }
+
+        /// <summary>
+        /// 是否要审核文章
+        /// </summary>
+        [NotNull(0)]
+        public bool NeedAuditPost { get; set; }
     }
 }

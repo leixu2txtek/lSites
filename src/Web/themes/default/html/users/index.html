@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CMS内容管理系统</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
+    <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../js/vendor/Mdialog/MDialog.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top group-top" role="navigation">
+        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <div class="navbar-collapse collapsc navbar-right group-top-userbox">
+            <span>欢迎您，管理员</span>
+            <a href="javascript:(0)" class="group-top-user">
+                <img src="http://192.168.1.230:9000/avator/a@001B0336FED8947D8CA4B447C0C3AF71.jpeg/50.jpg" class="img-circle" width="38px" height="38px" />
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="nav group-user-dropdown" style="display:none;">
+                <i class="group-user-dropdownIcon">&nbsp;</i>
+                <li><a href="" title="退出">退出</a> </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid group-container" id="content_container" style="display:none;">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="group-page2">
+                    <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
+                        <h3>
+                            <i class="iconfont group-icon group-icon-207"></i>用户管理
+                            <span>（共<span id="total_count">...</span>位）</span>
+                            <a href="javascript:(0);" class="btn btn-link group-article-addButton" id="btn_add_user">
+                                <i class="glyphicon glyphicon-plus group-nav-more"></i>新增用户
+                            </a>
+                        </h3>
+                    </nav>
+                    <div class="table-responsive group-users-table">
+                        <form class="form-inline form-horizontal" id="users_form">
+                            <div class="group-articleform-top">
+                                <div class="form-group group-users-form">
+                                    <label class="control-label">用户名：</label>
+                                    <input placeholder="用户名" class="form-control" name="displayName">
+                                </div>
+                                <div class="form-group group-users-form">
+                                    <label class="control-label">角色：</label>
+                                    <select data-placeholder="全部" style="width:210px;" name="permission">
+                                        <option></option>
+                                        <option value="0">管理员</option>
+                                        <option value="1">审核人</option>
+                                        <option value="2">编辑</option>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn group-users-form-btn">查询</button>
+                            </div>
+                            <div id="table_container"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" data-main="./js/index.js" src="../../js/require.js"></script>
+    <script type="text/html" id="users_table">
+        <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
+            <thead>
+                <tr>
+                    <th>用户名</th>
+                    <th id="displayName">显示名</th>
+                    <th>手机</th>
+                    <th>邮箱</th>
+                    <th id="permission">角色</th>
+                    <th>文章数</th>
+                    <th id="dateCreated">创建时间</th>
+                    <th>最后登录时间</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{each data as item i}}
+                <tr id="{{item.id}}">
+                    <td>{{item.user_name}}</td>
+                    <td>{{item.display_name}}</td>
+                    <td>{{item.mobile}}</td>
+                    <td>{{item.email}}</td>
+                    <td>{{item.permission}}</td>
+                    <td>{{item.post_count}}</td>
+                    <td>{{item.date_created | format_date}}</td>
+                    <td>{{item.date_last_visit | format_date}}</td>
+                    <td class="group-article-tabelTools">
+                        <a href="javascript:(0);" class="edit" data-id="{{item.id}}">编辑</a>
+                        <a href="javascript:(0);" class="delete" data-id="{{item.id}}">删除</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+
+        </table>
+        <div class="x-paging-container"></div>
+    </script>
+    <script type="text/html" id="users_edit_form">
+        <form class="add-form" method="post">
+            <input type="hidden" name="siteId" value="{{siteId}}" />
+            <input type="hidden" name="userId" value="{{id}}" />
+            <div class="form-group addForm-input">
+                <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>用户名：</lable>
+                <input type="text" name="userName" class="form-control" value="{{user_name}}" />
+            </div>
+            <div class="addForm-input">
+                <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>显示名：</lable>
+                <input type="text" name="displayName" class="form-control" value="{{display_name}}" />
+            </div>
+            <div class="form-group addForm-input">
+                <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>手机号：</lable>
+                <input type="text" name="mobile" class="form-control" value="{{mobile}}" />
+            </div>
+            <div class="addForm-input">
+                <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>邮箱：</lable>
+                <input type="text" name="email" class="form-control" value="{{email}}" />
+            </div>
+            <div class="form-group addForm-input">
+                <lable class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>角色：</lable>
+                <select data-placeholder="选择角色" name="permission" style="width:280px;" data-selected="{{permission}}">
+                    <option></option>
+                    <option value="0">管理员</option>
+                    <option value="1">审核人</option>
+                    <option value="2">编辑</option>
+                </select>
+            </div>
+        </form>
+    </script>
+</body>
+
+</html>
