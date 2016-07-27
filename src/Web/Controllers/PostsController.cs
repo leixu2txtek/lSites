@@ -398,6 +398,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="key">关键字</param>
+        /// <param name="category">栏目ID</param>
         /// <returns>
         /// {
         ///     code = 1,                           //1：获取成功
@@ -422,7 +423,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月1日17:37:13
         [HttpPost]
-        object publish_list(string key, string status)
+        object publish_list(string key, string category)
         {
             var site = (Site)jc["site"];
 
@@ -431,6 +432,7 @@ namespace Kiss.Components.Site.Web.Controllers
             q.LoadCondidtion();
 
             if (!string.IsNullOrEmpty(key)) q["key"] = key;
+            if (!string.IsNullOrEmpty(category)) q["category"] = category;
 
             q["status"] = (int)Status.PUBLISHED;
 
