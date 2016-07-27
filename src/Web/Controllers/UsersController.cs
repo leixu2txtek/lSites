@@ -1,4 +1,6 @@
-﻿using Kiss.Web;
+﻿using Kiss.Components.Security;
+using Kiss.Utils;
+using Kiss.Web;
 using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
 using System;
@@ -6,10 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
-using Kiss.Utils;
-using Kiss.Components.Security;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
@@ -185,6 +185,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="siteId">站点ID</param>
+        /// <param name="userId">用户ID</param>
         /// <param name="userName">用户名称</param>
         /// <param name="displayName">用户显示名</param>
         /// <param name="mobile">用户手机号</param>
@@ -199,7 +200,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月27日10:57:26
         [HttpPost]
-        object save(string siteId, string userName, string displayName, string mobile, string email, string permission)
+        object save(string siteId, string userId, string userName, string displayName, string mobile, string email, string permission)
         {
             #region 校验数据
 
@@ -232,60 +233,117 @@ namespace Kiss.Components.Site.Web.Controllers
             if (User.Where("UserName = {0}", userName).Count() > 0) return new { code = -8, msg = "指定的用户名已经存在，请更换其他用户名" };
 
             using (ILinqContext<User> cx = User.CreateContext())
-            using (ILinqContext<SiteUsers> cx_users = SiteUsers.CreateContext())
+            using (ILinqContext<SiteUsers> cx_relation = SiteUsers.CreateContext())
             {
                 #region 构造用户信息
 
-                User user = new User();
+                User user = User.Get(cx, userId);
 
-                user.Id = StringUtil.UniqueId();
+                if (user == null)
+                {
+                    user = new User();
+
+                    user.Id = StringUtil.UniqueId();
+                    user.DateCreate = DateTime.Now;
+                    user.IsValid = true;
+
+                    DictSchema schema = DictSchema.GetByName("users", "config");
+                    user.DateLastVisit = DateTime.Now;
+
+                    if (schema != null && schema["first_login_resetpwd"] != null && schema["first_login_resetpwd"].ToBoolean()) user["needmodifyPwd"] = true.ToString();
+
+                    cx.Add(user, true);
+                }
+
                 user.UserName = userName;
                 user.DisplayName = displayName;
                 user.Mobile = mobile;
                 user.Email = email;
-                user.DateCreate = DateTime.Now;
-                user.IsValid = true;
 
-                DictSchema schema = DictSchema.GetByName("users", "config");
-                user.DateLastVisit = DateTime.Now;
-
-                if (schema != null && schema["first_login_resetpwd"] != null && schema["first_login_resetpwd"].ToBoolean()) user["needmodifyPwd"] = true.ToString();
-
-                cx.Add(user, true);
+                //update password
+                user.UpdatePassword("111111");
 
                 #endregion
 
                 #region 构造站点用户关系数据
 
-                var relation = new SiteUsers();
+                var relation = (from q in cx_relation
+                                where q.SiteId == site.Id && q.UserId == user.Id
+                                select q).FirstOrDefault();
 
-                relation.Id = StringUtil.UniqueId();
-                relation.SiteId = site.Id;
-                relation.DateCreated = DateTime.Now;
-                relation.UserId = user.Id;
+                if (relation == null)
+                {
+                    relation.Id = StringUtil.UniqueId();
+                    relation.SiteId = site.Id;
+                    relation.DateCreated = DateTime.Now;
+                    relation.UserId = user.Id;
+
+                    cx_relation.Add(relation, true);
+                }
+
                 relation.PermissionLevel = StringEnum<PermissionLevel>.SafeParse(permission);
 
                 #endregion
 
-                cx_users.Add(relation, true);
-
                 cx.SubmitChanges();
-                cx_users.SubmitChanges();
+                cx_relation.SubmitChanges();
             }
 
             return new { code = 1, msg = "用户添加成功" };
         }
 
         /// <summary>
-        /// 
+        /// 删除站点下用户
         /// </summary>
-        /// <param name="siteId"></param>
-        /// <param name="userId"></param>
-        /// <returns></returns>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="userId">用户ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,               //-1：指定的站点不存在，-2：指定的站点，没有权限操作，-3：指定的用户在该站点下不存在，-4：不能删除自己的账号
+        ///     msg = "删除成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年7月27日13:57:54
         [HttpPost]
         object delete(string siteId, string userId)
         {
-            return new { };
+            #region 校验参数
+
+            var site = Site.Get(siteId);
+
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            if (!jc.User.IsInRole("admin") && SiteUsers.Where("SiteId = {0}", site.Id)
+                                                       .Where("UserId = {0}", jc.UserName)
+                                                       .Where("PermissionLevel = {0}", (int)PermissionLevel.ADMIN).Count() == 0)
+            {
+                return new { code = -2, msg = "指定的站点，没有权限操作" };
+            }
+
+            #endregion
+
+            using (ILinqContext<SiteUsers> cx = SiteUsers.CreateContext())
+            {
+                var relation = (from q in cx
+                                where q.SiteId == site.Id && q.UserId == userId
+                                select q).FirstOrDefault();
+
+                if (relation == null) return new { code = -3, msg = "指定的用户在该站点下不存在" };
+
+                if (relation.UserId == jc.UserName) return new { code = -4, msg = "不能删除自己的账号" };
+
+                //删除用户信息
+                User.Where("Id = {0}", userId).Delete();
+
+                //删除站点用户关系
+
+                cx.Remove(relation);
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "删除成功" };
         }
     }
 }

@@ -244,7 +244,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="categoryId">文章分类ID</param>
         /// <param name="viewCount">文章查看次数</param>
         /// <param name="sortOrder">文章序号</param>
-        /// <param name="props">扩展字段</param>
+        /// <param name="publish">是否发布</param>
         /// <returns>
         /// {
         ///     code = 1,       //-1：文章标题不能为空，-2：文章内容不能为空，-3：指定的分类不存在，-4：摘要的长度不能超过2000个字符，-5：文章标题的长度不能超过50个字符，-6：文章副标题的长度不能超过100个字符，-7：文章的查看次数不能设置为小于0，-8：扩展字段格式不正确
@@ -254,7 +254,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月30日20:19:36
         [HttpPost]
-        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string props)
+        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, bool publish)
         {
             #region 校验参数
 
@@ -326,12 +326,27 @@ namespace Kiss.Components.Site.Web.Controllers
                 post.SortOrder = sortOrder;
                 post.ViewCount = viewCount;
 
+                #region 审核
+
+                if (publish)
+                {
+                    post.Status = site.NeedAuditPost ? Status.PENDING : Status.PUBLISHED;
+
+                    if (post.Status == Status.PUBLISHED)
+                    {
+                        post.PublishUserId = jc.UserName;
+                        post.DatePublished = DateTime.Now;
+                    }
+                }
+
+                #endregion
+
                 //OnBeforeSave
-                post.OnBeforeSave(new Posts.BeforeSaveEventArgs { Properties = props });
+                post.OnBeforeSave(new Posts.BeforeSaveEventArgs { Properties = string.Empty });
 
                 cx.SubmitChanges();
 
-                //OnBeforeSave
+                //OnAfterSave
                 post.OnAfterSave(new Posts.AfterSaveEventArgs());
             }
 
