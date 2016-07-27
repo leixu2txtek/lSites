@@ -46,7 +46,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (string.IsNullOrEmpty(jc.Params["siteId"]))
             {
-                ResponseUtil.OutputJson(httpContext.Response, new { code = 200, msg = "参数列表不正确，缺少SiteId参数" });
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 201, msg = "参数列表不正确，缺少SiteId参数" });
                 e.PreventDefault = true;
                 return;
             }
@@ -55,7 +55,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (site == null)
             {
-                ResponseUtil.OutputJson(httpContext.Response, new { code = 200, msg = "指定的站点不存在" });
+                ResponseUtil.OutputJson(httpContext.Response, new { code = 202, msg = "指定的站点不存在" });
                 e.PreventDefault = true;
                 return;
             }
@@ -328,7 +328,6 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 //OnBeforeSave
                 post.OnBeforeSave(new Posts.BeforeSaveEventArgs { Properties = props });
-                post.SerializeExtAttrs();
 
                 cx.SubmitChanges();
 
