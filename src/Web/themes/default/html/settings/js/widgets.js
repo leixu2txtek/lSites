@@ -27,7 +27,7 @@ define(['../../../js/common'], function() {
             var add_form = $(template('widget_add_form', { siteId: siteId })),
                 dlg = $M({
                     title: '添加新挂件',
-                    content: add_form[0], //??????
+                    content: add_form[0],
                     width: '450px',
                     lock: true,
                     position: '50 % 50 %',
@@ -42,7 +42,7 @@ define(['../../../js/common'], function() {
 
             add_form.gform({
                 url: config.host + 'widget/save',
-                beforeSubmit: function() { //beforeSubmit????
+                beforeSubmit: function() {
 
                     var name = $('[name=name]', add_form).val();
 
@@ -148,6 +148,37 @@ define(['../../../js/common'], function() {
                     }, 'json');
                 });
 
+                // 删除站点
+                $('.delete', table).on('click', function() {
+
+                    var siteId = util.get_query('siteId'),
+                        id = $(this).data('id');
+
+                    if (!confirm('是否确定彻底删除此挂件')) return false;
+
+                    var delete_site = function(confirmed) {
+
+                        $.post(config.host + 'widget/delete', {
+                            id: id,
+                            siteId: siteId,
+                            confirmed: confirmed || false
+                        }, function(r) {
+
+                            if (!r || r.code < 0) {
+                                alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                                return false;
+                            }
+
+                            alert('已彻底删除该站点');
+                            form.submit();
+
+                        }, 'json');
+                    };
+
+                    delete_site(false);
+                });
+                //绑定分页信息                
+                $('.x-paging-container', form).paging(r.paging);
             },
             callback: function(form) {
                 form.submit();
