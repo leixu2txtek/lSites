@@ -27,7 +27,7 @@ define(['../../../js/common'], function() {
             var add_form = $(template('widget_add_form', { siteId: siteId })),
                 dlg = $M({
                     title: '添加新挂件',
-                    content: add_form[0], //??????
+                    content: add_form[0],
                     width: '450px',
                     lock: true,
                     position: '50 % 50 %',
@@ -42,7 +42,7 @@ define(['../../../js/common'], function() {
 
             add_form.gform({
                 url: config.host + 'widget/save',
-                beforeSubmit: function() { //beforeSubmit????
+                beforeSubmit: function() {
 
                     var name = $('[name=name]', add_form).val();
 
@@ -177,7 +177,8 @@ define(['../../../js/common'], function() {
 
                     delete_site(false);
                 });
-
+                //绑定分页信息                
+                $('.x-paging-container', form).paging(r.paging);
             },
             callback: function(form) {
                 form.submit();
