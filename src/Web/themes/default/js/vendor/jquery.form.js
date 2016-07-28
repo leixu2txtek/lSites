@@ -127,7 +127,7 @@
                         c_css = c_val.indexOf('-') == 0 ? css_arrow_down : css_arrow_up;
                     }
 
-                    th.addClass('x-table-sort');
+                    th.addClass('x-table-sort').css('cursor', 'pointer').prop('title', '点击排序');
 
                     span.css('background', c_css).css('padding-right', '15px');
                     span.addClass(c_val.indexOf('-') == 0 ? 'x-table-sort-down' : 'x-table-sort-up');
