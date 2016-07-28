@@ -258,6 +258,9 @@ namespace Kiss.Components.Site.Web.Controllers
             if (!string.IsNullOrEmpty(title)) q["title"] = id;
             if (!string.IsNullOrEmpty(domain)) q["domain"] = id;
 
+            q.TotalCount = Site.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
             var dt = Site.GetDataTable(q);
             var data = new ArrayList();
 

@@ -163,6 +163,9 @@ define(['../../../js/common'], function () {
 
                     return false;
                 });
+
+                //绑定分页信息                
+                $('.x-paging-container', form).paging(r.paging);
             },
             callback: function (form) { form.submit(); }
         });
