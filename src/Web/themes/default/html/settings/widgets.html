@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>站群管理</title>
+
+    <link href="../../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
+    <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
+    <link href="../../js/vendor/Mdialog/MDialog.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar navbar-default navbar-fixed-top group-top" role="navigation">
+        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <div class="navbar-collapse collapsc navbar-right group-top-userbox">
+            <span>欢迎您，管理员</span>
+            <a href="javascript:(0)" class="group-top-user">
+                <img src="http://192.168.1.230:9000/avator/a@001B0336FED8947D8CA4B447C0C3AF71.jpeg/50.jpeg" class="img-circle" width="38px" height="38px" />
+                <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="nav group-user-dropdown" style="display:none;">
+                <i class="group-user-dropdownIcon">&nbsp;</i>
+                <li><a href="" title="退出">退出</a> </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container-fluid group-container" id="content_container" style="display:none;">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="group-page1 group-article">
+                    <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
+                        <h3 class="navbar-brand">
+                          <i class="iconfont group-icon group-icon-207"></i>挂件列表
+                          <span>（共<span id="total_count">...</span>篇）</span>
+                        <a href="javascript:(0);" class="btn btn-link group-article-addButton add-widgets" title="添加新挂件">
+                            <i class="iconfont group-icon group-icon-tianjia"></i>添加新挂件</a>
+                        </h3>
+                    </nav>
+
+                    <div class="table-responsive group-article-table">
+                        <form class="form-inline form-horizontal" id="post_form">
+                            <div class="group-articleform-top">
+                                <div class="form-group group-article-form">
+                                    <label class="control-label">关键字：</label>
+                                    <input placeholder="关键字" class="form-control" name="key">
+                                </div>
+                                <button type="submit" class="btn group-article-form-btn">查询</button>
+                            </div>
+                            <div id="table_container"></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" data-main="./js/widgets.js" src="../../js/require.js"></script>
+</body>
+<script type="text/html" id="widgets_table">
+    <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
+        <thead>
+            <tr>
+                <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
+                <th>所在站点</th>
+                <th>名称</th>
+                <th id="dateCreated">创建时间</th>
+                <th>创建者</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{if data.length > 0}} {{each data as item i}}
+            <tr id="{{item.id}}">
+                <td class="group-article-checkbox">
+                    <input type="checkbox">
+                </td>
+                <td class="group-article-zy">
+                    <div class="autocut" title="{{item.site_id}}">{{item.site_id}}</div>
+                </td>
+                <td>{{item.name}}</td>
+                <td>{{item.date_created | format_date}}</td>
+                <td>{{item.display_name}}</td>
+                <td class="group-article-tabelTools">
+                    <a href="javascript:(0);" title="编辑" target="_blank" class="widget_edit"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                </td>
+            </tr>
+            {{/each}} {{else}}
+            <tr class="no-data-tr" style="background-color:none;">
+                <td colspan="9">
+                    <div class="no-data">
+                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <p>暂无数据</p>
+                    </div>
+                </td>
+            </tr>
+            {{/if}}
+    </table>
+    <div class="x-paging-container"></div>
+</script>
+<script type="text/html" id="widget_add_form">
+    <form class="add-form" method="post">
+        <input type="hidden" name="id" value="{{id}}" />
+        <input type="hidden" name="siteId" value="{{siteId}}" />
+        <div class="form-group addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>所在站点：</lable>
+            <input type="text" name="site_id" class="form-control" value="{{site_id}}" />
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>名称：</lable>
+            <input type="text" name="name" class="form-control" value="{{name}}" />
+        </div>
+    </form>
+</script>
+
+</html>
