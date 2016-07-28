@@ -145,7 +145,9 @@ namespace Kiss.Components.Site.Web.Controllers
         ///         site_id = "",           //挂件所在站点
         ///         name = "",              //挂件名称
         ///         date_created = "",      //挂件创建时间
-        ///         display_name = ""       //挂件创建者
+        ///         title = "",             //挂件的显示名称
+        ///         container_id = "",      //挂件的占位符
+        ///         display_name = "",      //挂件创建者
         ///     ],
         ///     totalCount = 0,             //总数
         ///     page = 1,                   //当前第几页
@@ -216,7 +218,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="props">扩展字段，例如：{"categoryId": "xxxxxx"}</param>
         /// <returns>
         /// {
-        ///     code = 1,       //-1：挂件名称不能为空，-2：挂件名称长度不能超过20个字符，-3，扩展字段格式不正确
+        ///     code = 1,       //-1：挂件名称不能为空，-2：挂件显示名称不能为空，-3，挂件名称长度不能超过20个字符，-4：挂件显示名称长度不能超过50个字符，-5：挂件占位ID不能为空，-6：挂件占位ID长度不能超过50个字符
         ///     msg = "保存成功"
         /// }
         /// </returns>
