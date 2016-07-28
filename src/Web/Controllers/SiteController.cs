@@ -52,13 +52,19 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="id">站点ID</param>
         /// <returns>
         /// {
-        ///     id = "",                //站点ID
-        ///     title = "",             //站点标题
-        ///     domain = "",            //站点域名
-        ///     key_words = "",         //站点关键字（SEO）
-        ///     description = "",       //站点描述（SEO）
-        ///     theme = "",             //站点主题
-        ///     sort_order = ""         //站点排序
+        ///     code = 1,
+        ///     data = 
+        ///     {
+        ///         id = "",                //站点ID
+        ///         title = "",             //站点标题
+        ///         logo = "",              //站点logo地址
+        ///         domain = "",            //站点域名
+        ///         key_words = "",         //站点关键字（SEO）
+        ///         description = "",       //站点描述（SEO）
+        ///         theme = "",             //站点主题
+        ///         sort_order = "",        //站点排序
+        ///         need_audit_post = false //是否需要审核文章
+        ///     }
         /// }
         /// </returns>
         /// leixu
@@ -72,14 +78,19 @@ namespace Kiss.Components.Site.Web.Controllers
 
             return new
             {
-                id = site.Id,
-                title = site.Title,
-                domain = site.Domain,
-                key_words = site.KeyWords,
-                description = site.Description,
-                theme = site.Theme,
-                sort_order = site.SortOrder,
-                need_audit_post = site.NeedAuditPost
+                code = 1,
+                data = new
+                {
+                    id = site.Id,
+                    title = site.Title,
+                    domain = site.Domain,
+                    logo = site.Logo,
+                    key_words = site.KeyWords,
+                    description = site.Description,
+                    theme = site.Theme,
+                    sort_order = site.SortOrder,
+                    need_audit_post = site.NeedAuditPost
+                }
             };
         }
 
@@ -90,13 +101,18 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="domain">站点域名</param>
         /// <returns>
         /// {
-        ///     id = "",                //站点ID
-        ///     title = "",             //站点标题
-        ///     domain = "",            //站点域名
-        ///     key_words = "",         //站点关键字（SEO）
-        ///     description = "",       //站点描述（SEO）
-        ///     theme = "",             //站点主题
-        ///     sort_order = ""         //站点排序
+        ///     code = 1,
+        ///     data = 
+        ///     {
+        ///         id = "",                //站点ID
+        ///         title = "",             //站点标题
+        ///         domain = "",            //站点域名
+        ///         key_words = "",         //站点关键字（SEO）
+        ///         description = "",       //站点描述（SEO）
+        ///         theme = "",             //站点主题
+        ///         sort_order = "",        //站点排序
+        ///         need_audit_post = false //是否需要审核文章
+        ///     }
         /// }
         /// </returns>
         /// leixu
@@ -112,14 +128,18 @@ namespace Kiss.Components.Site.Web.Controllers
 
             return new
             {
-                id = site.Id,
-                title = site.Title,
-                domain = site.Domain,
-                key_words = site.KeyWords,
-                description = site.Description,
-                theme = site.Theme,
-                sort_order = site.SortOrder,
-                need_audit_post = site.NeedAuditPost
+                code = 1,
+                data = new
+                {
+                    id = site.Id,
+                    title = site.Title,
+                    domain = site.Domain,
+                    key_words = site.KeyWords,
+                    description = site.Description,
+                    theme = site.Theme,
+                    sort_order = site.SortOrder,
+                    need_audit_post = site.NeedAuditPost
+                }
             };
         }
 

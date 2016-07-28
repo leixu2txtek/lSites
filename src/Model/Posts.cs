@@ -90,6 +90,12 @@ namespace Kiss.Components.Site
         public string UserId { get; set; }
 
         /// <summary>
+        /// 文章创建者显示名
+        /// </summary>
+        [NotNull(""), Length(50)]
+        public string DisplayName { get; set; }
+
+        /// <summary>
         /// 文章状态
         /// </summary>
         [NotNull(0)]
