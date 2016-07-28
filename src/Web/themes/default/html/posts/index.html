@@ -90,7 +90,7 @@
             </tr>
         </thead>
         <tbody>
-            {{each data as item i}}
+            {{if data.length > 0}} {{each data as item i}}
             <tr id="{{item.id}}">
                 <td class="group-article-checkbox">
                     <input type="checkbox">
@@ -110,7 +110,16 @@
                     <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
-            {{/each}}
+            {{/each}} {{else}}
+            <tr class="no-data-tr" style="background-color:none;">
+                <td colspan="9">
+                    <div class="no-data">
+                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <p>暂无数据</p>
+                    </div>
+                </td>
+            </tr>
+            {{/if}}
     </table>
     <div class="x-paging-container"></div>
 </script>

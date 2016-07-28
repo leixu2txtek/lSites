@@ -1119,8 +1119,23 @@ span:focus {
 
 /*暂无数据*/
 
-.no-data-img {
-    width: 140px;
-    margin: 0 auto;
+.no-data {
     padding: 50px 0px;
+    color: #a2a2a2;
+}
+
+.no-data i {
+    font-size: 60px;
+}
+
+.no-data p {
+    margin-left: 10px;
+}
+
+.form-horizontal .table-striped tbody tr.no-data-tr {
+    background: none;
+}
+
+.form-horizontal .table-striped tbody tr.no-data-tr:hover {
+    background: #fff !important;
 }
