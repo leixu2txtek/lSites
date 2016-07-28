@@ -124,6 +124,8 @@ namespace Kiss.Components.Site.Web.Controllers
                     site_id = widget.SiteId,
                     name = widget.Name,
                     date_created = widget.DateCreated,
+                    title = widget.Title,
+                    container_id = widget.ContainerId,
                     props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
                 }
             };
@@ -155,13 +157,20 @@ namespace Kiss.Components.Site.Web.Controllers
         [HttpPost]
         object list(string name)
         {
+            var site = (Site)jc["site"];
+
             WebQuery q = new WebQuery();
             q.Id = "widget.list";
             q.LoadCondidtion();
 
             if (!string.IsNullOrEmpty(name)) q["name"] = name;
 
-            var dt = Site.GetDataTable(q);
+            q["siteId"] = site.Id;
+
+            q.TotalCount = Widget.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            var dt = Widget.GetDataTable(q);
             var data = new ArrayList();
 
             foreach (DataRow item in dt.Rows)
@@ -172,6 +181,8 @@ namespace Kiss.Components.Site.Web.Controllers
                     site_id = item["siteId"].ToString(),
                     name = item["name"].ToString(),
                     date_created = item["dateCreated"].ToDateTime(),
+                    title = item["title"].ToString(),
+                    container_id = item["containerId"].ToString(),
                     display_name = item["displayName"] is DBNull ? string.Empty : item["displayName"].ToString()
                 });
             }
@@ -200,6 +211,8 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <remarks>请求方式：POST</remarks>
         /// <param name="id">挂件ID，修改时使用</param>
         /// <param name="name">挂件名称</param>
+        /// <param name="title">挂件的显示标题</param>
+        /// <param name="containerId">挂件的占位标识</param>
         /// <param name="props">扩展字段，例如：{"categoryId": "xxxxxx"}</param>
         /// <returns>
         /// {
@@ -208,14 +221,21 @@ namespace Kiss.Components.Site.Web.Controllers
         /// }
         /// </returns>
         [HttpPost]
-        object save(string id, string name, string props)
+        object save(string id, string name, string title, string containerId, string props)
         {
             #region 参数校验
 
             if (string.IsNullOrEmpty(name)) return new { code = -1, msg = "挂件名称不能为空" };
+            if (string.IsNullOrEmpty(title)) return new { code = -2, msg = "挂件显示名称不能为空" };
+            if (string.IsNullOrEmpty(containerId)) return new { code = -5, msg = "挂件占位ID不能为空" };
 
             name = name.Trim();
-            if (name.Length > 20) return new { code = -2, msg = "挂件名称长度不能超过20个字符" };
+            title = title.Trim();
+            containerId = containerId.Trim();
+
+            if (name.Length > 20) return new { code = -3, msg = "挂件名称长度不能超过20个字符" };
+            if (title.Length > 50) return new { code = -4, msg = "挂件显示名称长度不能超过50个字符" };
+            if (containerId.Length > 50) return new { code = -6, msg = "挂件占位ID长度不能超过50个字符" };
 
             #endregion
 
@@ -238,6 +258,8 @@ namespace Kiss.Components.Site.Web.Controllers
                 }
 
                 widget.Name = name;
+                widget.Title = title;
+                widget.ContainerId = containerId;
 
                 #region 处理扩展字段信息
 

@@ -36,6 +36,18 @@ namespace Kiss.Components.Site
         public string Name { get; set; }
 
         /// <summary>
+        /// 挂件的显示标题
+        /// </summary>
+        [NotNull(""), Length(50)]
+        public string Title { get; set; }
+
+        /// <summary>
+        /// 挂件的占位标识
+        /// </summary>
+        [NotNull(""), Length(50)]
+        public string ContainerId { get; set; }
+
+        /// <summary>
         /// 创建者
         /// </summary>
         [NotNull(""), Length(50)]
