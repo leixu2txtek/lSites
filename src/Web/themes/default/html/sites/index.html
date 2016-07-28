@@ -81,7 +81,7 @@
             </tr>
         </thead>
         <tbody>
-            {{each data as item i}}
+            {{if data.length > 0}}{{each data as item i}}
             <tr id="{{item.id}}">
                 <td>{{item.title}}</td>
                 <td>{{item.domain}}</td>
@@ -97,7 +97,16 @@
                     <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
-            {{/each}}
+            {{/each}}{{else}}
+            <tr class="no-data-tr" style="background-color:none;">
+                <td colspan="9">
+                    <div class="no-data">
+                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <p>暂无数据</p>
+                    </div>
+                </td>
+            </tr>
+            {{/if}}
     </table>
     <div class="x-paging-container"></div>
 </script>

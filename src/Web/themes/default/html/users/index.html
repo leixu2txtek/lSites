@@ -86,7 +86,7 @@
                 </tr>
             </thead>
             <tbody>
-                {{each data as item i}}
+                {{if data.length > 0}} {{each data as item i}}
                 <tr id="{{item.id}}">
                     <td>{{item.user_name}}</td>
                     <td>{{item.display_name}}</td>
@@ -98,14 +98,22 @@
                     <td>{{item.date_last_visit | format_date}}</td>
                     <td class="group-article-tabelTools">
                         <a href="javascript:(0);" title="编辑" target="_blank" class="edit" data-id="{{item.id}}">
-                            <i class="iconfont group-icon group-icon-bianji"></i>
-                        </a>
+                            <i class="iconfont group-icon group-icon-bianji"></i></a>
                         <a href="javascript:(0);" class="delete" data-id="{{item.id}}">
                             <i class="iconfont group-icon group-icon-shanchu"></i>
                         </a>
                     </td>
                 </tr>
-                {{/each}}
+                {{/each}} {{else}}
+                <tr class="no-data-tr" style="background-color:none;">
+                    <td colspan="9">
+                        <div class="no-data">
+                            <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                            <p>暂无数据</p>
+                        </div>
+                    </td>
+                </tr>
+                {{/if}}
             </tbody>
 
         </table>
