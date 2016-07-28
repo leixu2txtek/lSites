@@ -39,7 +39,6 @@ define(['../../../js/common'], function() {
                     cancelVal: '取消'
                 });
 
-
             add_form.gform({
                 url: config.host + 'widget/save',
                 beforeSubmit: function() {
