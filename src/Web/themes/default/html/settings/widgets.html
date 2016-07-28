@@ -67,8 +67,9 @@
         <thead>
             <tr>
                 <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
-                <th>所在站点</th>
-                <th>名称</th>
+                <th id="name">挂件ID</th>
+                <th id="title">挂件名称</th>
+                <th id="containerId">占位符ID</th>
                 <th id="dateCreated">创建时间</th>
                 <th>创建者</th>
                 <th>操作</th>
@@ -80,20 +81,19 @@
                 <td class="group-article-checkbox">
                     <input type="checkbox">
                 </td>
-                <td class="group-article-zy">
-                    <div class="autocut" title="{{item.site_id}}">{{item.site_id}}</div>
-                </td>
                 <td>{{item.name}}</td>
+                <td>{{item.title}}</td>
+                <td>{{item.container_id}}</td>
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{item.display_name}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="javascript:(0);" title="编辑" target="_blank" class="widget_edit"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="编辑" data-id="{{item.id}}" class="edit"><i class="iconfont group-icon group-icon-bianji"></i></a>
                     <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}} {{else}}
             <tr class="no-data-tr" style="background-color:none;">
-                <td colspan="9">
+                <td colspan="7">
                     <div class="no-data">
                         <i class="iconfont group-icon group-icon-zanwuneirong"></i>
                         <p>暂无数据</p>
@@ -105,16 +105,22 @@
     <div class="x-paging-container"></div>
 </script>
 <script type="text/html" id="widget_add_form">
+
     <form class="add-form" method="post">
         <input type="hidden" name="id" value="{{id}}" />
         <input type="hidden" name="siteId" value="{{siteId}}" />
-        <div class="form-group addForm-input">
-            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>所在站点：</lable>
-            <input type="text" name="site_id" class="form-control" value="{{site_id}}" />
+
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>挂件ID：</lable>
+            <input type="text" name="name" class="form-control" value="{{name}}" />
         </div>
         <div class="addForm-input">
-            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>名称：</lable>
-            <input type="text" name="name" class="form-control" value="{{name}}" />
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>挂件名称：</lable>
+            <input type="text" name="title" class="form-control" value="{{title}}" />
+        </div>
+        <div class="addForm-input">
+            <lable class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>占位符ID：</lable>
+            <input type="text" name="containerId" class="form-control" value="{{container_id}}" />
         </div>
     </form>
 </script>

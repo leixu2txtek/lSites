@@ -91,16 +91,16 @@ define(['../../../js/common'], function() {
                 var table = $('table', form).gtable();
 
                 // 编辑站点
-                $('.widget_edit', table).on('click', function() {
+                $('.edit', table).on('click', function() {
 
-                    $.post(config.host + 'widget/detail', { id: $(this).data('id') }, function(r) {
+                    $.post(config.host + 'widget/detail', { id: $(this).data('id'), siteId: siteId }, function(r) {
 
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
                         }
 
-                        var edit_form = $(template('widget_add_form', r)),
+                        var edit_form = $(template('widget_add_form', r.widget)),
                             dlg = $M({
                                 title: '编辑站点',
                                 content: edit_form[0],
