@@ -97,8 +97,12 @@
                     <td>{{item.date_created | format_date}}</td>
                     <td>{{item.date_last_visit | format_date}}</td>
                     <td class="group-article-tabelTools">
-                        <a href="javascript:(0);" class="edit" data-id="{{item.id}}">编辑</a>
-                        <a href="javascript:(0);" class="delete" data-id="{{item.id}}">删除</a>
+                        <a href="javascript:(0);" title="编辑" target="_blank" class="edit" data-id="{{item.id}}">
+                            <i class="iconfont group-icon group-icon-bianji"></i>
+                        </a>
+                        <a href="javascript:(0);" class="delete" data-id="{{item.id}}">
+                            <i class="iconfont group-icon group-icon-shanchu"></i>
+                        </a>
                     </td>
                 </tr>
                 {{/each}}
