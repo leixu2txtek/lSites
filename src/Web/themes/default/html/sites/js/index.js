@@ -25,7 +25,6 @@ define(['../../../js/common'], function() {
                     title: '添加新站点',
                     content: add_form[0],
                     width: '450px',
-                    height: '350px',
                     lock: true,
                     position: '50% 50%',
                     ok: function() {
@@ -117,12 +116,11 @@ define(['../../../js/common'], function() {
                             return false;
                         }
 
-                        var edit_form = $(template('site_add_form', r)),
+                        var edit_form = $(template('site_add_form', r.data)),
                             dlg = $M({
                                 title: '编辑站点',
                                 content: edit_form[0],
                                 width: '450px',
-                                height: '350px',
                                 lock: true,
                                 position: '50% 50%',
                                 ok: function() {
