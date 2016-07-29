@@ -574,7 +574,6 @@ span:focus {
     width: 300px;
     border-radius: 0px;
     border: 1px solid #b6b6b6;
-    margin-left: -3px;
     height: 35px;
     line-height: 35px;
     font-size: 12px;
@@ -829,6 +828,10 @@ span:focus {
 
 .group-optionForm-container .group-info-select {
     margin-left: 15px;
+}
+
+.group-setting-container {
+    margin: 8px 0px 0px 33px;
 }
 
 

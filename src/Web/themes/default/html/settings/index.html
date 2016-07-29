@@ -35,8 +35,8 @@
             </div>
             <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
                 <div class="group-page2">
-                    <nav class="navbar group-article-top navbar-fixed-top group-option-top">
-                        <h3>
+                    <nav class="navbar group-article-top navbar-fixed-top group-option-top" id="nav_tools">
+                        <h3 class="navbar-brand">
                             <ul class="breadcrumb">
                                 <li>
                                     <a href="javascript:void(0);">
@@ -46,13 +46,15 @@
                                 <li class="active">站点信息</li>
                             </ul>
                         </h3>
+                        <div class="navbar-collapse collapsc navbar-right group-operation-btn">
+                            <button type="submit" class="btn btn-default btn-primary btn_save">保存</button>
+                        </div>
                     </nav>
 
                     <div class="table-responsive group-option-table">
                         <h3 class="information-top"><span>站点信息</span></h3>
                     </div>
-                    <div class="group-optionForm-container">
-
+                    <div class="group-setting-container" id="setting_form_container">
                     </div>
                 </div>
             </div>
@@ -62,45 +64,47 @@
     <script type="text/html" id="setting_form">
         <form class="form-horizontal group-information-form">
             <div class="form-group">
-                <label class="col-sm-2 control-label">站点标题：</label>
+                <label class="col-sm-2 control-label">名称：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" placeholder="站点标题">
+                    <input type="text" class="form-control" name="title" placeholder="名称" value={{title}}>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">站点域名：</label>
+                <label class="col-sm-2 control-label">域名：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" placeholder="站点域名">
+                    <input type="text" class="form-control" name="domain" placeholder="域名" value={{domain}}>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">logo：</label>
+                <div class="col-sm-10 group-information-input">
+                    <input type="text" class="form-control" name="logo" placeholder="logo">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">关键字：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" placeholder="关键字">
+                    <input type="text" class="form-control" name="keyWords" placeholder="关键字" value={{keyWords}}>
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">站点主题：</label>
-                <select class="form-control group-info-select select2-offscreen" data-placeholder="选择站点主题">
+                <label for="firstname" class="col-sm-2 control-label">描述：</label>
+                <div class="col-sm-10 group-information-input">
+                    <textarea name="content" rows="5" class="form-control" name="description" value={{description}}></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">主题：</label>
+                <select class="form-control group-info-select select2-offscreen" data-placeholder="选择站点主题" name="theme" data-selected="{{theme}}">
                     <option></option>
                     <option value="default">default</option>
                 </select>
             </div>
             <div class="form-group">
-                <label class="col-sm-2 control-label">站点排序：</label>
+                <label class="col-sm-2 control-label">排序：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" id="firstname" placeholder="站点排序">
+                    <input type="text" class="form-control" id="firstname" name="sort_order" placeholder="站点排序" style="width:100px;" value={{sort_order}}>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="firstname" class="col-sm-2 control-label">站点描述：</label>
-                <div class="col-sm-10 group-information-input">
-                    <textarea name="content" rows="5" class="form-control"></textarea>
-                </div>
-            </div>
-            <div class="form-group group-Columns-button">
-                <button type="submit" class="btn btn-default group-Columns-save">保存</button>
-                <button type="submit" class="btn btn-default group-Columns-dele">删除</button>
             </div>
         </form>
     </script>
