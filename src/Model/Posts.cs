@@ -119,6 +119,12 @@ namespace Kiss.Components.Site
         [NotNull(0)]
         public bool IsDeleted { get; set; }
 
+        /// <summary>
+        /// 文章的第一个图片
+        /// </summary>
+        [NotNull(""), Length(500)]
+        public string ImageUrl { get; set; }
+
         #endregion
 
         #region extend props

@@ -11,6 +11,8 @@ define(['../../../js/common'], function () {
         var form = $('#post_form'),
             nav = $('#nav_tools');
 
+        $('#btn_add', nav).prop('href', 'edit.html?siteId=' + util.get_query('siteId'));
+
         //批量发布        
         $('.btn_publish', nav).on('click', function () {
 

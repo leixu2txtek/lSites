@@ -233,7 +233,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     summary = item["summary"].ToString(),
                     text = item["text"].ToString(),
                     view_count = item["viewCount"].ToInt(),
-                    image_url = string.Empty
+                    image_url = item["imageUrl"].ToString()
                 });
             }
 
@@ -317,7 +317,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     summary = item["summary"].ToString(),
                     text = item["text"].ToString(),
                     view_count = item["viewCount"].ToInt(),
-                    image_url = string.Empty
+                    image_url = item["imageUrl"].ToString()
                 });
             }
 

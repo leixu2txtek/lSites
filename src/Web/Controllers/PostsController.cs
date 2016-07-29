@@ -222,7 +222,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     content = post.Content,
                     text = post.Text,
                     summary = post.Summary,
-                    category = category,
+                    category = category ?? new object() { },
                     date_created = post.DateCreated,
                     view_count = post.ViewCount,
                     sort_order = post.SortOrder,
@@ -244,6 +244,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="categoryId">文章分类ID</param>
         /// <param name="viewCount">文章查看次数</param>
         /// <param name="sortOrder">文章序号</param>
+        /// <param name="imageUrl">引导图片</param>
         /// <param name="publish">是否发布</param>
         /// <returns>
         /// {
@@ -254,7 +255,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月30日20:19:36
         [HttpPost]
-        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, bool publish)
+        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string imageUrl, bool publish)
         {
             #region 校验参数
 
@@ -325,6 +326,20 @@ namespace Kiss.Components.Site.Web.Controllers
                 post.CategoryId = category == null ? string.Empty : category.Id;
                 post.SortOrder = sortOrder;
                 post.ViewCount = viewCount;
+                post.DisplayName = jc.User.Info.DisplayName;
+
+                #region 处理图片
+
+                post.ImageUrl = imageUrl;
+
+                if (string.IsNullOrEmpty(post.ImageUrl))
+                {
+                    Match match = new Regex(@"(?i)<img\b(?:(?!src=).)*src=(['""]?)(?<src>[^'""\s>]+)\1[^>]*>").Match(post.Content);
+
+                    if (match.Success) post.ImageUrl = match.Groups["src"].Value;
+                }
+
+                #endregion
 
                 #region 审核
 
@@ -357,31 +372,34 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 文章移至回收站
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
-        /// <param name="id">文章ID</param>
+        /// <param name="ids">文章ID数组</param>
         /// <returns>
         /// {
-        ///     code = 1,           //-1：指定的文章不存在，2：文章已被发布，是否确认删除
+        ///     code = 1,           //-1：要删除的文章ID不能为空，-3：指定的文章不存在，2：文章已被发布，是否确认删除
         ///     msg = "移至回收站成功"
         /// }
         /// </returns>
         /// leixu
         /// 2016年6月30日20:30:59
         [HttpPost]
-        object delete(string id, bool confirmed)
+        object delete(string[] ids, bool confirmed)
         {
+            if (ids.Length == 0) return new { code = -1, msg = "要删除的文章ID不能为空" };
+
             var site = (Site)jc["site"];
 
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
-                var post = (from q in cx
-                            where q.Id == id && q.SiteId == site.Id && q.IsDeleted == false
-                            select q).FirstOrDefault();
+                var posts = (from q in cx
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsDeleted == false
+                             select q).ToList();
 
-                if (post == null) return new { code = -1, msg = "指定的文章不存在，可能已被移至回收站" };
+                if (posts.Count == 1 && !confirmed && posts[0].Status == Status.PUBLISHED) return new { code = 2, msg = "文章已被发布，是否确认删除" };
 
-                if (!confirmed && post.Status == Status.PUBLISHED) return new { code = 2, msg = "文章已被发布，是否确认删除" };
-
-                post.IsDeleted = true;
+                foreach (var post in posts)
+                {
+                    post.IsDeleted = true;
+                }
 
                 cx.SubmitChanges();
             }
