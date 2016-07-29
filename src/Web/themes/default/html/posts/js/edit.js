@@ -32,6 +32,7 @@ define(['../../../js/common'], function() {
                 }, function(r) {
 
                     r = handleException(r);
+
                     if (!r || r.code < 0) {
 
                         alert(r.msg || '发生未知错误，请刷新页面后尝试');

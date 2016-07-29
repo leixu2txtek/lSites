@@ -21,10 +21,10 @@ define(['../../../js/common'], function() {
             form.append('<input type="hidden" name="siteId" value="' + siteId + '" />');
         }
 
-        // 添加新站点
+        // 添加新挂件
         $('.add-widgets', nav).on('click', function() {
 
-            var add_form = $(template('widget_add_form', { siteId: siteId })),
+            var add_form = $(template('widget_add_form', { site_id: siteId })),
                 dlg = $M({
                     title: '添加新挂件',
                     content: add_form[0],
@@ -42,7 +42,6 @@ define(['../../../js/common'], function() {
             add_form.gform({
                 url: config.host + 'widget/save',
                 beforeSubmit: function() {
-
                     var name = $('[name=name]', add_form).val();
 
                     if (name.length == 0) {
@@ -91,8 +90,14 @@ define(['../../../js/common'], function() {
 
                 // 编辑站点
                 $('.edit', table).on('click', function() {
+                    debugger;
+                    var siteId = util.get_query('siteId'),
+                        id = $(this).data('id');
+
 
                     $.post(config.host + 'widget/detail', { id: $(this).data('id'), siteId: siteId }, function(r) {
+
+                        r = handleException(r);
 
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
@@ -115,7 +120,9 @@ define(['../../../js/common'], function() {
                             });
 
                         edit_form.gform({
+
                             url: config.host + 'widget/save',
+
                             beforeSubmit: function() {
 
                                 var name = $('[name=name]', edit_form).val();
@@ -130,6 +137,7 @@ define(['../../../js/common'], function() {
 
                             },
                             onSuccess: function(r) {
+
 
                                 if (!r || r.code < 0) {
 

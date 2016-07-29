@@ -13,6 +13,7 @@ define(['../../../js/common'], function() {
 
             form.submit();
             return false;
+
         });
 
         $.ajax({
@@ -40,6 +41,8 @@ define(['../../../js/common'], function() {
                 beforeSubmit: function() {
 
                     //TODO 验证数据是否正确
+
+
                 },
                 onSuccess: function(r) {
 
