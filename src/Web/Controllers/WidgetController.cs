@@ -215,6 +215,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="name">挂件名称</param>
         /// <param name="title">挂件的显示标题</param>
         /// <param name="containerId">挂件的占位标识</param>
+        /// <param name="sortOrder">挂件的顺序</param>
         /// <param name="props">扩展字段，例如：{"categoryId": "xxxxxx"}</param>
         /// <returns>
         /// {
@@ -223,7 +224,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// }
         /// </returns>
         [HttpPost]
-        object save(string id, string name, string title, string containerId, string props)
+        object save(string id, string name, string title, string containerId, int sortOrder, string props)
         {
             #region 参数校验
 
@@ -262,6 +263,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 widget.Name = name;
                 widget.Title = title;
                 widget.ContainerId = containerId;
+                widget.SortOrder = sortOrder;
 
                 #region 处理扩展字段信息
 

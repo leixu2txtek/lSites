@@ -59,6 +59,11 @@ namespace Kiss.Components.Site
         [NotNull("")]
         public DateTime DateCreated { get; set; }
 
+        /// <summary>
+        /// 序号
+        /// </summary>
+        public int SortOrder { get; set; }
+
         #region extend props
 
         [NotNull(""), Length(int.MaxValue)]

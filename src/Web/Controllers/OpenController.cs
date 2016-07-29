@@ -68,13 +68,13 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
-        /// 根据ids获取挂件内容信息
+        /// 根据容器ID获取挂件内容信息
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
-        /// <param name="ids">挂件ID数组</param>
+        /// <param name="ids">挂件容器ID数组</param>
         /// <returns>
         /// {
-        ///     code = 1,
+        ///     code = 1,                       //-1：指定的挂件容器ID不能为空
         ///     widgets = 
         ///     [
         ///         {
@@ -91,7 +91,11 @@ namespace Kiss.Components.Site.Web.Controllers
         [HttpPost]
         object get_widgets(string[] ids)
         {
-            var widgets = Widget.Gets(ids);
+            if (ids.Length == 0) return new { code = -1, msg = "指定的挂件容器ID不能为空" };
+
+            var widgets = (from q in Widget.CreateContext()
+                           where new List<string>(ids).Contains(q.ContainerId)
+                           select q).ToList();
 
             var data = new ArrayList();
 
