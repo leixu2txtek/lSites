@@ -1,10 +1,10 @@
-define(['../../../js/common'], function() {
+define(['../../../js/common'], function () {
 
     document.title = '挂件列表 - CMS内容管理系统';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function(template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
 
-        template.helper('format_date', function(date) {
+        template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
 
@@ -22,7 +22,7 @@ define(['../../../js/common'], function() {
         }
 
         // 添加新挂件
-        $('.add-widgets', nav).on('click', function() {
+        $('.add-widgets', nav).on('click', function () {
 
             var add_form = $(template('widget_add_form', { site_id: siteId })),
                 dlg = $M({
@@ -31,7 +31,7 @@ define(['../../../js/common'], function() {
                     width: '450px',
                     lock: true,
                     position: '50 % 50 %',
-                    ok: function() {
+                    ok: function () {
                         add_form.submit();
                     },
                     okVal: '保存',
@@ -41,7 +41,7 @@ define(['../../../js/common'], function() {
 
             add_form.gform({
                 url: config.host + 'widget/save',
-                beforeSubmit: function() {
+                beforeSubmit: function () {
                     var name = $('[name=name]', add_form).val();
 
                     if (name.length == 0) {
@@ -53,7 +53,7 @@ define(['../../../js/common'], function() {
                     }
 
                 },
-                onSuccess: function(r) {
+                onSuccess: function (r) {
 
                     if (!r || r.code < 0) {
 
@@ -70,10 +70,10 @@ define(['../../../js/common'], function() {
 
         });
 
-        // TODO  绑定表单
+        // 绑定表单
         form.gform({
             url: config.host + 'widget/list',
-            onSuccess: function(r) {
+            onSuccess: function (r) {
 
                 if (!r || r.code < 0) {
 
@@ -89,13 +89,11 @@ define(['../../../js/common'], function() {
                 var table = $('table', form).gtable();
 
                 // 编辑站点
-                $('.edit', table).on('click', function() {
-                    debugger;
+                $('.edit', table).on('click', function () {
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
-
-                    $.post(config.host + 'widget/detail', { id: $(this).data('id'), siteId: siteId }, function(r) {
+                    $.post(config.host + 'widget/detail', { id: $(this).data('id'), siteId: siteId }, function (r) {
 
                         r = handleException(r);
 
@@ -111,7 +109,7 @@ define(['../../../js/common'], function() {
                                 width: '450px',
                                 lock: true,
                                 position: '50% 50%',
-                                ok: function() {
+                                ok: function () {
                                     edit_form.submit();
                                 },
                                 okVal: '保存',
@@ -123,7 +121,7 @@ define(['../../../js/common'], function() {
 
                             url: config.host + 'widget/save',
 
-                            beforeSubmit: function() {
+                            beforeSubmit: function () {
 
                                 var name = $('[name=name]', edit_form).val();
 
@@ -136,7 +134,7 @@ define(['../../../js/common'], function() {
                                 }
 
                             },
-                            onSuccess: function(r) {
+                            onSuccess: function (r) {
 
 
                                 if (!r || r.code < 0) {
@@ -156,20 +154,20 @@ define(['../../../js/common'], function() {
                 });
 
                 // 删除站点
-                $('.delete', table).on('click', function() {
+                $('.delete', table).on('click', function () {
 
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
                     if (!confirm('是否确定彻底删除此挂件')) return false;
 
-                    var delete_site = function(confirmed) {
+                    var delete_site = function (confirmed) {
 
                         $.post(config.host + 'widget/delete', {
                             id: id,
                             siteId: siteId,
                             confirmed: confirmed || false
-                        }, function(r) {
+                        }, function (r) {
 
                             if (!r || r.code < 0) {
                                 alert(r.msg || '发生未知错误，请刷新页面后尝试');
@@ -187,7 +185,7 @@ define(['../../../js/common'], function() {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function(form) {
+            callback: function (form) {
                 form.submit();
             }
         });
