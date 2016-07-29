@@ -177,8 +177,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
             title = title.Trim();
             domain = domain.Trim();
-            keyWords = keyWords.Trim();
-            description = description.Trim();
+            keyWords = string.IsNullOrWhiteSpace(keyWords) ? string.Empty : keyWords.Trim();
+            description = string.IsNullOrWhiteSpace(description) ? string.Empty : description.Trim();
             theme = string.IsNullOrEmpty(theme) ? "default" : theme.Trim();
 
             if (title.Length > 100) return new { code = -6, msg = "站点标题不能超过100个字符" };
