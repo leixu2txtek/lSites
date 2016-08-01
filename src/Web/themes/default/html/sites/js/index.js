@@ -177,7 +177,7 @@ define(['../../../js/common'], function() {
                                     return false;
                                 }
 
-                                dlg.close();
+                                dlg.close(); //关闭dlg
 
                                 alert('已修改添加站点信息');
                                 form.submit(); //重新刷新站点列表
