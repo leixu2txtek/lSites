@@ -49,8 +49,8 @@ define(['../../../js/common'], function () {
         //批量放入回收站      
         $('.btn_delete', nav).on('click', function () {
 
-            var siteId = util.get_query('siteId'),
-                ids = $('table:first', form).get_selected_row_id();
+            var siteId = util.get_query('siteId'),    // util.get_query('siteId')???
+                ids = $('table:first', form).get_selected_row_id();   //get_selected_row_id??
 
             if (ids.length == 0) {
 
@@ -60,21 +60,35 @@ define(['../../../js/common'], function () {
 
             if (!confirm('是否确认将选中的文章放入回收站？')) return false;
 
-            $.post(config.host + 'posts/delete', {
-                siteId: siteId,
-                ids: ids
-            }, function (r) {
+            var p_delete = function (confirmed) {
 
-                if (!r || r.code < 0) {
+                $.post(config.host + 'posts/delete', {
+                    ids: ids,
+                    siteId: siteId,
+                    confirmed: confirmed || false
+                }, function (r) {
 
-                    alert(r.msg || '发生未知错误，请刷新后尝试');
-                    return false;
-                }
+                    r = handleException(r);
 
-                alert('成功将选中的文章放入回收站');
-                form.submit();
+                    if (!r || r.code < 0) {
+                        alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                        return false;
+                    }
 
-            }, 'json');
+                    if (r.code == 1) {
+
+                        alert('已成功将文章移至回收站');
+                        form.submit();
+
+                        return false;
+                    }
+
+                    confirm('选中的文章已经发布，是否确认要移至回收站？') && p_delete(true);
+
+                }, 'json');
+            };
+
+            p_delete(false);
 
             return false;
         });
@@ -92,6 +106,8 @@ define(['../../../js/common'], function () {
         form.gform({
             url: config.host + 'posts/list',
             onSuccess: function (r) {
+
+                r = handleException(r);
 
                 if (!r || r.code < 0) {
 
@@ -118,6 +134,8 @@ define(['../../../js/common'], function () {
                         siteId: siteId
                     }, function (r) {
 
+                        r = handleException(r);
+
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
@@ -142,10 +160,12 @@ define(['../../../js/common'], function () {
                     var p_delete = function (confirmed) {
 
                         $.post(config.host + 'posts/delete', {
-                            id: id,
+                            ids: [id],
                             siteId: siteId,
                             confirmed: confirmed || false
                         }, function (r) {
+
+                            r = handleException(r);
 
                             if (!r || r.code < 0) {
                                 alert(r.msg || '发生未知错误，请刷新页面后尝试');
@@ -182,25 +202,26 @@ define(['../../../js/common'], function () {
                         ids: [id],
                         siteId: siteId
                     }, function (r) {
+
+                        r = handleException(r);
+
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新后尝试');
                             return false;
                         }
+
                         alert('取消成功');
                         form.submit();
+
                     }, 'json');
+
                     return false;
                 });
-
-
-
 
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) {
-                form.submit();
-            }
+            callback: function (form) { form.submit(); }
         });
     });
 });
