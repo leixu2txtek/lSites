@@ -4,8 +4,8 @@ define(['../../../js/common'], function () {
 
     require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
-        var form = $('#trash_form');
-
+        var form = $('#trash_form'),
+            nav = $('#nav_tools');
         template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
@@ -19,6 +19,48 @@ define(['../../../js/common'], function () {
         if (form.find('input[name=siteId]').length == 0) {
             form.append('<input type="hidden" name="siteId" value="' + util.get_query('siteId') + '" />');
         }
+
+        // 批量删除
+        $('.btn_empty', nav).on('click', function () {
+
+            var siteId = util.get_query('siteId'),
+                ids = $('table:first', form).get_selected_row_id();
+            if (ids.length == 0) {
+                if (!confirm('确定清空回收站？')) return false;
+            } else {
+                if (!confirm('是否将选中的文章彻底删除？')) return false;
+            }
+
+            var p_delete = function (confirmed) {
+                $.post(config.host + 'posts/delete_completely', {
+                    ids: ids,
+                    siteId: siteId,
+                    confirmed: confirmed || false
+                }, function (r) {
+                    r = handleException(r);
+
+                    if (!r || r.code < 0) {
+                        alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                        return false;
+                    }
+
+                    if (r.code == 1) {
+
+                        alert('已成功将文章移至回收站');
+                        form.submit();
+
+                        return false;
+                    }
+
+                    confirm('选中的文章已经发布，是否确认要移至回收站？') && p_delete(true);
+                }, 'json');
+
+            };
+
+            p_delete(false);
+
+            return false;
+        });
 
         // 绑定表单
         form.gform({
