@@ -11,7 +11,7 @@ define(['../../../js/common'], function () {
         var form = $('#post_form'),
             nav = $('#nav_tools');
 
-        $('#btn_add', nav).prop('href', 'edit.html?siteId=' + util.get_query('siteId'));
+        $('#btn_add', nav).prop('href', 'edit.html?siteId=' + util.get_query('siteId')); 
 
         //批量发布        
         $('.btn_publish', nav).on('click', function () {
@@ -49,8 +49,8 @@ define(['../../../js/common'], function () {
         //批量放入回收站      
         $('.btn_delete', nav).on('click', function () {
 
-            var siteId = util.get_query('siteId'),    // util.get_query('siteId')???
-                ids = $('table:first', form).get_selected_row_id();   //get_selected_row_id??
+            var siteId = util.get_query('siteId'),   
+                ids = $('table:first', form).get_selected_row_id(); 
 
             if (ids.length == 0) {
 

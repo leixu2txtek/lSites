@@ -22,8 +22,12 @@ define(['../../../js/common'], function () {
 
         // 绑定表单
         form.gform({
+
             url: config.host + 'posts/trash',
             onSuccess: function (r) {
+
+                r = handleException(r);
+
                 if (!r || r.code < 0) {
                     alert(r.msg || '发生未知错误，请刷新尝试');
                     return false;
@@ -54,6 +58,8 @@ define(['../../../js/common'], function () {
                         siteId: siteId
                     }, function (r) {
 
+                        r = handleException(r);
+
                         if (!r || r.cod < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
@@ -70,6 +76,8 @@ define(['../../../js/common'], function () {
                 // 彻底删除
                 $('.remove', table).on('click', function () {
 
+                    r = handleException(r);
+
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
@@ -79,6 +87,8 @@ define(['../../../js/common'], function () {
                         ids: [id],
                         siteId: siteId
                     }, function (r) {
+
+                        r = handleException(r);
 
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
@@ -105,6 +115,9 @@ define(['../../../js/common'], function () {
                         ids: [id],
                         siteId: siteId
                     }, function (r) {
+
+                        r = handleException(r);
+
                         if (!r || r.code < 0) {
 
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
