@@ -70,28 +70,30 @@
     <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
         <thead>
             <tr>
+                <th>序号</th>
                 <th>名称</th>
                 <th>域名</th>
                 <th>关键字</th>
                 <th>描述文字</th>
                 <th>创建者</th>
                 <th>创建时间</th>
-                <th>序号</th>
                 <th>操作</th>
             </tr>
         </thead>
         <tbody>
             {{if data.length > 0}}{{each data as item i}}
             <tr id="{{item.id}}">
+                <td>{{item.sort_order}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.domain}}</td>
-                <td>{{item.key_words}}</td>
+                <td class="site-Keyword">
+                    <div class="site-Keyword-con">{{item.key_words}}</div>
+                </td>
                 <td class="group-article-zy">
                     <div class="autocut" title="{{item.description}}">{{item.description}}</div>
                 </td>
                 <td>{{item.display_name}}</td>
                 <td>{{item.date_created | format_date}}</td>
-                <td>{{item.sort_order}}</td>
                 <td class="group-site-tabelTools">
                     <a href="javascript:(0);" class="tabelTools-edit edit" data-id="{{item.id}}" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
                     <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon group-icon-shanchu"></i></a>

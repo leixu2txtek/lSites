@@ -38,9 +38,9 @@ define(['../../../js/common'], function() {
 
             form.gform({
                 url: config.host + 'site/save',
-                beforeSubmit: function() {
-
-                    //TODO 验证数据是否正确
+                beforeSubmit: function () {
+                    
+                    // 验证数据是否正确
 
 
                 },

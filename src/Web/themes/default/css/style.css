@@ -318,7 +318,7 @@ span:focus {
 .group-article-table .table th,
 .group-article-table .table td {
     text-align: center;
-    padding: 6px 0px;
+    padding: 6px 2px;
 }
 
 .group-article-table .group-articleform-top {
@@ -411,8 +411,8 @@ span:focus {
 .group-article-zy {
     width: 320px;
 }
-
-.group-article-zy .autocut {
+.site-Keyword{width: 200px;}
+.group-article-zy .autocut,.group-article-table .table td .site-Keyword-con {
     width: inherit;
     overflow: hidden;
     white-space: nowrap;
