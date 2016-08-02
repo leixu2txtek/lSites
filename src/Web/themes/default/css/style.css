@@ -24,9 +24,10 @@ span:focus {
 
 body .has-error .form-control {
     border-color: #a94442 !important;
-    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
+
 .select2-dropdown {
     border-radius: 0px;
 }
@@ -416,8 +417,13 @@ body .has-error .form-control {
 .group-article-zy {
     width: 320px;
 }
-.site-Keyword{width: 200px;}
-.group-article-zy .autocut,.group-article-table .table td .site-Keyword-con {
+
+.site-Keyword {
+    width: 200px;
+}
+
+.group-article-zy .autocut,
+.group-article-table .table td .site-Keyword-con {
     width: inherit;
     overflow: hidden;
     white-space: nowrap;
@@ -512,6 +518,17 @@ body .has-error .form-control {
 .group-Columns-information {
     margin-left: 260px;
     padding-top: 8px;
+}
+
+.column-select {
+    position: relative;
+}
+
+.select2-column-clear {
+    position: absolute;
+    right: 9px;
+    top: 4px;
+   cursor: pointer;
 }
 
 

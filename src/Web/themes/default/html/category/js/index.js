@@ -20,8 +20,11 @@ define(['../../../js/common'], function() {
                     $.post(config.host + 'category/detail', { id: node.id, siteId: util.get_query('siteId') }, function(r) {
 
                         if (!r || r.code < 0) {
+
                             alert(r.msg || '发生未知错误，请刷新尝试');
+                            
                             return false;
+
                         }
 
                         var form = $(template('category_form', { item: r.data }));

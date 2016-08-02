@@ -70,6 +70,8 @@ define(['../../../js/common'], function () {
             url: config.host + 'user/list',
             onSuccess: function (r) {
 
+                r = handleException(r);
+
                 if (!r || r.code < 0) {
 
                     alert(r.msg || '发生未知错误，请刷新后尝试');
@@ -93,6 +95,8 @@ define(['../../../js/common'], function () {
                         userId: $(this).data('id')
                     }, function (r) {
 
+                        r = handleException(r);
+
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');
                             return false;
@@ -112,6 +116,8 @@ define(['../../../js/common'], function () {
                         siteId: siteId,
                         userId: $(this).data('id')
                     }, function (r) {
+
+                        r = handleException(r);
 
                         if (!r || r.code < 0) {
                             alert(r.msg || '发生未知错误，请刷新页面后尝试');

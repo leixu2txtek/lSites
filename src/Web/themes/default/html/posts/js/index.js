@@ -104,7 +104,9 @@ define(['../../../js/common'], function () {
 
         //绑定表单
         form.gform({
+            
             url: config.host + 'posts/list',
+
             onSuccess: function (r) {
 
                 r = handleException(r);

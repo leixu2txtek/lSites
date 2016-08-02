@@ -55,6 +55,8 @@ define(['../../../js/common'], function () {
                 },
                 onSuccess: function (r) {
 
+                    r = handleException(r);
+
                     if (!r || r.code < 0) {
 
                         alert(r.msg || '发生未知错误，请刷新后尝试');
@@ -74,6 +76,8 @@ define(['../../../js/common'], function () {
         form.gform({
             url: config.host + 'widget/list',
             onSuccess: function (r) {
+
+                r = handleException(r);
 
                 if (!r || r.code < 0) {
 
@@ -136,6 +140,7 @@ define(['../../../js/common'], function () {
                             },
                             onSuccess: function (r) {
 
+                                r = handleException(r);
 
                                 if (!r || r.code < 0) {
 
@@ -168,6 +173,8 @@ define(['../../../js/common'], function () {
                             siteId: siteId,
                             confirmed: confirmed || false
                         }, function (r) {
+
+                             r = handleException(r);
 
                             if (!r || r.code < 0) {
                                 alert(r.msg || '发生未知错误，请刷新页面后尝试');
