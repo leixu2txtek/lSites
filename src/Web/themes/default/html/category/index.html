@@ -80,7 +80,7 @@
             <div class="form-group">
                 <label for="firstname" class="col-sm-2 control-label">上级栏目：</label>
                 <div class="col-sm-10 group-information-input group-information-Parent column-select">
-                    <span class="select2-column-clear">×</span>
+                    <a href="javascript:(0);" class="select2-column-clear" id="column-close" style="display:none;">×</a>
                     <input type="hidden" name="parentId" value="{{item.parent.id}}" />
                     <input type="text" id="parent_name" class="form-control" placeholder="选择上级栏目" value="{{item.parent.title}}">
                 </div>
