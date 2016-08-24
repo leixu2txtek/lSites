@@ -191,7 +191,6 @@ define(['../../../js/common'], function () {
 
 
                 // 取消发布
-
                 $('.unpublished', table).on('click', function () {
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');

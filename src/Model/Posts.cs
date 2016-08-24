@@ -186,7 +186,9 @@ namespace Kiss.Components.Site
 
         public void OnView(ViewEventArgs e)
         {
-            View?.Invoke(this, e);
+            var handler = View;
+
+            if (handler != null) handler(this, e);
         }
 
         public class AfterSaveEventArgs : EventArgs
@@ -198,7 +200,9 @@ namespace Kiss.Components.Site
 
         public void OnAfterSave(AfterSaveEventArgs e)
         {
-            AfterSave?.Invoke(this, e);
+            var handler = AfterSave;
+
+            if (handler != null) handler(this, e);
         }
 
         public class BeforeSaveEventArgs : EventArgs
@@ -212,7 +216,9 @@ namespace Kiss.Components.Site
 
         public void OnBeforeSave(BeforeSaveEventArgs e)
         {
-            BeforeSave?.Invoke(this, e);
+            var handler = BeforeSave;
+
+            if (handler != null) handler(this, e);
         }
 
         #endregion

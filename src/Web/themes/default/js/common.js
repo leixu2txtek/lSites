@@ -24,7 +24,7 @@ requirejs.config({
 
 const config = {
     host: '/',
-    prefix: '/sites/html/',
+    prefix: '/themes/default/html/',
 };
 
 const util = {
@@ -60,51 +60,51 @@ const menus = [{
         url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
         key: 'posts/index'
     }, {
-            title: '待审核的',
-            url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
-            key: 'posts/audit'
-        }, {
-            title: '已发布的',
-            url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
-            key: 'posts/publish'
-        }, {
-            title: '回收站',
-            url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
-            key: 'posts/trash'
-        }]
+        title: '待审核的',
+        url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/audit'
+    }, {
+        title: '已发布的',
+        url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/publish'
+    }, {
+        title: '回收站',
+        url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
+        key: 'posts/trash'
+    }]
 }, {
-        title: '栏目',
-        icon: 'group-icon-nav',
-        key: 'category',
-        url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
+    title: '栏目',
+    icon: 'group-icon-nav',
+    key: 'category',
+    url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
+}, {
+    title: '选项',
+    icon: 'group-icon-androidoptions',
+    key: 'settings',
+    children: [{
+        title: '站点信息',
+        url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
+        key: 'settings/index'
     }, {
-        title: '选项',
-        icon: 'group-icon-androidoptions',
-        key: 'settings',
-        children: [{
-            title: '站点信息',
-            url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
-            key: 'settings/index'
-        }, {
-                title: '挂件管理',
-                url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
-                key: 'settings/widgets'
-            }, {
-                title: '参数配置',
-                url: config.prefix + 'settings/config.html?siteId=' + util.get_query('siteId'),
-                key: 'settings/config'
-            }]
+        title: '挂件管理',
+        url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
+        key: 'settings/widgets'
     }, {
-        title: '用户管理',
-        icon: 'group-icon-yonghu',
-        key: 'users/index',
-        url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
-    }, {
-        title: '站点管理',
-        icon: 'group-icon-zhandianguanli',
-        key: 'sites/index',
-        url: config.prefix + 'sites/index.html?siteId=' + util.get_query('siteId'),
-    }];
+        title: '参数配置',
+        url: config.prefix + 'settings/config.html?siteId=' + util.get_query('siteId'),
+        key: 'settings/config'
+    }]
+}, {
+    title: '用户管理',
+    icon: 'group-icon-yonghu',
+    key: 'users/index',
+    url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
+}, {
+    title: '站点管理',
+    icon: 'group-icon-zhandianguanli',
+    key: 'sites/index',
+    url: config.prefix + 'sites/index.html?siteId=' + util.get_query('siteId'),
+}];
 
 const handleException = function (r) {
 

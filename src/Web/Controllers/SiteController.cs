@@ -275,8 +275,8 @@ namespace Kiss.Components.Site.Web.Controllers
             q.LoadCondidtion();
 
             if (!string.IsNullOrEmpty(id)) q["siteId"] = id;
-            if (!string.IsNullOrEmpty(title)) q["title"] = id;
-            if (!string.IsNullOrEmpty(domain)) q["domain"] = id;
+            if (!string.IsNullOrEmpty(title)) q["title"] = title;
+            if (!string.IsNullOrEmpty(domain)) q["domain"] = domain;
 
             q.TotalCount = Site.Count(q);
             if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);

@@ -53,8 +53,8 @@
       <HintPath>..\packages\Kiss.Components.TemplateEngine.4.7.0602.0\lib\Kiss.Components.TemplateEngine.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Kiss.Web, Version=5.0.627.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Kiss.Web.5.0.0627.0\lib\Kiss.Web.dll</HintPath>
+    <Reference Include="Kiss.Web, Version=5.0.808.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Kiss.Web.5.0.0808.0\lib\Kiss.Web.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -219,7 +219,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>54594</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
