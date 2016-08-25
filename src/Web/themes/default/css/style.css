@@ -235,8 +235,8 @@ body .has-error .form-control {
     margin-right: 22px;
 }
 
-.group-operation-btn .btn-primary,
-.group-operation-btn .btn-danger {
+.btn-primary,
+.btn-danger {
     padding: 3px 16px;
     border: 0px;
     border-radius: 0px;
@@ -249,23 +249,23 @@ body .has-error .form-control {
     margin-top: 14px;
 }
 
-.group-operation-btn .btn-primary {
+.btn-primary {
     color: #fff;
     background: #10a1bb;
     border-radius: 2px;
 }
 
-.group-operation-btn .btn-danger {
+.btn-danger {
     color: #fff;
     background: #d9534f;
     border-radius: 2px;
 }
 
-.group-operation-btn .btn-danger:hover {
+.btn-danger:hover {
     background: #f16e6a;
 }
 
-.group-operation-btn .btn-danger:focus {
+.btn-danger:focus {
     background: #f16e6a;
 }
 
@@ -289,7 +289,7 @@ body .has-error .form-control {
 }
 
 .group-article-addButton:hover,
-.group-operation-btn .btn-primary:hover {
+.btn-primary:hover {
     background: #1dc6e4;
     color: #fff;
     text-decoration: none;
@@ -297,7 +297,7 @@ body .has-error .form-control {
 
 .group-article-addButton:focus,
 .group-article-table .group-article-form-btn:focus,
-.group-operation-btn .btn-primary:focus {
+.btn-primary:focus {
     background: #1dc6e4;
     color: #fff;
     text-decoration: none;
@@ -528,7 +528,7 @@ body .has-error .form-control {
     position: absolute;
     right: 9px;
     top: 4px;
-   cursor: pointer;
+    cursor: pointer;
 }
 
 

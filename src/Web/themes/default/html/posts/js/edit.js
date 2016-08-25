@@ -1,6 +1,6 @@
-define(['../../../js/common'], function() {
+define(['../../../js/common'], function () {
 
-    require(['template', 'ztree', 'form', 'select2', 'MDialog', 'umeditor.config', 'umeditor'], function(template) {
+    require(['template', 'ztree', 'form', 'select2', 'MDialog', 'ueditor.config', 'ueditor'], function (template) {
 
         var siteId = util.get_query('siteId'),
             id = util.get_query('id');
@@ -12,7 +12,7 @@ define(['../../../js/common'], function() {
         var nav = $('#nav_tools'),
             container = $('#editor_container'),
             editor = {},
-            save = function(publish, callback) {
+            save = function (publish, callback) {
                 var title = $('#txt_title', container).val(),
                     content = editor.getContent(),
                     category = $('#txt_category', container).val(),
@@ -29,7 +29,7 @@ define(['../../../js/common'], function() {
                     viewCount: 0,
                     sortOrder: 0,
                     publish: publish
-                }, function(r) {
+                }, function (r) {
 
                     r = handleException(r);
 
@@ -42,19 +42,26 @@ define(['../../../js/common'], function() {
                     callback && callback.apply(this, [r]);
                 }, 'json');
             },
-            init = function(data) {
+            init = function (data) {
 
                 //构造HTML
                 container.html(template('post_edit_form', data));
 
-                //init umeditor
-                editor = UM.getEditor('txt_content', {
+                //init ueditor
+                editor = UE.getEditor('txt_content', {
                     initialFrameWidth: '100%',
-                    initialFrameHeight: $(window).height() - 255
+                    initialFrameHeight: $(window).height() - 255,
+                    imageActionName: '/image/upload?siteId=' + siteId,
+                    imageAllowFiles: [".jpeg", ".jpg", ".png", ".gif"],
+                    imageMaxSize: 1024 * 1024 * 5,
+                    imageCompressBorder: 1600,
+                    imageCompressEnable: true,
+                    imageInsertAlign: "none",
+                    imageUrlPrefix: ""
                 });
 
                 //select category
-                $('#btn_category', container).on('click', function() {
+                $('#btn_category', container).on('click', function () {
 
                     var p_tree = $('<ul class="ztree"></ul>'),
                         selected = { title: '', id: '' },
@@ -64,7 +71,7 @@ define(['../../../js/common'], function() {
                             lock: true,
                             width: '250px',
                             height: '250px',
-                            ok: function() {
+                            ok: function () {
 
                                 dlg.close();
 
@@ -85,7 +92,7 @@ define(['../../../js/common'], function() {
                             type: "post"
                         },
                         callback: {
-                            onClick: function(event, tId, node) {
+                            onClick: function (event, tId, node) {
                                 selected = { title: node.name, id: node.id };
                             }
                         }
@@ -96,9 +103,9 @@ define(['../../../js/common'], function() {
             };
 
         //保存为草稿
-        $('.btn_save', nav).on('click', function() {
+        $('.btn_save', nav).on('click', function () {
 
-            save(false, function(r) {
+            save(false, function (r) {
 
                 r.code == 1 && alert('已保存为草稿，可继续编辑');
             });
@@ -107,9 +114,9 @@ define(['../../../js/common'], function() {
         });
 
         //保存并发布        
-        $('.btn_publish', nav).on('click', function() {
+        $('.btn_publish', nav).on('click', function () {
 
-            save(true, function(r) {
+            save(true, function (r) {
 
                 r.code == 1 && alert('已成功保存并发布该文章');
                 window.close();
@@ -132,7 +139,7 @@ define(['../../../js/common'], function() {
             dataType: 'json',
             data: { siteId: siteId, id: id },
             async: false
-        }).done(function(r) {
+        }).done(function (r) {
 
             if (!r || r.code < 0) {
                 alert(r.msg || '发生未知错误，请刷新页面后尝试');

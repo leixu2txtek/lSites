@@ -1,4 +1,5 @@
-﻿using Kiss.Components.Security;
+﻿using ImageMagick;
+using Kiss.Components.Security;
 using Kiss.Security;
 using Kiss.Utils;
 using Kiss.Web;
@@ -7,6 +8,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -473,6 +475,123 @@ namespace Kiss.Components.Site.Web.Controllers
                 avatar = StringUtil.templatestring(jc.ViewData, "$!security.avatorUrl($!jc.user.info,'50')"),
                 sites = result
             };
+        }
+
+        /// <summary>
+        /// 访问图片文件
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="width">图片的宽度</param>
+        /// <param name="height">图片的高度</param>
+        /// <returns>图片文件流</returns>
+        /// leixu
+        /// 2016年8月24日14:29:50
+        [HttpGet(60)]
+        ActionResult read(string url, int width, int height)
+        {
+            try
+            {
+                #region 校验文件是否存在
+
+                if (string.IsNullOrEmpty(url)) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+
+                //校验URL中是否有时间
+                var index = url.IndexOf('-');
+                if (index == -1) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+
+                //校验文件夹是否存在
+                var directory = Path.Combine(Config.IMAGE_PATH, url.Substring(0, index));
+                if (!Directory.Exists(directory)) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+
+                //校验文件是否存在
+                var file = Path.Combine(directory, url.Substring(index + 1));
+                if (!File.Exists(file)) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+
+                #endregion
+
+                var extension = Path.GetExtension(file).Substring(1).ToLowerInvariant();
+                var thumbnail = string.Empty;
+
+                //输出源图片
+                if (width == 0 && height == 0) return new FileContentResult(File.OpenRead(file).ToBytes(), string.Format("image/{0}", extension == "jpg" ? "jpeg" : extension));
+
+                #region 读取缩略图
+
+                if (width > 0 && height > 0)
+                {
+                    thumbnail = file.Insert(file.LastIndexOf('.'), string.Format(".{0}.{1}", width, height));
+                }
+                else if (width > 0)
+                {
+                    thumbnail = file.Insert(file.LastIndexOf('.'), string.Format(".{0}.0", width));
+                }
+                else
+                {
+                    thumbnail = file.Insert(file.LastIndexOf('.'), string.Format(".0.{0}", width));
+                }
+
+                //缩略图已经存在，直接输出
+                if (File.Exists(thumbnail)) return new FileContentResult(File.OpenRead(thumbnail).ToBytes(), string.Format("image/{0}", extension == "jpg" ? "jpeg" : extension));
+
+                using (FileStream fs = File.OpenRead(file))
+                using (MagickImage image = new MagickImage(fs))
+                {
+                    #region 判定宽高
+
+                    if (width > 0 || height > 0)
+                    {
+                        MagickGeometry g = null;
+
+                        if (width > 0 && height > 0)
+                        {
+                            g = new MagickGeometry(width, height);
+                        }
+                        else if (width > 0)
+                        {
+                            g = new MagickGeometry(width);
+                        }
+                        else
+                        {
+                            g = new MagickGeometry(height);
+                        }
+
+                        g.Greater = true;
+
+                        if (width > 0 && height > 0)
+                        {
+                            g.IgnoreAspectRatio = false;
+                            g.FillArea = true;
+
+                            image.Resize(g);
+                            image.Crop(width, height);
+                        }
+                        else
+                        {
+                            g.IgnoreAspectRatio = false;
+
+                            image.Thumbnail(g);
+                        }
+                    }
+
+                    #endregion
+
+                    image.Strip();
+                    image.AutoOrient();
+                    image.Interlace = Interlace.Plane;
+
+                    image.Write(thumbnail);
+
+                    return new FileContentResult(image.ToByteArray(), string.Format("image/{0}", extension == "jpg" ? "jpeg" : extension));
+                }
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ExceptionUtil.WriteException(ex));
+
+                return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+            }
         }
     }
 }

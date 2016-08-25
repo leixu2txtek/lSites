@@ -68,7 +68,6 @@ namespace Kiss.Components.Site.Web.Controllers
                             where q.UserId == jc.UserName && q.SiteId == site.Id
                             select q).FirstOrDefault();
 
-            //只有管理人员才可以对站点的挂件进行编辑
             if (relation == null)
             {
                 ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });
@@ -330,7 +329,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 #region 处理图片
 
-                post.ImageUrl = imageUrl;
+                post.ImageUrl = imageUrl ?? string.Empty;
 
                 if (string.IsNullOrEmpty(post.ImageUrl))
                 {

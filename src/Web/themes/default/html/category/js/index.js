@@ -50,10 +50,7 @@ define(['../../../js/common'], function () {
                             }, 'json');
                         });
 
-                        $('select', form).select2({
-                            minimumResultsForSearch: -1
-                        });
-
+                        $('select', form).select2({ minimumResultsForSearch: -1 });
 
                         //选择父级栏目
                         form.gform({
@@ -71,10 +68,11 @@ define(['../../../js/common'], function () {
                                 tree.reAsyncChildNodes(node.getParentNode(), "refresh");
                             }
                         });
-                        debugger;
+
                         $('#edit_container').html(form);
 
                         columClear(node.getParentNode());
+
                     }, 'json');
                 }
             }
@@ -82,8 +80,9 @@ define(['../../../js/common'], function () {
 
         // 清除栏目
         var columClear = function (node) {
-            debugger;
+
             (node.id) ? $("#column-close").show() : $("#column-close").hide();
+
             $("#column-close").off('click').on('click', function () {
 
                 $('#parent_name').val('');
@@ -102,7 +101,7 @@ define(['../../../js/common'], function () {
             $('select', form).select2({
                 minimumResultsForSearch: -1
             });
-            
+
             //选择父级栏目(右侧选择栏目)
             $('#select_parent', form).on('click', function () {
 

@@ -63,10 +63,9 @@
         <thead>
             <tr>
                 <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
-                <th>文章标题</th>
-                <th>栏目信息</th>
+                <th id="title">文章标题</th>
+                <th id="category">栏目信息</th>
                 <th id="dateCreated">创建时间</th>
-                <th>发布时间</th>
                 <th class="group-article-width5">预览数</th>
                 <th class="group-article-width5">作者</th>
                 <th>操作</th>
@@ -82,7 +81,6 @@
                     <div class="autocut" title="{{item.title}}">{{item.title}}</div>
                 </td>
                 <td>{{item.category}}</td>
-                <td>{{item.date_created | format_date}}</td>
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{item.view_count}}</td>
                 <td>{{item.display_name}}</td>

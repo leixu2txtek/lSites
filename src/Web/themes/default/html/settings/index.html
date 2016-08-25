@@ -84,26 +84,25 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">关键字：</label>
                 <div class="col-sm-10 group-information-input">
-                    <textarea style="resize:none;height:50px;" name="keyWords" class="form-control">{{key_words}}</textarea>
+                    <textarea rows="5" style="height:80px;" name="keyWords" class="form-control">{{key_words}}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label for="firstname" class="col-sm-2 control-label">描述：</label>
                 <div class="col-sm-10 group-information-input">
-                    <textarea name="content" rows="5" class="form-control" name="description" value={{description}}></textarea>
+                    <textarea rows="5" class="form-control" name="description" value={{description}}></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">主题：</label>
-                <select class="form-control group-info-select select2-offscreen" data-placeholder="选择站点主题" name="theme" data-selected="{{theme}}">
-                    <option></option>
-                    <option value="default">default</option>
-                </select>
+                <div class="col-sm-10 group-information-input">
+                    <input type="text" class="form-control" name="logo" placeholder="站点主题" value="{{theme}}">
+                </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">排序：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" id="firstname" name="sort_order" placeholder="站点排序" style="width: 77px; height: 28px;" value={{sort_order}}>
+                    <input type="text" class="form-control" name="sort_order" placeholder="站点排序" value="{{sort_order}}">
                 </div>
             </div>
         </form>

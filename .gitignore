@@ -250,3 +250,4 @@ xtest/
 users/
 *.exe
 *.bat
+src/DATA
