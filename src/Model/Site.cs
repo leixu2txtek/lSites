@@ -50,7 +50,7 @@ namespace Kiss.Components.Site
         /// <summary>
         /// 站点logo地址
         /// </summary>
-        [NotNull(""), Length(1000)]
+        [NotNull(""), Length(int.MaxValue)]
         public string Logo { get; set; }
 
         /// <summary>

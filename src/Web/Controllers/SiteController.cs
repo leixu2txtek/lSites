@@ -5,6 +5,7 @@ using Kiss.Web.Utils;
 using System;
 using System.Collections;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -189,6 +190,39 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #endregion
 
+            #region 校验LOGO文件
+
+            string logo = string.Empty;
+
+            try
+            {
+                if (jc.Context.Request.Files.Count > 0)
+                {
+                    var file = jc.Context.Request.Files[0];
+
+                    var extension = Path.GetExtension(file.FileName);
+                    if (string.IsNullOrEmpty(extension)) return new { code = -7, msg = "LOGO文件只能是 JPG、GIF、PNG 图片文件" };
+
+                    extension = extension.Substring(1).ToLowerInvariant();
+
+                    if (extension != "jpg" && extension != "gif" && extension != "png") return new { code = -7, msg = "LOGO文件只能是 JPG、GIF、PNG 图片文件" };
+                    if (file.InputStream.Length > 1024 * 1024) return new { code = -8, msg = "LOGO文件的大小不能超过 1MB" };
+
+                    logo = Convert.ToBase64String(file.InputStream.ToBytes());
+
+                    //存储为 BASE64 格式的
+                    logo = string.Format("data:image/{0};base64,{1}", extension, logo);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ExceptionUtil.WriteException(ex));
+
+                return new { code = -9, msg = "LOGO 存储失败，请联系管理员" };
+            }
+
+            #endregion
+
             using (ILinqContext<Site> cx = Site.CreateContext())
             {
                 var site = Site.Get(cx, id);
@@ -225,6 +259,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 site.Description = description;
                 site.Theme = theme;
                 site.SortOrder = sortOrder;
+                site.Logo = logo;
                 site.NeedAuditPost = needAuditPost;
 
                 cx.SubmitChanges();

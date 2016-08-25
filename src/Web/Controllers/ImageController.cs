@@ -133,7 +133,7 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 code = 1,
                 msg = "上传成功",
-                url = string.Format("/open/read?siteId={0}&url={1}-{2}", site.Id, DateTime.Now.ToString("yyyyMMdd"), name)
+                url = string.Format("{0}/open/read?siteId={1}&url={2}-{3}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, jc.Context.Request.Url.Authority, jc.Context.Request.Url.Authority), site.Id, DateTime.Now.ToString("yyyyMMdd"), name)
             };
         }
     }

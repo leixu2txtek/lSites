@@ -20,6 +20,24 @@ namespace Kiss.Components.Site.Web.Controllers
     class OpenController : Controller
     {
         /// <summary>
+        /// 首页跳转
+        /// </summary>
+        /// <returns></returns>
+        ActionResult index()
+        {
+            if (!jc.IsAuth) return new RedirectResult(jc.url("~users/login"));
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName
+                            orderby q.PermissionLevel
+                            select q).FirstOrDefault();
+
+            if (relation == null) return new EmptyResult();
+
+            return new RedirectResult(jc.url(string.Format("~/themes/default/html/posts/index.html?siteId={0}", relation.SiteId)));
+        }
+
+        /// <summary>
         /// 获取站点信息
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
@@ -418,6 +436,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 获取用户信息
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
         /// <returns>
         /// {
         ///     code = 1,                   //-1：未登录，没有权限获取信息，-2：登录用户信息不存在
@@ -437,7 +456,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月7日09:37:06
         [HttpPost]
-        object get_user_info()
+        object get_user_info(string siteId)
         {
             if (!jc.IsAuth) return new { code = -1, msg = "未登录，没有权限获取信息" };
 
@@ -445,15 +464,21 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (user == null) return new { code = -2, msg = "登录用户信息不存在", return_url = jc.url("~/") };
 
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.SiteId == siteId && q.UserId == user.Id
+                            select q).FirstOrDefault();
+
+            if (relation == null) return new { code = -3, msg = "登录用户并不属于站点管理人员", return_url = jc.url("~/") };
+
             #region 查询用户和站点关系
 
-            WebQuery q = new WebQuery();
-            q.Id = "user.sites";
+            WebQuery qc = new WebQuery();
+            qc.Id = "user.sites";
 
-            q.NoPaging();
-            q["userId"] = user.Id;
+            qc.NoPaging();
+            qc["userId"] = user.Id;
 
-            var sites = SiteUsers.GetDataTable(q);
+            var sites = SiteUsers.GetDataTable(qc);
 
             var result = new ArrayList();
 
@@ -468,12 +493,31 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #endregion
 
+            if (result.Count == 0) return new { code = -3, msg = "用户当前没有需要管理的站点" };
+
+            #region 获取用户对当前站点的角色
+
+            var current = (from DataRow dr in sites.Rows
+                           where dr["id"].ToString() == relation.SiteId
+                           select dr).FirstOrDefault();
+
+            string role = current["permission"].ToString();
+            role = StringEnum<PermissionLevel>.ToString(StringEnum<PermissionLevel>.SafeParse(role));
+
+            #endregion
+
             return new
             {
                 code = 1,
                 display_name = user.DisplayName,
                 avatar = StringUtil.templatestring(jc.ViewData, "$!security.avatorUrl($!jc.user.info,'50')"),
-                sites = result
+                sites = result,
+                current = new
+                {
+                    id = current["id"],
+                    title = current["title"],
+                    role = role
+                }
             };
         }
 

@@ -66,7 +66,7 @@ define(['../../../js/common'], function () {
                     var p_tree = $('<ul class="ztree"></ul>'),
                         selected = { title: '', id: '' },
                         dlg = $M({
-                            title: '选择父级栏目',
+                            title: '选择栏目信息',
                             content: p_tree[0],
                             lock: true,
                             width: '250px',
@@ -109,8 +109,6 @@ define(['../../../js/common'], function () {
 
                 r.code == 1 && alert('已保存为草稿，可继续编辑');
             });
-
-            return false;
         });
 
         //保存并发布        
@@ -119,7 +117,6 @@ define(['../../../js/common'], function () {
             save(true, function (r) {
 
                 r.code == 1 && alert('已成功保存并发布该文章');
-                window.close();
             });
 
             return false;

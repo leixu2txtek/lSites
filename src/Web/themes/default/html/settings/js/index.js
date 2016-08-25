@@ -2,7 +2,7 @@ define(['../../../js/common'], function () {
 
     document.title = '站点信息 - 站群管理';
 
-    require(['template', 'form', 'select2'], function (template) {
+    require(['template', 'form', 'select2', 'MDialog'], function (template) {
 
         var siteId = util.get_query('siteId'),
             nav = $('#nav_tools'),
@@ -12,8 +12,8 @@ define(['../../../js/common'], function () {
         $('.btn_save', nav).on('click', function () {
 
             form.submit();
-            return false;
 
+            return false;
         });
 
         $.ajax({
@@ -24,7 +24,7 @@ define(['../../../js/common'], function () {
             async: false
         }).done(function (r) {
 
-             r = handleException(r);
+            r = handleException(r);
 
             if (!r || r.code < 0) {
 
@@ -38,6 +38,28 @@ define(['../../../js/common'], function () {
                 minimumResultsForSearch: -1
             }).val($('[name=theme]', form).data('selected')).trigger('change');
 
+            var url = $('[name=logo]', form).data('file');
+
+            $('.btn_preview', form).on('click', function () {
+
+                if (url.length == 0) {
+
+                    alert('图片地址不正确，预览失败');
+                    return false;
+                }
+
+                $M({
+                    title: '预览',
+                    content: '<img title="LOGO 预览" src="' + url + '"></img',
+                    lock: true,
+                    position: '50 % 50 %',
+                    cancel: false,
+                    cancelVal: '取消'
+                });
+
+                return false;
+            }).css('display', url.length > 0 ? 'block' : 'none');
+
             form.gform({
                 url: config.host + 'site/save',
                 beforeSubmit: function () {
@@ -46,7 +68,8 @@ define(['../../../js/common'], function () {
 
                     var title = $('[name=title]', form).val(),
                         domain = $('[name=domain]', form).val(),
-                        keyWords = $('[name=keyWords]', form).val();
+                        keyWords = $('[name=keyWords]', form).val(),
+                        logo = $('[name=logo]', form).val();
 
                     if (title.length == 0) {
 
@@ -72,10 +95,18 @@ define(['../../../js/common'], function () {
                         return false;
                     }
 
+                    var extension = logo.substr(logo.lastIndexOf('.') + 1).toLocaleLowerCase();
+                    if (logo && extension != 'jpg' && extension != 'gif' && extension != 'png') {
+
+                        $('[name=logo]', form).parent().addClass('has-error');
+                        alert('LOGO文件只能是小于 1MB 的 JPG、GIF、PNG 图片文件');
+
+                        return false;
+                    }
                 },
                 onSuccess: function (r) {
 
-                     r = handleException(r);
+                    r = handleException(r);
 
                     if (!r || r.code < 0) {
 
@@ -84,9 +115,7 @@ define(['../../../js/common'], function () {
                     }
 
                     // 保存成功后
-
-                    alert('已修改添加站点信息');
-                    form.submit(); //重新刷新站点列表
+                    alert('保存成功');
                 }
             });
 

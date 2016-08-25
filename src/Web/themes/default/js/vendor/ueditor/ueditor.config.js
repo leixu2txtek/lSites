@@ -35,7 +35,7 @@ window.UEDITOR_HOME_URL = "../../js/vendor/ueditor/";
 
         //工具栏上的所有的功能按钮和下拉框，可以在new编辑器的实例时选择自己需要的从新定义
         , toolbars: [
-            ["fullscreen", "undo", "redo", "bold", "italic", "underline", "fontfamily", "fontsize", "forecolor", "backcolor", "rowspacingtop", "rowspacingbottom", "lineheight", "link", "unlink", "|", "inserttable", "deletetable", "edittable", "insertimage"]
+            ["undo", "redo", "bold", "italic", "underline", "fontfamily", "fontsize", "forecolor", "backcolor", "rowspacingtop", "rowspacingbottom", "lineheight", "link", "unlink", "|", "inserttable", "deletetable", "edittable", "insertimage"]
         ]
 
         , lang: "zh-cn"

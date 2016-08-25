@@ -192,7 +192,7 @@
             domUtils.on($G("title"), 'keyup', updatePreview);
 
             domUtils.on($G("width"), 'keyup', function () {
-                updatePreview();
+
                 if (locker.checked) {
                     var proportion = locker.getAttribute('data-proportion');
                     $G('height').value = Math.round(this.value / proportion);
@@ -200,8 +200,9 @@
                     _this.updateLocker();
                 }
             });
+
             domUtils.on($G("height"), 'keyup', function () {
-                updatePreview();
+
                 if (locker.checked) {
                     var proportion = locker.getAttribute('data-proportion');
                     $G('width').value = Math.round(this.value * proportion);
@@ -209,14 +210,13 @@
                     _this.updateLocker();
                 }
             });
+
             domUtils.on($G("lock"), 'change', function () {
                 var proportion = parseInt($G("width").value) / parseInt($G("height").value);
                 locker.setAttribute('data-proportion', proportion);
             });
 
-            function updatePreview() {
-                _this.setPreview();
-            }
+            function updatePreview() { _this.setPreview(); }
         },
         updateLocker: function () {
             var width = $G('width').value,
@@ -298,8 +298,6 @@
             }
         }
     };
-
-
 
     /* 上传图片 */
     function UploadImage(target) {

@@ -226,7 +226,8 @@ namespace Kiss.Components.Site.Web.Controllers
                     view_count = post.ViewCount,
                     sort_order = post.SortOrder,
                     status = StringEnum<Status>.ToString(post.Status),
-                    date_published = post.DatePublished
+                    date_published = post.DatePublished,
+                    image_url = post.ImageUrl
                 }
             };
         }
