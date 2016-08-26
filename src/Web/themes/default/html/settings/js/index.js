@@ -38,9 +38,9 @@ define(['../../../js/common'], function () {
                 minimumResultsForSearch: -1
             }).val($('[name=theme]', form).data('selected')).trigger('change');
 
-            var url = $('[name=logo]', form).data('file');
-
             $('.btn_preview', form).on('click', function () {
+
+                var url = $('[name=logo]', form).data('file');
 
                 if (url.length == 0) {
 
@@ -58,7 +58,7 @@ define(['../../../js/common'], function () {
                 });
 
                 return false;
-            }).css('display', url.length > 0 ? 'block' : 'none');
+            });
 
             form.gform({
                 url: config.host + 'site/save',
