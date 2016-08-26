@@ -1,0 +1,1718 @@
+<?xml version='1.0' encoding='utf-8'?>
+<project version='8' encrypted='1'>
+	<steps type='0'>
+		<step action='Make VS.NET'>
+			<Attr type='11'>-1</Attr>
+			<Config>Release|Any CPU</Config>
+			<FileVer type='11'>-1</FileVer>
+			<Filename>%PROJDIR%\src\ahceo.sln</Filename>
+			<Force type='3'>1</Force>
+			<name>Make VS.NET</name>
+		</step>
+		<step action='Write File'>
+			<Encoding>UTF-8</Encoding>
+			<Filename>%PROJDIR%\build\App_Data\kiss.config</Filename>
+			<Text><![CDATA[<?xml version="1.0"?>
+<kiss >
+  <area title="安徽继续教育在线" host="www.ahcjzx.cn" combinCss="true" cssversion="20141092529" combinJs="false"
+        jsversion="20141092529" hostlocal="www.ahcjzx.cn" logo="/userfiles/logo.png"
+        copyright="Copyright 2014  安徽省教育厅主管  安徽成教在线服务中心制"
+        apps="portal,doc" support_multi_site="true" />
+  <plugins>
+    <plugin name="LogInitializer" loglevel="error" />
+    <plugin name="CacheInitializer" type="Kiss.Web.HttpContextCacheProvider, Kiss.Web">
+      <keys default="nocache" />
+    </plugin>
+    <plugin name="RepositoryInitializer" type1="Kiss.Linq.Sql.Repository`1, Kiss.Linq" type2="Kiss.Linq.Sql.Repository`2, Kiss.Linq" auto_tables="">
+      <conns default="conn">
+      </conns>
+    </plugin>
+    <plugin name="ExceptionHandlerInitializer" notifyEmails="" />
+    <plugin name="AreaInitializer" />
+    <plugin name="UrlMappingInitializer" />
+    <plugin name="DynamicQueryInitializer" />
+  </plugins>
+  
+  <dfs>
+    <spaces>
+      <add name="todo" sk="todo" /> 
+    </spaces>
+
+    <hosts>
+      <add name="todo" url="tod" />
+    </hosts>
+  </dfs>
+  
+  <!--自动问答分词索引文件目录-->
+  <lucene indexDir="" />
+
+  <connectionStrings >
+    <clear />
+    <add name="conn" providerName="System.Data.SqlClient" connectionString="Password=;Persist Security Info=True;User ID=sa;Initial Catalog=ecm;Data Source=127.0.0.1" />
+  </connectionStrings>
+  
+</kiss>]]></Text>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>kiss.config</name>
+		</step>
+		<step action='Write File'>
+			<Encoding>UTF-8</Encoding>
+			<Filename>%PROJDIR%\build\App_Data\routes.config</Filename>
+			<Text><![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<urls>
+	<url template="default.aspx" href="/portal/"/>
+
+	<url template="[[siteId]]/default.aspx" href="master" action="index" />
+
+	<url template="[[siteId]]/category/default.aspx" href="master" title="所有文章" id="cms:post" action="listall" />
+	<url name="cms_category_list" template="[[siteId]]/category/[[category]]" href="master" title="$!cms_category.title" id="cms:post" action="list" />
+	<url name="cms_post" template="[[siteId]]/post-[[id]]" href="master" title="$!cms_post.title" id="cms:post" action="info"/>
+
+	<url template="[[siteId]]/fwdt" href="master" title="服务大厅" action="fwdt"/>
+	<url template="[[siteId]]/jxzy" href="master" title="教学资源" action="jxzy"/>
+	<url template="[[siteId]]/czzn" href="master" title="操作指南" action="czzn"/>
+</urls>]]></Text>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>routes.config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\bin</DestDir>
+			<Ext><![CDATA[Kiss.dll
+Kiss.Linq.dll
+Kiss.Web.dll
+NLog.dll
+Kiss.Components.Logging.dll
+Kiss.Components.TemplateEngine.dll
+Jevictek.Ahceo.dll
+lChat.SDK.dll]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\bin</DestDir>
+			<Ext>Jevictek.Ahceo.Course.dll</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Design\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\bin</DestDir>
+			<Ext><![CDATA[Aspose.Cells.dll
+ICSharpCode.SharpZipLib.dll
+Kiss.DFS.SDK.dll]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>other bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\users</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\users</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>users</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\widget</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\widget</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>widget</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\msg</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\msg</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>msg</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\cms</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\cms</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>cms</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>enrollExam</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollExam\xls</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext>题库导入模板.xls</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\EnrollExam\EnrollExam.Web\xls</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>xls</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollExam\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.EnrollExam.dll
+Jevictek.Ahceo.EnrollExam.Web.dll
+Jevictek.Ahceo.EnrollExam.Web.xml]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\EnrollExam\EnrollExam.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollExam\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\EnrollExam\EnrollExam.Web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollExam\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\EnrollExam\EnrollExam.Web</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Write File'>
+			<Encoding>UTF-8</Encoding>
+			<Filename>%PROJDIR%\build\web.config</Filename>
+			<Text><![CDATA[<?xml version="1.0"?>
+<configuration>
+  <system.web>
+    <compilation debug="false" defaultLanguage="c#" />
+    <pages enableViewState="false" validateRequest="false">
+      <controls>
+        <add tagPrefix="JC" namespace="Kiss.Web.Controls" assembly="Kiss.Web" />
+        <add tagPrefix="JC" namespace="Kiss.Components.Widget" assembly="Kiss.Components.Widget"/>
+      </controls>
+    </pages>
+    <trace enabled="false" />
+    <customErrors mode="Off" />
+    <httpRuntime executionTimeout="1800" requestValidationMode="2.0" maxRequestLength="2097151" useFullyQualifiedRedirectUrl="false" enableVersionHeader="false" />
+    <globalization requestEncoding="utf-8" responseEncoding="utf-8" fileEncoding="utf-8" culture="zh-CN" uiCulture="zh-CN" />
+    <authentication mode="Forms">
+      <forms name="auth" protection="Validation" defaultUrl="/" slidingExpiration="true" timeout="1440" path="/" />
+    </authentication>
+    <machineKey validationKey="74633B34E5A948CB7D9EDE0BB903FF69DB2D54D67F393AF0D0044841F5EEDB908DC6597AB686F3707F4726E30B8A5B0095EE09360C188E5D74F41A4465123A74" decryptionKey="F0BEED923FE30C84B9D77D6C01CD043CE77365028C1C3747F69EE62A9F40F0C9" validation="SHA1" decryption="AES"/>
+  </system.web>
+  <system.webServer>
+    <modules runAllManagedModulesForAllRequests="true" />
+    <httpProtocol>
+      <customHeaders>
+        <remove name="X-Powered-By" />
+      </customHeaders>
+    </httpProtocol>
+    <httpErrors errorMode="Custom">
+      <remove statusCode="404" subStatusCode="-1" />
+      <error statusCode="404" prefixLanguageFilePath="" path="/error.htm" responseMode="ExecuteURL" />
+    </httpErrors>
+    <security>
+      <requestFiltering>
+        <requestLimits maxAllowedContentLength="209715200" />
+      </requestFiltering>
+    </security>
+  </system.webServer>
+</configuration>]]></Text>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>web.config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build</DestDir>
+			<Ext><![CDATA[Global.asax
+default.aspx
+bg-404.png
+error.htm
+favicon.ico]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>enrollment</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollment\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.Enrollment.dll
+Jevictek.Ahceo.Enrollment.Web.dll
+Jevictek.Ahceo.Enrollment.Web.XML]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Enrollment\Enrollment.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollment\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Enrollment\Enrollment.Web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\enrollment\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\StudentTransfer.Web</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>studentTransfer</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\StudentTransfer\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.SchoolRoll.dll
+Jevictek.Ahceo.StudentTransfer.Web.dll
+Jevictek.Ahceo.StudentTransfer.Web.XML]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\StudentTransfer.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\StudentTransfer\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\StudentTransfer.Web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\StudentTransfer\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\StudentTransfer.Web</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>teacherTransfer</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\TeacherTransfer\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.SchoolRoll.dll
+Jevictek.Ahceo.TeacherTransfer.Web.dll
+Jevictek.Ahceo.TeacherTransfer.Web.XML]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\TeacherTransfer.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\TeacherTransfer\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\TeacherTransfer.Web\App_Data</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\TeacherTransfer\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\SchoolRoll\TeacherTransfer.Web</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>PracticeStudy</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\PracticeStudy\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.PracticeCourse.Study.Web.dll
+Jevictek.Ahceo.PracticeCourse.Study.Web.xml]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\PracticeCourse\Practice.Study.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\PracticeStudy\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\PracticeCourse\Practice.Study.Web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\PracticeStudy\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\PracticeCourse\Practice.Study.Web</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>PracticeDesgin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\PracticeDesign\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.PracticeCourse.dll
+Jevictek.Ahceo.PracticeCourse.Design.Web.dll
+Jevictek.Ahceo.PracticeCourse.Design.Web.xml]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\PracticeCourse\Practice.Design.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\PracticeDesign\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\PracticeCourse\Practice.Design.Web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\PracticeDesign</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\PracticeCourse\Practice.Design.Web</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>majorSettings</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\majorSettings\xls</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MajorSettings\MajorSettings.Web\xls</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>xls</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\majorSettings\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.MajorSettings.Web.dll
+Jevictek.Ahceo.MajorSettings.dll
+Jevictek.Ahceo.MajorSettings.Web.XML]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MajorSettings\MajorSettings.Web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\majorSettings\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MajorSettings\MajorSettings.Web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\majorSettings\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MajorSettings\MajorSettings.Web\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>design</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\design\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.Course.Design.dll
+Jevictek.Ahceo.Course.Design.xml]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Design\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\design\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Design\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\design</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Design\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>study</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\study\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.Course.Study.dll
+Jevictek.Ahceo.Course.Study.xml]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Study\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\study\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Study\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\study</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Study\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>study_mobile</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\study_mobile\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext>Jevictek.Ahceo.Course.Study_Mobile.dll</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Study.Mobile\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\study_mobile\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Study.Mobile\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\study_mobile</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Course\Course.Study.Mobile\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>common</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\common\themes</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\common\themes</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>themes</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\common\js</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\common\js</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>js</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\common\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\common\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>studentStudio</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\studentStudio\themes</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\studentStudio\themes</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>themes</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\studentStudio\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Course.studentStudio.dll
+Jevictek.Course.StudentStudio.XML]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\studentStudio\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\studentStudio\js</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\studentStudio\js</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>js</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\studentStudio\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\studentStudio\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\studentStudio\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\studentStudio\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>teacherStudio</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\teacherStudio\themes</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\teacherStudio\themes</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>themes</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\teacherStudio\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext>Jevictek.Ahceo.TeacherStudio.dll</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\teacherStudio\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\teacherStudio\js</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\teacherStudio\js</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>js</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\teacherStudio\xls</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\teacherStudio\xls</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>xls</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\teacherStudio\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\teacherStudio\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\teacherStudio\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\teacherStudio\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>Q_A</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\online_qa\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.Online_QA.dll
+Jevictek.Ahceo.Online_QA.Model.dll
+Jevictek.Ahceo.Online_QA.XML]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Online_QA\web\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\online_qa\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Online_QA\web\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\online_qa\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Online_QA\web\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>trp</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\themes</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\themes</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>themes</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext>Jevictek.Ahceo.TRP.dll</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\js</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\js</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>js</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\xls</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\xls</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>xls</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\client</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\client</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>client</name>
+		</step>
+		<step action='Create Folder'>
+			<Path>%PROJDIR%\build\trp\client\client\html</Path>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>add html folder(client)</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\</DestDir>
+			<Ext><![CDATA[query.*.config
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='ZIP Files'>
+			<Action type='3'>2</Action>
+			<Compression>5</Compression>
+			<Dest>%PROJDIR%\build\trp\client\client.zip</Dest>
+			<Hidden type='11'>-1</Hidden>
+			<LogDetail type='11'>-1</LogDetail>
+			<Recurse type='11'>-1</Recurse>
+			<Source>%PROJDIR%\build\trp\client\client</Source>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>client zip</name>
+		</step>
+		<step action='ZIP Files'>
+			<Action type='3'>2</Action>
+			<Compression>5</Compression>
+			<Dest>%PROJDIR%\build\trp\client\upload.zip</Dest>
+			<Hidden type='11'>-1</Hidden>
+			<LogDetail type='11'>-1</LogDetail>
+			<Recurse type='11'>-1</Recurse>
+			<Source>%PROJDIR%\build\trp\client\src</Source>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>upload zip</name>
+		</step>
+		<step action='Delete Folder'>
+			<Path>%PROJDIR%\build\trp\client\src</Path>
+			<Recurse type='11'>-1</Recurse>
+			<indent type='3'>1</indent>
+			<name>delete upload directory</name>
+		</step>
+		<step action='Delete Folder'>
+			<Path>%PROJDIR%\build\trp\client\client</Path>
+			<Recurse type='11'>-1</Recurse>
+			<indent type='3'>1</indent>
+			<name>delete client directory</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\trp\exam_client</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\trp\exam_client</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>exam_client</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>markingSystem</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\markingSystem\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.MarkingSystem.Model.dll
+Jevictek.Ahceo.MarkingSystem.Web.dll]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MarkingSystem\MarkingWeb\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\markingSystem</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MarkingSystem\MarkingWeb\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\markingSystem</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\MarkingSystem\MarkingWeb\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>survey</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\survey\themes</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Survey\SurveyWeb\themes</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>themes</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\survey\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext><![CDATA[Jevictek.Ahceo.Survey.Model.dll
+Jevictek.Ahceo.Survey.Web.dll]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Survey\SurveyWeb\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\survey</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Survey\SurveyWeb\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\survey</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Survey\SurveyWeb\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\survey\xls</DestDir>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\Survey\SurveyWeb\xls</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>xls</name>
+		</step>
+		<step action='Group'>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<name>portal</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\portal\themes</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\portal\themes</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>themes</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\portal\bin</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Ext>Jevictek.Ahceo.Portal.dll</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\portal\bin</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>bin</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\portal\js</DestDir>
+			<Empty type='11'>-1</Empty>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<Purge type='11'>-1</Purge>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Recurse type='11'>-1</Recurse>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\portal\js</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<indent type='3'>1</indent>
+			<name>js</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\portal\</DestDir>
+			<Ext><![CDATA[query.*
+area.config
+routes.config]]></Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\portal\App_Data\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>config</name>
+		</step>
+		<step action='Copy Files'>
+			<Converted type='11'>-1</Converted>
+			<Delay>15</Delay>
+			<DestDir>%PROJDIR%\build\portal\</DestDir>
+			<Ext>default.aspx</Ext>
+			<Incremental type='11'>-1</Incremental>
+			<LogCopied type='11'>-1</LogCopied>
+			<ReadOnly type='11'>-1</ReadOnly>
+			<Retries>10</Retries>
+			<SourceDir>%PROJDIR%\src\portal\</SourceDir>
+			<TBD type='11'>-1</TBD>
+			<indent type='3'>1</indent>
+			<name>other</name>
+		</step>
+		<step action='ZIP Files'>
+			<Action type='3'>2</Action>
+			<Compression>5</Compression>
+			<Dest>%PROJDIR%\release.zip</Dest>
+			<Hidden type='11'>-1</Hidden>
+			<LogDetail type='11'>-1</LogDetail>
+			<Recurse type='11'>-1</Recurse>
+			<Source>%PROJDIR%\build</Source>
+			<name>ZIP Files</name>
+		</step>
+		<step action='Delete Folder'>
+			<Path>%PROJDIR%\build</Path>
+			<Recurse type='11'>-1</Recurse>
+			<name>Delete Folder</name>
+		</step></steps>
+	<steps type='2'>
+		<step action='Group'>
+			<condcomparison type='3'>6</condcomparison>
+			<condexpr><![CDATA[[InStr("%FAILSTEP_NAME%", "Check Out") > 0 And IsVSSInstalled()]]]></condexpr>
+			<description>If the failed step was the checkout step, undo checkouts made by the build process</description>
+			<name>Undo Checkout</name>
+		</step>
+		<step action='SourceSafe'>
+			<AutoLocate type='11'>-1</AutoLocate>
+			<CompareOpt type='3'>2</CompareOpt>
+			<Database>%SAMPLEDB%</Database>
+			<LocalPath>%WORK_ROOT%\Source</LocalPath>
+			<LongFilenames type='11'>-1</LongFilenames>
+			<Operation>Undocheckout</Operation>
+			<Project>$/Source</Project>
+			<Recurse type='11'>-1</Recurse>
+			<TimeOpt type='3'>1</TimeOpt>
+			<Username>%SSUSER%</Username>
+			<condcompareto>Source</condcompareto>
+			<condcomparison type='3'>2</condcomparison>
+			<condexpr>%FAILSTEP_NAME%</condexpr>
+			<description>If the source checkout step failed, undo all checkouts of source code since some files may have gotten checked out, so that when the checkout step is built again, it won't fail because the build process now has some files checked out</description>
+			<indent type='3'>1</indent>
+			<name>Undo source checkout</name>
+			<outputfrom type='3'>1</outputfrom>
+		</step>
+		<step action='SourceSafe'>
+			<AutoLocate type='11'>-1</AutoLocate>
+			<CompareOpt type='3'>2</CompareOpt>
+			<Database>%SAMPLEDB%</Database>
+			<LocalPath>%WORK_ROOT%</LocalPath>
+			<LongFilenames type='11'>-1</LongFilenames>
+			<Operation>Undocheckout</Operation>
+			<Project>$/</Project>
+			<Recurse type='11'>-1</Recurse>
+			<TimeOpt type='3'>1</TimeOpt>
+			<Username>%SSUSER%</Username>
+			<condcompareto>Executables</condcompareto>
+			<condcomparison type='3'>2</condcomparison>
+			<condexpr>%FAILSTEP_NAME%</condexpr>
+			<description>If the exe checkout step failed, undo all checkouts of executables</description>
+			<indent type='3'>1</indent>
+			<name>Undo exe checkout</name>
+			<outputfrom type='3'>1</outputfrom>
+		</step>
+		<step action='Group'>
+			<description>If the failed step was the checkout step, undo checkouts made by the build process</description>
+			<name>Failed</name>
+		</step>
+		<step action='Log Message'>
+			<Message><![CDATA[
+**** OUTPUT FROM FAILED STEP ****
+
+%FAILSTEP_OUTPUT%
+
+**** END OF OUTPUT FROM FAILED STEP ****]]></Message>
+			<description>Output the failure output and message again so it is the last output to be logged</description>
+			<indent type='3'>1</indent>
+			<name>Show failed output</name>
+		</step>
+		<step action='Send Mail'>
+			<Attachments><![CDATA[%LOGFILE%
+]]></Attachments>
+			<From>%FROM_EMAIL%</From>
+			<Message><![CDATA[At %DATETIME%, the build '%PROJFILE%' on %COMPUTERNAME% failed with the following error:
+
+FAILURE INFORMATION:
+Step Name: %FAILSTEP_NAME%
+Step Status: %FAILSTEP_STATUS%
+Step Output:
+%FAILSTEP_OUTPUT%]]></Message>
+			<Port type='3'>25</Port>
+			<Server>%SMTP_SERVER%</Server>
+			<Subject>Build Failure</Subject>
+			<Timeout type='3'>10</Timeout>
+			<To>%TO_EMAIL%</To>
+			<checked type='11'>0</checked>
+			<description>Notify the build master that failure occurred</description>
+			<indent type='3'>1</indent>
+			<name>Notify of Failure</name>
+		</step>
+		<step action='Write File'>
+			<Append type='11'>-1</Append>
+			<Filename>%FAILED_LOG%</Filename>
+			<Text><![CDATA[%DATETIME%: %PROJFILE%, Build failed (step: %FAILSTEP_NAME%)
+]]></Text>
+			<description>Append a line to the completed log</description>
+			<indent type='3'>1</indent>
+			<name>Write failure</name>
+		</step>
+		<step action='Play Sound'>
+			<Filename>%PROJDIR%\..\Source\wav\candy.wav</Filename>
+			<buildfailsteps type='11'>0</buildfailsteps>
+			<continueonfail type='3'>1</continueonfail>
+			<indent type='3'>1</indent>
+			<name>Play fail sound</name>
+		</step></steps>
+	<macros>
+		<macro name='COMPANY_NAME'>
+			<description>company name macro used in Make VB, VC, and .NET steps</description>
+			<value>Test Company</value>
+		</macro>
+		<macro name='COMPLETED_LOG'>
+			<description>File that will contain a log line for each successful build</description>
+			<value>%SAMPLE_ROOT%\%PROJROOT%_Success.log</value>
+		</macro>
+		<macro name='FAILED_LOG'>
+			<description>File that will be written to for each failed build</description>
+			<value>%SAMPLE_ROOT%\%PROJROOT%_Fail.log</value>
+		</macro>
+		<macro name='FROM_EMAIL'>
+			<description>From address for emails</description>
+			<value>buildcomputer@yourco.com</value>
+		</macro>
+		<macro name='SAMPLE_ROOT'>
+			<description>Root dir containing files used by VSS sample</description>
+			<value>%TEMP%\VisBuildPro\VStudio</value>
+		</macro>
+		<macro name='SAMPLEDB'>
+			<description>The path to the SourceSafe database used by the sample</description>
+			<value>%SAMPLE_ROOT%\Database</value>
+		</macro>
+		<macro name='SMTP_SERVER'>
+			<description>Identity of the SMTP server to use when sending mail</description>
+			<value>localhost</value>
+		</macro>
+		<macro name='SSUSER'>
+			<description>Username for logging into SourceSafe database</description>
+			<value>Build</value>
+		</macro>
+		<macro name='TO_EMAIL'>
+			<description>E-mail address to send notification of success and failure to</description>
+			<value>cofd@163.com</value>
+		</macro>
+		<macro name='VSNET_SLN'>
+			<description>VS.NET 7.0 solution file without .sln extension</description>
+			<value>%WORK_ROOT%\Source\MyNETProjects</value>
+		</macro>
+		<macro name='WORK_ROOT'>
+			<description>Root folder containing working copies of files</description>
+			<value>%SAMPLE_ROOT%\work</value>
+		</macro></macros>
+	<script language='VBScript'><![CDATA[Sub CreateShortcut(target, sname)
+
+	Set objWshShell = CreateObject("Wscript.Shell")
+	
+	' Read desktop path using WshSpecialFolders object
+	strDesktopPath = objWshShell.SpecialFolders("Desktop")
+	
+	' Create a shortcut object on the desktop
+	Set objShortcut = objWshShell.CreateShortcut(strDesktopPath & "\" & sname & ".lnk")
+	
+	' Set shortcut object properties and save it
+	objShortcut.TargetPath = target
+	objShortcut.Save
+End Sub
+
+Function IsVS2003Installed()
+	IsVS2003Installed = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\7.1\InstallDir, )%")) > 1
+End Function
+
+Function IsVS2005Installed()
+	IsVS2005Installed = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\8.0\InstallDir, )%")) > 1	
+End Function
+
+Function IsVS2008Installed()
+	IsVS2008Installed = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\9.0\InstallDir, )%")) > 1
+End Function
+
+Function IsVS2010Installed()
+	IsVS2010Installed = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\10.0\InstallDir, )%")) > 1
+End Function
+
+Function IsVB6Installed()
+	IsVB6Installed = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual Basic\ProductDir, )%")) > 1
+End Function
+
+Function IsVC6Installed()
+	IsVC6Installed = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\VisualStudio\6.0\Setup\Microsoft Visual C++\ProductDir, )%")) > 1
+End Function
+
+Function IsVSSInstalled()
+	IsVSSInstalled = Len(Application.ExpandMacros("%REG_READ(" & _
+		"HKCR\CLSID\{783CD4E4-9D54-11CF-B8EE-00608CC9A71F}\InprocServer32\, )%")) > 1
+End Function]]></script>
+</project>
