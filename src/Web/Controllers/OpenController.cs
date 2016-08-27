@@ -91,6 +91,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 根据容器ID获取挂件内容信息
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
         /// <param name="ids">挂件容器ID数组</param>
         /// <returns>
         /// {
@@ -109,12 +110,12 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月30日11:19:05
         [HttpPost]
-        object get_widgets(string[] ids)
+        object get_widgets(string siteId, string[] ids)
         {
             if (ids.Length == 0) return new { code = -1, msg = "指定的挂件容器ID不能为空" };
 
             var widgets = (from q in Widget.CreateContext()
-                           where new List<string>(ids).Contains(q.ContainerId)
+                           where new List<string>(ids).Contains(q.ContainerId) && q.SiteId == siteId
                            select q).ToList();
 
             var data = new ArrayList();
@@ -243,6 +244,23 @@ namespace Kiss.Components.Site.Web.Controllers
 
             foreach (DataRow item in dt.Rows)
             {
+                #region 处理扩展字段
+
+                var props = new Dictionary<string, string>();
+
+                if (!(item["propertyName"] is DBNull) && !(item["propertyValue"] is DBNull))
+                {
+                    var attributes = new ExtendedAttributes();
+                    attributes.SetData(item["propertyName"].ToString(), item["propertyValue"].ToString());
+
+                    foreach (string key in attributes.Keys)
+                    {
+                        props.Add(key, attributes[key]);
+                    }
+                }
+
+                #endregion
+
                 data.Add(new
                 {
                     id = item["id"].ToString(),
@@ -253,7 +271,8 @@ namespace Kiss.Components.Site.Web.Controllers
                     summary = item["summary"].ToString(),
                     text = item["text"].ToString(),
                     view_count = item["viewCount"].ToInt(),
-                    image_url = item["imageUrl"].ToString()
+                    image_url = item["imageUrl"].ToString(),
+                    props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
                 });
             }
 
@@ -327,6 +346,23 @@ namespace Kiss.Components.Site.Web.Controllers
 
             foreach (DataRow item in dt.Rows)
             {
+                #region 处理扩展字段
+
+                var props = new Dictionary<string, string>();
+
+                if (!(item["propertyName"] is DBNull) && !(item["propertyValue"] is DBNull))
+                {
+                    var attributes = new ExtendedAttributes();
+                    attributes.SetData(item["propertyName"].ToString(), item["propertyValue"].ToString());
+
+                    foreach (string key in attributes.Keys)
+                    {
+                        props.Add(key, attributes[key]);
+                    }
+                }
+
+                #endregion
+
                 data.Add(new
                 {
                     id = item["id"].ToString(),
@@ -337,7 +373,8 @@ namespace Kiss.Components.Site.Web.Controllers
                     summary = item["summary"].ToString(),
                     text = item["text"].ToString(),
                     view_count = item["viewCount"].ToInt(),
-                    image_url = item["imageUrl"].ToString()
+                    image_url = item["imageUrl"].ToString(),
+                    props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
                 });
             }
 

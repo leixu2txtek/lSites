@@ -65,8 +65,8 @@ define(['../../../js/common'], function () {
 
                     dlg.close();
 
-                    alert('已成功添加站点信息');
-                    form.submit(); //重新刷新站点列表
+                    alert('添加成功');
+                    form.submit(); //重新刷新挂件列表
                 }
             });
 
@@ -150,15 +150,15 @@ define(['../../../js/common'], function () {
 
                                 dlg.close();
 
-                                alert('已修改添加站点信息');
-                                form.submit(); //重新刷新站点列表
+                                alert('修改成功');
+                                form.submit(); //重新刷新挂件列表
                             }
                         });
 
                     }, 'json');
                 });
 
-                // 删除站点
+                // 删除挂件
                 $('.delete', table).on('click', function () {
 
                     var siteId = util.get_query('siteId'),
@@ -174,14 +174,14 @@ define(['../../../js/common'], function () {
                             confirmed: confirmed || false
                         }, function (r) {
 
-                             r = handleException(r);
+                            r = handleException(r);
 
                             if (!r || r.code < 0) {
                                 alert(r.msg || '发生未知错误，请刷新页面后尝试');
                                 return false;
                             }
 
-                            alert('已彻底删除该站点');
+                            alert('已彻底删除该挂件');
                             form.submit();
 
                         }, 'json');
@@ -189,12 +189,11 @@ define(['../../../js/common'], function () {
 
                     delete_site(false);
                 });
+
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) {
-                form.submit();
-            }
+            callback: function (form) { form.submit(); }
         });
 
     });

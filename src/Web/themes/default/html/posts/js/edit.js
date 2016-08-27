@@ -16,7 +16,28 @@ define(['../../../js/common'], function () {
                 var title = $('#txt_title', container).val(),
                     content = editor.getContent(),
                     category = $('#txt_category', container).val(),
-                    summary = $('#txt_summary', container).val();
+                    summary = $('#txt_summary', container).val(),
+                    props = {};
+
+                //处理自定义属性
+                var has_error = false;
+                $('.prop_key', container).each(function (i, v) {
+
+                    var key = $(this).val();
+
+                    if (key.length == 0) return;
+
+                    if (props[key]) {
+
+                        has_error = true;
+                        alert('自定义属性的键不能重复');
+                        return false;
+                    }
+
+                    props[key] = $(this).next('.prop_value').val();
+                });
+
+                if (has_error) return;
 
                 $.post(config.host + 'posts/save', {
                     siteId: siteId,
@@ -28,7 +49,8 @@ define(['../../../js/common'], function () {
                     categoryId: category,
                     viewCount: 0,
                     sortOrder: 0,
-                    publish: publish
+                    publish: publish,
+                    props: JSON.stringify(props)
                 }, function (r) {
 
                     r = handleException(r);
@@ -43,6 +65,15 @@ define(['../../../js/common'], function () {
                 }, 'json');
             },
             init = function (data) {
+
+                var props = JSON.parse(data.post.props || '{}');
+
+                data.post.props = [];
+
+                for (var p in props) {
+
+                    data.post.props.push({ key: p, value: props[p] });
+                }
 
                 //构造HTML
                 container.html(template('post_edit_form', data));

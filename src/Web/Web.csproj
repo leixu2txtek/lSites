@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CMSInitializer.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
     <Compile Include="Controllers\ImageController.cs" />

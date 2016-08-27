@@ -1,5 +1,6 @@
 ﻿using Kiss.Validation;
 using System;
+using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace Kiss.Components.Site
@@ -209,7 +210,7 @@ namespace Kiss.Components.Site
         {
             public static readonly new BeforeSaveEventArgs Empty = new BeforeSaveEventArgs();
 
-            public string Properties { get; set; }
+            public NameValueCollection Properties { get; set; }
         }
 
         public static event EventHandler<BeforeSaveEventArgs> BeforeSave;

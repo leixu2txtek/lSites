@@ -201,7 +201,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (post == null) return new { code = -1, msg = "指定的文章不存在" };
 
-            //获取文章的所属栏目信息
+            #region 获取文章的所属栏目信息
+
             var category = (from q in Category.CreateContext()
                             where q.Id == post.CategoryId
                             select new
@@ -209,6 +210,19 @@ namespace Kiss.Components.Site.Web.Controllers
                                 id = q.Id,
                                 title = q.Title
                             }).FirstOrDefault();
+
+            #endregion
+
+            #region 扩展属性
+
+            var props = new Dictionary<string, string>();
+
+            foreach (string item in post.ExtAttrs.Keys)
+            {
+                props.Add(item, post[item]);
+            }
+
+            #endregion
 
             return new
             {
@@ -227,7 +241,8 @@ namespace Kiss.Components.Site.Web.Controllers
                     sort_order = post.SortOrder,
                     status = StringEnum<Status>.ToString(post.Status),
                     date_published = post.DatePublished,
-                    image_url = post.ImageUrl
+                    image_url = post.ImageUrl,
+                    props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
                 }
             };
         }
@@ -357,7 +372,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 #endregion
 
                 //OnBeforeSave
-                post.OnBeforeSave(new Posts.BeforeSaveEventArgs { Properties = string.Empty });
+                post.OnBeforeSave(new Posts.BeforeSaveEventArgs { Properties = jc.Params });
 
                 cx.SubmitChanges();
 
