@@ -297,7 +297,12 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="categoryId">栏目ID</param>
         /// <returns>
         /// {
-        ///     code = 1,                           //1：获取成功
+        ///     code = 1,                           //1：获取成功，-1：指定的站点不存在，-2：指定的栏目不存在
+        ///     category = 
+        ///     {
+        ///         id = "",                       //栏目的ID
+        ///         title = ""                     //栏目的标题
+        ///     },
         ///     data = 
         ///     [
         ///         {
@@ -329,7 +334,7 @@ namespace Kiss.Components.Site.Web.Controllers
             if (site == null) return new { code = -1, msg = "指定的站点不存在" };
 
             var category = Category.Get(categoryId);
-            if (category == null) return new { code = -1, msg = "指定的栏目不存在" };
+            if (category == null) return new { code = -2, msg = "指定的栏目不存在" };
 
             WebQuery q = new WebQuery();
             q.Id = "posts.category.list";
@@ -382,6 +387,11 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 code = 1,
                 data = data,
+                category = new
+                {
+                    id = category.Id,
+                    title = category.Title
+                },
                 paging = new
                 {
                     total_count = q.TotalCount,
