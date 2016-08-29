@@ -84,7 +84,7 @@ define(['../../../js/common'], function () {
                 editor = UE.getEditor('txt_content', {
                     initialFrameWidth: '100%',
                     initialFrameHeight: $(window).height() - 255,
-                    imageActionName: '/image/upload?siteId=' + siteId,
+                    imageActionName: 'image/upload?siteId=' + siteId,
                     imageAllowFiles: [".jpeg", ".jpg", ".png", ".gif"],
                     imageMaxSize: 1024 * 1024 * 5,
                     imageCompressBorder: 1600,
