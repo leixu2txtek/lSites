@@ -130,10 +130,10 @@ namespace Kiss.Components.Site
 
         #region extend props
 
-        [NotNull(""), Length(int.MaxValue)]
+        [Length(int.MaxValue)]
         public string PropertyName { get; set; }
 
-        [NotNull(""), Length(int.MaxValue)]
+        [Length(int.MaxValue)]
         public string PropertyValue { get; set; }
 
         private ExtendedAttributes _extAttrs;
