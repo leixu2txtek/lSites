@@ -97,14 +97,6 @@
     <Content Include="themes\default\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="themes\default\html\category\index.html" />
     <Content Include="themes\default\html\category\js\index.js" />
-    <Content Include="themes\default\html\columns.html" />
-    <Content Include="themes\default\html\option.html" />
-    <Content Include="themes\default\html\posts-addNews.html" />
-    <Content Include="themes\default\html\posts-examine.html" />
-    <Content Include="themes\default\html\posts-no-data.html" />
-    <Content Include="themes\default\html\posts-publish.html" />
-    <Content Include="themes\default\html\posts-recover.html" />
-    <Content Include="themes\default\html\posts.html" />
     <Content Include="themes\default\html\posts\audit.html" />
     <Content Include="themes\default\html\posts\edit.html" />
     <Content Include="themes\default\html\posts\index.html" />
@@ -118,10 +110,8 @@
     <Content Include="themes\default\html\settings\config.html" />
     <Content Include="themes\default\html\settings\index.html" />
     <Content Include="themes\default\html\settings\widgets.html" />
-    <Content Include="themes\default\html\site.html" />
     <Content Include="themes\default\html\sites\index.html" />
     <Content Include="themes\default\html\sites\js\index.js" />
-    <Content Include="themes\default\html\users.html" />
     <Content Include="themes\default\html\users\index.html" />
     <Content Include="themes\default\html\users\js\index.js" />
     <Content Include="themes\default\js\common.js" />
