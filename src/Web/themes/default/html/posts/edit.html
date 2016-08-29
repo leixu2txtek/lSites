@@ -84,15 +84,20 @@
                 </div>
             </div>
             <div class="addNews-tools ">
+                <h2 class="addNews-right-top ">配置</h2>
+                <div class="form-group group-addNews-form ">
+                    <label class="control-label ">序号：</label>
+                    <input type="text" id="txt_sort_order" class="form-control" style="border-radius: 0px; width:150px; display: inline-block;" value="{{post.sort_order}}" />
+                    <!--<label class="control-label ">查看数：</label>
+                    <input type="text" id="txt_view_count" class="form-control" style="border-radius: 0px; width:150px; display: inline-block;" value="{{post.view_count}}" />-->
+                </div>
+            </div>
+            <div class="addNews-tools ">
                 <h2 class="addNews-right-top">自定义属性</h2>
                 <div class="form-group group-addNews-form">
-                    {{if post.props.length > 0}}
-                        {{each post.props as item i}}
-                            <input type="text" class="form-control props prop_key" placeholder="键" value="{{item.key}}">：<input type="text" class="form-control props prop_value" placeholder="值" value="{{item.value}}">
-                        {{/each}} 
-                    {{else}}
-                        <input type="text" class="form-control props prop_key" placeholder="键">：<input type="text" class="form-control props prop_value" placeholder="值">
-                    {{/if}}
+                    {{if post.props.length > 0}} {{each post.props as item i}}
+                    <input type="text" class="form-control props prop_key" placeholder="键" value="{{item.key}}">：<input type="text" class="form-control props prop_value" placeholder="值" value="{{item.value}}"> {{/each}} {{else}}
+                    <input type="text" class="form-control props prop_key" placeholder="键">：<input type="text" class="form-control props prop_value" placeholder="值"> {{/if}}
                 </div>
             </div>
         </div>

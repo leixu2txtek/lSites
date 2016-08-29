@@ -17,6 +17,8 @@ define(['../../../js/common'], function () {
                     content = editor.getContent(),
                     category = $('#txt_category', container).val(),
                     summary = $('#txt_summary', container).val(),
+                    sort_order = $('#txt_sort_order', container).val(),
+                    view_count = $('#txt_view_count', container).val(),
                     props = {};
 
                 //处理自定义属性
@@ -47,8 +49,8 @@ define(['../../../js/common'], function () {
                     content: content,
                     summary: summary,
                     categoryId: category,
-                    viewCount: 0,
-                    sortOrder: 0,
+                    viewCount: view_count,
+                    sortOrder: sort_order,
                     publish: publish,
                     props: JSON.stringify(props)
                 }, function (r) {
