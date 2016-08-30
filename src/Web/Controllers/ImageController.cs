@@ -129,11 +129,23 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #endregion
 
+            #region 设定图片的地址
+
+            var host = jc.Context.Request.Url.Authority;
+
+            //支援 NGINX 反向代理时 配置的外网地址
+            if (!string.IsNullOrEmpty(jc.Context.Request.Headers["Host"]))
+            {
+                host = jc.Context.Request.Headers["Host"];
+            }
+
+            #endregion
+
             return new
             {
                 code = 1,
                 msg = "上传成功",
-                url = string.Format("{0}/open/read?siteId={1}&url={2}-{3}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, jc.Context.Request.Url.Authority, jc.Context.Request.Url.Authority), site.Id, DateTime.Now.ToString("yyyyMMdd"), name)
+                url = string.Format("{0}/open/read?siteId={1}&url={2}-{3}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, host), site.Id, DateTime.Now.ToString("yyyyMMdd"), name)
             };
         }
     }

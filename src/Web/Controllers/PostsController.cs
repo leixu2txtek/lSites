@@ -358,7 +358,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 #region 审核
 
-                if (publish)
+                //只有第一次发布更新发布时间
+                if (post.Status == Status.DRAFT && publish)
                 {
                     post.Status = site.NeedAuditPost ? Status.PENDING : Status.PUBLISHED;
 
