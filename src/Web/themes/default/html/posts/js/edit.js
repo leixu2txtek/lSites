@@ -138,6 +138,8 @@ define(['../../../js/common'], function () {
         //保存为草稿
         $('.btn_save', nav).on('click', function () {
 
+            if ($(this).data('disable')) return false;
+
             save(false, function (r) {
 
                 r.code == 1 && alert('已保存为草稿，可继续编辑');
@@ -178,7 +180,10 @@ define(['../../../js/common'], function () {
                 return false;
             }
 
-            init(r);
+            //更新时不需要保存草稿
+            $('.btn_save').data('disable', true);
+
+            $('.btn_publish').text('更新').prop('title', '更新当前文章内容') && init(r);
         });
     });
 });
