@@ -134,9 +134,9 @@ namespace Kiss.Components.Site.Web.Controllers
             var host = jc.Context.Request.Url.Authority;
 
             //支援 NGINX 反向代理时 配置的外网地址
-            if (!string.IsNullOrEmpty(jc.Context.Request.Headers["Host"]))
+            if (!string.IsNullOrEmpty(jc.Context.Request.Headers["ORI_HOST"]))
             {
-                host = jc.Context.Request.Headers["Host"];
+                host = jc.Context.Request.Headers["ORI_HOST"];
             }
 
             #endregion
