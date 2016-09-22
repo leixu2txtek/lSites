@@ -54,6 +54,12 @@ namespace Kiss.Components.Site
         public string Logo { get; set; }
 
         /// <summary>
+        /// 站点ico地址
+        /// </summary>
+        [NotNull(""), Length(int.MaxValue)]
+        public string ICO { get; set; }
+
+        /// <summary>
         /// 站点的主题
         /// </summary>
         [NotNull("default"), Length(20)]
@@ -62,7 +68,6 @@ namespace Kiss.Components.Site
         /// <summary>
         /// 站点的创建时间
         /// </summary>
-        [NotNull("")]
         public DateTime DateCreated { get; set; }
 
         /// <summary>

@@ -69,7 +69,6 @@ namespace Kiss.Components.Site
         /// <summary>
         /// 文章的创建时间
         /// </summary>
-        [NotNull("")]
         public DateTime DateCreated { get; set; }
 
         /// <summary>
@@ -105,7 +104,6 @@ namespace Kiss.Components.Site
         /// <summary>
         /// 文章发布时间
         /// </summary>
-        [NotNull("")]
         public DateTime DatePublished { get; set; }
 
         /// <summary>

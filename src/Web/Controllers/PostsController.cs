@@ -264,6 +264,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <returns>
         /// {
         ///     code = 1,       //-1：文章标题不能为空，-2：文章内容不能为空，-3：指定的分类不存在，-4：摘要的长度不能超过2000个字符，-5：文章标题的长度不能超过50个字符，-6：文章副标题的长度不能超过100个字符，-7：文章的查看次数不能设置为小于0，-8：扩展字段格式不正确
+        ///     id = "",        //文章的存储的ID
         ///     msg = "保存成功"
         /// }
         /// </returns>
@@ -379,9 +380,9 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 //OnAfterSave
                 post.OnAfterSave(new Posts.AfterSaveEventArgs());
-            }
 
-            return new { code = 1, msg = "保存成功" };
+                return new { code = 1, id = post.Id, msg = "保存成功" };
+            }
         }
 
         /// <summary>

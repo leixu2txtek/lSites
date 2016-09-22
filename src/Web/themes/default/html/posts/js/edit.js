@@ -13,6 +13,7 @@ define(['../../../js/common'], function () {
             container = $('#editor_container'),
             editor = {},
             save = function (publish, callback) {
+
                 var title = $('#txt_title', container).val(),
                     content = editor.getContent(),
                     category = $('#txt_category', container).val(),
@@ -138,20 +139,45 @@ define(['../../../js/common'], function () {
         //保存为草稿
         $('.btn_save', nav).on('click', function () {
 
-            if ($(this).data('disable')) return false;
+            var _this = $(this);
+
+            if (_this.data('disable') || _this.data('pending')) return false;
+
+            _this.data('pending', true);
 
             save(false, function (r) {
 
-                r.code == 1 && alert('已保存为草稿，可继续编辑');
+                _this.data('pending', false);
+
+                if (r.code < 0) {
+
+                    alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                    return false;
+                }
+
+                //保存草稿后将本文章的ID更新为保存后的ID，防止保存&发布时出现多个相同的文章
+                id = r.id;
+
+                alert('已保存为草稿，可继续编辑');
             });
         });
 
         //保存并发布        
         $('.btn_publish', nav).on('click', function () {
 
+            var _this = $(this);
+
+            if (_this.data('pending')) return false;
+
+            _this.data('pending', true);
+
             save(true, function (r) {
 
+                _this.data('pending', false);
+
                 r.code == 1 && alert('已成功保存并发布该文章');
+
+                window.history.go(-1);
             });
 
             return false;

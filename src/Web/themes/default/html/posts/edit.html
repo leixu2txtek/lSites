@@ -95,10 +95,12 @@
             <div class="addNews-tools ">
                 <h2 class="addNews-right-top">自定义属性</h2>
                 <div class="form-group group-addNews-form">
-                    {{if post.props.length > 0}} {{each post.props as item i}}
-                    <input type="text" class="form-control props prop_key" placeholder="键" value="{{item.key}}">：<input type="text" class="form-control props prop_value" placeholder="值" value="{{item.value}}">
-                    {{/each}} {{else}}
-                    <input type="text" class="form-control props prop_key" placeholder="键">：<input type="text" class="form-control props prop_value" placeholder="值">
+                    {{if post.props.length > 0}}
+                        {{each post.props as item i}}
+                            <input type="text" class="form-control props prop_key" placeholder="键" value="{{item.key}}">：<input type="text" class="form-control props prop_value" placeholder="值" value="{{item.value}}">
+                        {{/each}} 
+                    {{else}}
+                        <input type="text" class="form-control props prop_key" placeholder="键">：<input type="text" class="form-control props prop_value" placeholder="值">
                     {{/if}}
                 </div>
             </div>

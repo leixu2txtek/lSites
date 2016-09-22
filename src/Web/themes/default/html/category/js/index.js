@@ -15,6 +15,7 @@ define(['../../../js/common'], function () {
             },
             callback: {
                 onClick: function (event, tId, node) {
+
                     //绑定点击ztree后事件
                     $.post(config.host + 'category/detail', { id: node.id, siteId: util.get_query('siteId') }, function (r) {
 
@@ -64,6 +65,9 @@ define(['../../../js/common'], function () {
 
                                 alert('保存成功');
 
+                                //重新加载编辑表单
+                                $('.add_category', nav).trigger('click');
+
                                 //刷新变更后数据
                                 tree.reAsyncChildNodes(node.getParentNode(), "refresh");
                             }
@@ -106,6 +110,7 @@ define(['../../../js/common'], function () {
             $('#select_parent', form).on('click', function () {
 
                 select_parent(function (node) {
+
                     $('[name=parentId]', form).val(node.id);
                     $('#parent_name', form).val(node.title);
 
@@ -124,6 +129,9 @@ define(['../../../js/common'], function () {
                     }
 
                     alert('保存成功');
+
+                    //重新加载编辑表单
+                    $('.add_category', nav).trigger('click');
 
                     //刷新变更后数据
                     tree.reAsyncChildNodes('', "refresh");

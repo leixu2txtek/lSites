@@ -36,7 +36,6 @@ namespace Kiss.Components.Site
         /// <summary>
         /// 创建时间
         /// </summary>
-        [NotNull("")]
         public DateTime DateCreated { get; set; }
 
         /// <summary>
