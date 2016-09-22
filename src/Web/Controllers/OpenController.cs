@@ -290,6 +290,78 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
+        /// 获取指定栏目下最新一篇文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="categoryId">栏目ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                       //-1：指定的站点不存在，-2：指定的栏目不存，-3：指定栏目下没有文章
+        ///     post = 
+        ///     {
+        ///         id = "",                    //文章ID
+        ///         display_name = "",          //文章创建者显示名
+        ///         title = "",                 //文章标题
+        ///         date_created = "",          //文章创建时间
+        ///         sub_title = "",             //文章子标题
+        ///         summary = "",               //文章的摘要
+        ///         text = "",                  //文章内容（纯文字）
+        ///         view_count = "",            //文章的查看次数
+        ///         image_url = "",             //文章的第一个图片
+        ///         props = ""                  //扩展字段（JSON字符串）
+        ///     }
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年9月22日16:00:35
+        [HttpPost]
+        object get_first_post_by_category(string siteId, string categoryId)
+        {
+            var site = Site.Get(siteId);
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var category = Category.Get(categoryId);
+            if (category == null) return new { code = -2, msg = "指定的栏目不存在" };
+
+            var post = (from q in Posts.CreateContext()
+                        where q.CategoryId == category.Id
+                        orderby q.DatePublished descending
+                        select q).FirstOrDefault();
+
+            if (post == null) return new { code = -3, msg = "指定栏目下没有文章" };
+
+            #region 处理扩展字段
+
+            var props = new Dictionary<string, string>();
+
+            if (post.ExtAttrs.Keys.Count > 0)
+            {
+                foreach (string key in post.ExtAttrs.Keys) props.Add(key, post[key]);
+            }
+
+            #endregion
+
+            return new
+            {
+                code = 1,
+                post = new
+                {
+                    id = post.Id,
+                    display_name = post.DisplayName,
+                    title = post.Title,
+                    date_published = post.DatePublished,
+                    sub_title = post.SubTitle,
+                    summary = post.Summary,
+                    text = post.Text,
+                    view_count = post.ViewCount,
+                    image_url = post.ImageUrl,
+                    props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
+                }
+            };
+        }
+
+        /// <summary>
         /// 获取站点下指定栏目下文章
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
@@ -314,7 +386,8 @@ namespace Kiss.Components.Site.Web.Controllers
         ///             summary = "",               //文章的摘要
         ///             text = "",                  //文章内容（纯文字）
         ///             view_count = "",            //文章的查看次数
-        ///             image_url = ""              //文章的第一个图片
+        ///             image_url = "",             //文章的第一个图片
+        ///             props = ""                  //扩展字段（JSON字符串）
         ///         }
         ///     ],
         ///     paging = 
