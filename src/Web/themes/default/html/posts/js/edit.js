@@ -20,6 +20,8 @@ define(['../../../js/common'], function () {
                     summary = $('#txt_summary', container).val(),
                     sort_order = $('#txt_sort_order', container).val(),
                     view_count = $('#txt_view_count', container).val(),
+                    date_created = $('#txt_date_created', container).val(),
+                    is_top = $('[name=cb_top]', container).val(),
                     props = {};
 
                 //处理自定义属性
@@ -53,6 +55,8 @@ define(['../../../js/common'], function () {
                     viewCount: view_count,
                     sortOrder: sort_order,
                     publish: publish,
+                    dateCreated: date_created,
+                    isTop: is_top,
                     props: JSON.stringify(props)
                 }, function (r) {
 
@@ -97,14 +101,14 @@ define(['../../../js/common'], function () {
                 //select category
                 $('#btn_category', container).on('click', function () {
 
-                    var p_tree = $('<ul class="ztree"></ul>'),
+                    var p_tree = $('<ul class="ztree" style="max-height:280px;max-width:280px;overflow:auto;"></ul>'),
                         selected = { title: '', id: '' },
                         dlg = $M({
                             title: '选择栏目信息',
                             content: p_tree[0],
                             lock: true,
-                            width: '250px',
-                            height: '250px',
+                            width: '300px',
+                            height: '300px',
                             ok: function () {
 
                                 dlg.close();
@@ -134,6 +138,9 @@ define(['../../../js/common'], function () {
 
                     return false;
                 });
+
+                //select is_top
+                $('[name=cb_top]', container).select2({ minimumResultsForSearch: -1 }).val($('[name=cb_top]', container).data('selected').toString()).trigger('change');
             };
 
         //保存为草稿
@@ -175,7 +182,7 @@ define(['../../../js/common'], function () {
 
                 _this.data('pending', false);
 
-                r.code == 1 && alert('已成功保存并发布该文章');
+                alert(r.is_pending ? '已保存文章，并提交至审核，待审核通过后可展示' : '已成功保存并发布文章');
 
                 window.history.go(-1);
             });

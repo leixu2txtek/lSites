@@ -236,12 +236,13 @@ namespace Kiss.Components.Site.Web.Controllers
                     text = post.Text,
                     summary = post.Summary,
                     category = category ?? new object() { },
-                    date_created = post.DateCreated,
+                    date_created = post.DateCreated.ToUniversalTime(),
                     view_count = post.ViewCount,
                     sort_order = post.SortOrder,
                     status = StringEnum<Status>.ToString(post.Status),
-                    date_published = post.DatePublished,
+                    date_published = post.DatePublished.ToUniversalTime(),
                     image_url = post.ImageUrl,
+                    is_top = post.IsTop.ToString().ToLowerInvariant(),
                     props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
                 }
             };
@@ -261,6 +262,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="sortOrder">文章序号</param>
         /// <param name="imageUrl">引导图片</param>
         /// <param name="dateCreated">创建时间</param>
+        /// <param name="isTop">是否置顶</param>
         /// <param name="publish">是否发布</param>
         /// <returns>
         /// {
@@ -272,7 +274,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月30日20:19:36
         [HttpPost]
-        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string imageUrl, string dateCreated, bool publish)
+        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string imageUrl, string dateCreated, bool isTop, bool publish)
         {
             #region 校验参数
 
@@ -345,6 +347,11 @@ namespace Kiss.Components.Site.Web.Controllers
                 post.ViewCount = viewCount;
                 post.DisplayName = jc.User.Info.DisplayName;
 
+                //同一个栏目下只能有一个文章被置顶
+                if (isTop) Posts.Where("CategoryId = {0}", post.CategoryId).Set("IsTop", false).Update();
+
+                post.IsTop = isTop;
+
                 #region 处理图片
 
                 post.ImageUrl = imageUrl ?? string.Empty;
@@ -382,7 +389,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 //OnAfterSave
                 post.OnAfterSave(new Posts.AfterSaveEventArgs());
 
-                return new { code = 1, id = post.Id, msg = "保存成功" };
+                return new { code = 1, id = post.Id, msg = "保存成功", is_pending = post.Status == Status.PENDING };
             }
         }
 

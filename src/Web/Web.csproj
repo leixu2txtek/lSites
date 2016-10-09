@@ -40,6 +40,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Kiss.Components.Site.Web.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Kiss, Version=4.9.602.2, Culture=neutral, processorArchitecture=MSIL">
@@ -92,8 +93,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="themes\default\css\bootstrap-theme.min.css" />
     <Content Include="themes\default\css\bootstrap.min.css" />
+    <Content Include="themes\default\css\style.css" />
     <Content Include="themes\default\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="themes\default\html\category\index.html" />
     <Content Include="themes\default\html\category\js\index.js" />

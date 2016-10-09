@@ -46,7 +46,7 @@ namespace Kiss.Components.Site
     }
 
     /// <summary>
-    /// 
+    /// 站点管理权限
     /// </summary>
     public enum PermissionLevel
     {

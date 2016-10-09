@@ -8,7 +8,7 @@
     <title>CMS内容管理系统</title>
 
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
+    <link href="../../fonts/iconfonts/iconfont.css" rel="stylesheet">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
     <link href="../../css/style.css" rel="stylesheet">
     <link href="../../js/vendor/ztree/ztree.css" rel="stylesheet">
@@ -86,10 +86,25 @@
             <div class="addNews-tools ">
                 <h2 class="addNews-right-top ">配置</h2>
                 <div class="form-group group-addNews-form ">
-                    <label class="control-label ">序号：</label>
-                    <input type="text" id="txt_sort_order" class="form-control" style="border-radius: 0px; width: 150px; display: inline-block;" value="{{post.sort_order}}" />
-                    <!--<label class="control-label ">查看数：</label>
-                    <input type="text" id="txt_view_count" class="form-control" style="border-radius: 0px; width:150px; display: inline-block;" value="{{post.view_count}}" />-->
+
+                    <label class="control-label">
+                        置顶：
+                    <select name="cb_top" style="width: 180px; height: 34px;" data-selected="{{post.is_top}}">
+                        <option value="false">不置顶</option>
+                        <option value="true">置顶</option>
+                    </select>
+                    </label>
+
+                    <label class="control-label">
+                        时间：
+                    <input type="text" id="txt_date_created" class="form-control" style="border-radius: 0px; width: 180px; display: inline-block;" data-value="{{post.date_created}}" />
+                    </label>
+
+                    <label class="control-label">
+                        序号：
+                    <input type="text" id="txt_sort_order" class="form-control" style="border-radius: 0px; width: 180px; display: inline-block;" value="{{post.sort_order}}" />
+                    </label>
+
                 </div>
             </div>
             <div class="addNews-tools ">
@@ -98,7 +113,7 @@
                     {{if post.props.length > 0}}
                         {{each post.props as item i}}
                             <input type="text" class="form-control props prop_key" placeholder="键" value="{{item.key}}">：<input type="text" class="form-control props prop_value" placeholder="值" value="{{item.value}}">
-                        {{/each}} 
+                    {{/each}} 
                     {{else}}
                         <input type="text" class="form-control props prop_key" placeholder="键">：<input type="text" class="form-control props prop_value" placeholder="值">
                     {{/if}}

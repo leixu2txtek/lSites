@@ -49,6 +49,7 @@
     <Compile Include="Site.cs" />
     <Compile Include="SiteUsers.cs" />
     <Compile Include="Widget.cs" />
+    <Compile Include="CategoryUsers.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

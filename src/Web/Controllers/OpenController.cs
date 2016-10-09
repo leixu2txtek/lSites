@@ -196,6 +196,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="siteId">站点ID</param>
+        /// <param name="parentId">栏目ID</param>
         /// <returns>
         /// {
         ///     code = 1,                   //-1：指定的站点不存在，1：成功获取
