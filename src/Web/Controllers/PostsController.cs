@@ -260,6 +260,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="viewCount">文章查看次数</param>
         /// <param name="sortOrder">文章序号</param>
         /// <param name="imageUrl">引导图片</param>
+        /// <param name="dateCreated">创建时间</param>
         /// <param name="publish">是否发布</param>
         /// <returns>
         /// {
@@ -271,7 +272,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月30日20:19:36
         [HttpPost]
-        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string imageUrl, bool publish)
+        object save(string id, string title, string subTitle, string content, string summary, string categoryId, int viewCount, int sortOrder, string imageUrl, string dateCreated, bool publish)
         {
             #region 校验参数
 
@@ -326,7 +327,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     post = new Posts();
 
                     post.Id = StringUtil.UniqueId();
-                    post.DateCreated = DateTime.Now;
+                    post.DateCreated = !string.IsNullOrEmpty(dateCreated) ? dateCreated.ToDateTime() : DateTime.Now;
                     post.UserId = jc.UserName;
                     post.SiteId = site.Id;
 
@@ -422,6 +423,82 @@ namespace Kiss.Components.Site.Web.Controllers
             }
 
             return new { code = 1, msg = "移至回收站成功" };
+        }
+
+        /// <summary>
+        /// 置顶文章
+        /// 注：一个栏目下仅仅有一个置顶文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="id">文章ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：要置顶的文章ID不能为空，-2：要置顶的文章未找到，置顶失败
+        ///     msg = "置顶成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月9日11:29:21
+        [HttpPost]
+        object top(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return new { code = -1, msg = "要置顶的文章ID不能为空" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var post = (from q in cx
+                            where q.Id == id && q.SiteId == site.Id && q.IsDeleted == false
+                            select q).FirstOrDefault();
+
+                if (post == null) return new { code = -2, msg = "要置顶的文章未找到，置顶失败" };
+
+                //设置当前栏目下置顶文章为不置顶，再更新当前文章为置顶状态
+                Posts.Where("CategoryId = {0}", post.CategoryId).Set("IsTop", false).Update();
+
+                post.IsTop = true;
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "置顶成功" };
+        }
+
+        /// <summary>
+        /// 取消置顶文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="id">文章ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：要取消置顶的文章ID不能为空，-2：要取消置顶的文章未找到，取消置顶失败
+        ///     msg = "取消成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月9日11:29:21
+        [HttpPost]
+        object un_top(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return new { code = -1, msg = "要取消置顶的文章ID不能为空" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Posts> cx = Posts.CreateContext())
+            {
+                var post = (from q in cx
+                            where q.Id == id && q.SiteId == site.Id && q.IsDeleted == false
+                            select q).FirstOrDefault();
+
+                if (post == null) return new { code = -2, msg = "要取消置顶的文章未找到，取消置顶失败" };
+
+                post.IsTop = false;
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "取消置顶成功" };
         }
 
         #endregion

@@ -124,6 +124,12 @@ namespace Kiss.Components.Site
         [NotNull(""), Length(500)]
         public string ImageUrl { get; set; }
 
+        /// <summary>
+        /// 是否置顶
+        /// </summary>
+        [NotNull(0)]
+        public bool IsTop { get; set; }
+
         #endregion
 
         #region extend props

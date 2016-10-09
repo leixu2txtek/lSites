@@ -192,6 +192,52 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
+        /// 获取指定栏目下的子栏目详细信息
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                   //-1：指定的站点不存在，1：成功获取
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",            //栏目的ID
+        ///             title = "",         //栏目的标题
+        ///             url = "",           //栏目的Url
+        ///             show_in_menu = ""   //栏目是否在菜单上显示
+        ///         }
+        ///     ]
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月9日11:38:19
+        [HttpPost]
+        object get_categories_by_parent(string siteId, string parentId)
+        {
+            var site = Site.Get(siteId);
+
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var categories = (from q in Category.CreateContext()
+                              where q.SiteId == site.Id && q.ParentId == parentId
+                              orderby q.SortOrder ascending
+                              select new
+                              {
+                                  id = q.Id,
+                                  title = q.Title,
+                                  url = q.Url,
+                                  show_in_menu = q.ShowInMenu
+                              }).ToList();
+
+            return new
+            {
+                code = 1,
+                data = categories
+            };
+        }
+
+        /// <summary>
         /// 获取站点下最新文章
         /// 注：取创建时间最新的文章，无栏目约束
         /// </summary>
