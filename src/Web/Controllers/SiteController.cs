@@ -95,55 +95,6 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
-        /// 根据域名获取站点的详细信息
-        /// </summary>
-        /// <remarks>请求方式：POST</remarks>
-        /// <param name="domain">站点域名</param>
-        /// <returns>
-        /// {
-        ///     code = 1,
-        ///     data = 
-        ///     {
-        ///         id = "",                //站点ID
-        ///         title = "",             //站点标题
-        ///         domain = "",            //站点域名
-        ///         key_words = "",         //站点关键字（SEO）
-        ///         description = "",       //站点描述（SEO）
-        ///         theme = "",             //站点主题
-        ///         sort_order = "",        //站点排序
-        ///         need_audit_post = false //是否需要审核文章
-        ///     }
-        /// }
-        /// </returns>
-        /// leixu
-        /// 2016年6月29日19:52:43
-        [HttpPost]
-        object detail_with_domain(string domain)
-        {
-            Site site = (from q in Site.CreateContext()
-                         where q.Domain == domain
-                         select q).FirstOrDefault();
-
-            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
-
-            return new
-            {
-                code = 1,
-                data = new
-                {
-                    id = site.Id,
-                    title = site.Title,
-                    domain = site.Domain,
-                    key_words = site.KeyWords,
-                    description = site.Description,
-                    theme = site.Theme,
-                    sort_order = site.SortOrder,
-                    need_audit_post = site.NeedAuditPost
-                }
-            };
-        }
-
-        /// <summary>
         /// 添加单个站点
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
@@ -157,7 +108,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="needAuditPost">是否需要审核文章</param>
         /// <returns>
         /// {
-        ///     code = 1,       //-1：站点名称不能为空，-2：站点域名不能为空，-3：站点域名支持大小写英文以及点号，下划线，-4：已经存在相同的站点名称，请更换其他站点名称，-5：已经存在相同的站点域名，请更换其他站点名称，-6：站点标题不能超过100个字符，-6：站点域名不能超过100个字符，-6：站点关键字不能超过500个字符，-6：站点描述不能超过1000个字符，-6：站点的主题名不能超过20个字符
+        ///     code = 1,       //-1：站点名称不能为空，-2：站点域名不能为空，-3：站点域名支持大小写英文以及点号，下划线，-4：站点标题不能超过100个字符，-5：站点域名不能超过100个字符，-6：站点关键字不能超过500个字符，-7：站点描述不能超过1000个字符，-8：站点的主题名不能超过20个字符，-9：LOGO文件只能是 JPG、GIF、PNG 图片文件，-10：LOGO文件的大小不能超过 1MB，-11：LOGO 存储失败，请联系管理员，-12：ICO文件只能是 ICO 图片文件，-13：ICO文件的大小不能超过 1MB，-14：ICO 图标存储失败，请联系管理员，-15：已经存在相同的站点名称，请更换其他站点名称，-16：已经存在相同的站点域名，请更换其他站点名称
         ///     msg = ""        //1：保存成功
         /// }
         /// </returns>
@@ -181,11 +132,11 @@ namespace Kiss.Components.Site.Web.Controllers
             description = string.IsNullOrWhiteSpace(description) ? string.Empty : description.Trim();
             theme = string.IsNullOrEmpty(theme) ? "default" : theme.Trim();
 
-            if (title.Length > 100) return new { code = -6, msg = "站点标题不能超过100个字符" };
-            if (domain.Length > 100) return new { code = -6, msg = "站点域名不能超过100个字符" };
+            if (title.Length > 100) return new { code = -4, msg = "站点标题不能超过100个字符" };
+            if (domain.Length > 100) return new { code = -5, msg = "站点域名不能超过100个字符" };
             if (keyWords.Length > 500) return new { code = -6, msg = "站点关键字不能超过500个字符" };
-            if (description.Length > 1000) return new { code = -6, msg = "站点描述不能超过1000个字符" };
-            if (theme.Length > 20) return new { code = -6, msg = "站点的主题名不能超过20个字符" };
+            if (description.Length > 1000) return new { code = -7, msg = "站点描述不能超过1000个字符" };
+            if (theme.Length > 20) return new { code = -8, msg = "站点的主题名不能超过20个字符" };
 
             #endregion
 
@@ -197,15 +148,15 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 if (jc.Context.Request.Files.Count > 0)
                 {
-                    var file = jc.Context.Request.Files[0];
+                    var file = jc.Context.Request.Files["logo"];
 
                     var extension = Path.GetExtension(file.FileName);
-                    if (string.IsNullOrEmpty(extension)) return new { code = -7, msg = "LOGO文件只能是 JPG、GIF、PNG 图片文件" };
+                    if (string.IsNullOrEmpty(extension)) return new { code = -9, msg = "LOGO文件只能是 JPG、GIF、PNG 图片文件" };
 
                     extension = extension.Substring(1).ToLowerInvariant();
 
-                    if (extension != "jpg" && extension != "gif" && extension != "png") return new { code = -7, msg = "LOGO文件只能是 JPG、GIF、PNG 图片文件" };
-                    if (file.InputStream.Length > 1024 * 1024) return new { code = -8, msg = "LOGO文件的大小不能超过 1MB" };
+                    if (extension != "jpg" && extension != "gif" && extension != "png") return new { code = -9, msg = "LOGO文件只能是 JPG、GIF、PNG 图片文件" };
+                    if (file.InputStream.Length > 1024 * 1024) return new { code = -10, msg = "LOGO文件的大小不能超过 1MB" };
 
                     logo = Convert.ToBase64String(file.InputStream.ToBytes());
 
@@ -217,12 +168,46 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 logger.Error(ExceptionUtil.WriteException(ex));
 
-                return new { code = -9, msg = "LOGO 存储失败，请联系管理员" };
+                return new { code = -11, msg = "LOGO 存储失败，请联系管理员" };
+            }
+
+            #endregion
+
+            #region 校验ICO文件
+
+            string ico = string.Empty;
+
+            try
+            {
+                if (jc.Context.Request.Files.Count > 0)
+                {
+                    var file = jc.Context.Request.Files["ico"];
+
+                    var extension = Path.GetExtension(file.FileName);
+                    if (string.IsNullOrEmpty(extension)) return new { code = -12, msg = "ICO文件只能是 ICO 图片文件" };
+
+                    extension = extension.Substring(1).ToLowerInvariant();
+
+                    if (extension != "ico") return new { code = -12, msg = "ICO文件只能是 ICO 图片文件" };
+                    if (file.InputStream.Length > 1024 * 1024) return new { code = -13, msg = "ICO文件的大小不能超过 1MB" };
+
+                    ico = Convert.ToBase64String(file.InputStream.ToBytes());
+
+                    //存储为 BASE64 格式的
+                    ico = string.Format("data:image/{0};base64,{1}", extension, logo);
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ExceptionUtil.WriteException(ex));
+
+                return new { code = -14, msg = "ICO 图标存储失败，请联系管理员" };
             }
 
             #endregion
 
             using (ILinqContext<Site> cx = Site.CreateContext())
+            using (ILinqContext<SiteUsers> cx_relation = SiteUsers.CreateContext())
             {
                 var site = Site.Get(cx, id);
 
@@ -230,13 +215,13 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 if (site == null)
                 {
-                    if (Site.Where("Title = {0}", title).Count() != 0) return new { code = -4, msg = "已经存在相同的站点名称，请更换其他站点名称" };
-                    if (Site.Where("Domain = {0}", domain).Count() != 0) return new { code = -5, msg = "已经存在相同的站点域名，请更换其他站点名称" };
+                    if (Site.Where("Title = {0}", title).Count() != 0) return new { code = -15, msg = "已经存在相同的站点名称，请更换其他站点名称" };
+                    if (Site.Where("Domain = {0}", domain).Count() != 0) return new { code = -16, msg = "已经存在相同的站点域名，请更换其他站点名称" };
                 }
                 else
                 {
-                    if (site.Title != title && Site.Where("Title = {0}", title).Count() != 0) return new { code = -4, msg = "已经存在相同的站点名称，请更换其他站点名称" };
-                    if (site.Domain != domain && Site.Where("Domain = {0}", domain).Count() != 0) return new { code = -5, msg = "已经存在相同的站点域名，请更换其他站点名称" };
+                    if (site.Title != title && Site.Where("Title = {0}", title).Count() != 0) return new { code = -15, msg = "已经存在相同的站点名称，请更换其他站点名称" };
+                    if (site.Domain != domain && Site.Where("Domain = {0}", domain).Count() != 0) return new { code = -16, msg = "已经存在相同的站点域名，请更换其他站点名称" };
                 }
 
                 #endregion
@@ -259,9 +244,25 @@ namespace Kiss.Components.Site.Web.Controllers
                 site.Theme = theme;
                 site.SortOrder = sortOrder;
                 site.Logo = logo;
+                site.ICO = ico;
                 site.NeedAuditPost = needAuditPost;
 
                 cx.SubmitChanges();
+
+                #region 将当前用户加入该站点
+
+                var relation = new SiteUsers();
+
+                relation.Id = StringUtil.UniqueId();
+                relation.DateCreated = DateTime.Now;
+                relation.SiteId = site.Id;
+                relation.UserId = jc.UserName;
+                relation.PermissionLevel = PermissionLevel.ADMIN;
+
+                cx_relation.Add(relation, true);
+                cx_relation.SubmitChanges();
+
+                #endregion
             }
 
             return new { code = 1, msg = "保存成功" };
