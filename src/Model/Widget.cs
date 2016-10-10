@@ -3,7 +3,7 @@ using System;
 
 namespace Kiss.Components.Site
 {
-    [OriginalName("gWidget"), Serializable]
+    [OriginalName("gSite_widget"), Serializable]
     public class Widget : QueryObject<Widget, string>, IExtendable
     {
         /// <summary>

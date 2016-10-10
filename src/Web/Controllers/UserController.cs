@@ -260,6 +260,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     user = new User();
 
                     user.Id = StringUtil.UniqueId();
+                    user.OrgId = "org";
                     user.DateCreate = DateTime.Now;
                     user.IsValid = true;
                     user.DateLastVisit = DateTime.Now;
