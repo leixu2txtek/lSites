@@ -65,7 +65,7 @@ namespace Kiss.Components.Site.Web.Controllers
                             where q.UserId == jc.UserName && q.SiteId == site.Id
                             select q).FirstOrDefault();
 
-            //只有管理人员才可以对站点的挂件进行编辑
+            //只有管理人员才可以对站点的栏目进行编辑
             if (relation == null || (relation.PermissionLevel != PermissionLevel.ADMIN && relation.PermissionLevel != PermissionLevel.AUDIT))
             {
                 ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });

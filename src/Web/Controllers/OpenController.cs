@@ -353,7 +353,7 @@ namespace Kiss.Components.Site.Web.Controllers
         ///         date_created = "",          //文章创建时间
         ///         sub_title = "",             //文章子标题
         ///         summary = "",               //文章的摘要
-        ///         content = "",                  //文章内容（纯文字）
+        ///         content = "",               //文章内容（纯文字）
         ///         view_count = "",            //文章的查看次数
         ///         image_url = "",             //文章的第一个图片
         ///         props = "",                 //扩展字段（JSON字符串）

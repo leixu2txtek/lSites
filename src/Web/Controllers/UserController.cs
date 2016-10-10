@@ -5,11 +5,9 @@ using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
@@ -40,6 +38,8 @@ namespace Kiss.Components.Site.Web.Controllers
                 return;
             }
         }
+
+        #region 用户信息管理
 
         /// <summary>
         /// 查询站点下用户信息
@@ -254,9 +254,9 @@ namespace Kiss.Components.Site.Web.Controllers
                     user.Id = StringUtil.UniqueId();
                     user.DateCreate = DateTime.Now;
                     user.IsValid = true;
+                    user.DateLastVisit = DateTime.Now;
 
                     DictSchema schema = DictSchema.GetByName("users", "config");
-                    user.DateLastVisit = DateTime.Now;
 
                     if (schema != null && schema["first_login_resetpwd"] != null && schema["first_login_resetpwd"].ToBoolean()) user["needmodifyPwd"] = true.ToString();
 
@@ -355,5 +355,242 @@ namespace Kiss.Components.Site.Web.Controllers
 
             return new { code = 1, msg = "删除成功" };
         }
+
+        /// <summary>
+        /// 更新密码
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="oriPassword">原始密码</param>
+        /// <param name="newPassword">新密码</param>
+        /// <returns>
+        /// {
+        ///     code  = 1,          //-1：原始密码不能为空，-2：新密码不能为空，-3：数据错误，请重新登录，-4：原始密码有误，请输入正确的原始密码
+        ///     msg = "更新成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月10日09:56:25
+        [HttpPost]
+        object update_pwd(string oriPassword, string newPassword)
+        {
+            if (string.IsNullOrEmpty(oriPassword)) return new { code = -1, msg = "原始密码不能为空" };
+            if (string.IsNullOrEmpty(newPassword)) return new { code = -2, msg = "新密码不能为空" };
+
+            using (ILinqContext<User> cx = User.CreateContext())
+            {
+                var user = User.Get(cx, jc.UserName);
+
+                if (user == null) return new { code = -3, msg = "数据错误，请重新登录" };
+
+                //MD5 加密
+                var schema = DictSchema.GetByName("users", "config");
+                if (schema != null && schema["md5"].ToBoolean()) oriPassword = SecurityUtil.MD5_Hash(oriPassword + schema["md5code"]);
+
+                if (user.Password != oriPassword) return new { code = -4, msg = "原始密码有误，请输入正确的原始密码" };
+
+                user.UpdatePassword(newPassword);
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "更新成功" };
+        }
+
+        #endregion
+
+        #region 用户与栏目关系
+
+        /// <summary>
+        /// 获取指定用户所管理的栏目信息
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="userId">用户ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                           //1：获取成功，-1：指定的站点不存在，-2：指定的用户不存在，-3：指定的站点，没有权限操作
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //栏目与用户关系ID
+        ///             category_title = "",        //栏目名称
+        ///             date_created = "",          //创建时间
+        ///             post_count = "",            //栏目下文章数量
+        ///         }
+        ///     ],
+        ///     totalCount = q.TotalCount,
+        ///     page = q.PageIndex1,
+        ///     orderbys = q.orderbys
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月10日10:09:02
+        [HttpPost]
+        object category_list(string siteId, string userId)
+        {
+            var site = Site.Get(siteId);
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var user = User.Get(userId);
+            if (user == null) return new { code = -2, msg = "指定的用户不存在" };
+
+            if (!jc.User.IsInRole("admin") && SiteUsers.Where("SiteId = {0}", site.Id)
+                                                       .Where("UserId = {0}", jc.UserName)
+                                                       .Where("PermissionLevel = {0}", (int)PermissionLevel.ADMIN).Count() == 0)
+            {
+                return new { code = -3, msg = "指定的站点，没有权限操作" };
+            }
+
+            WebQuery q = new WebQuery();
+            q.Id = "users.category.list";
+            q.LoadCondidtion();
+
+            q["siteId"] = site.Id;
+            q["userId"] = user.Id;
+
+            q.TotalCount = CategoryUsers.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            var dt = CategoryUsers.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    category_title = item["title"].ToString(),
+                    post_count = item["postCount"].ToInt(),
+                    date_created = item["dateCreated"].ToDateTime(),
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                },
+                orderbys = q.orderbys
+            };
+        }
+
+        /// <summary>
+        /// 增加栏目与用户的关系
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="userId">用户ID</param>
+        /// <param name="categoryId">栏目ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,               //-1：指定的站点不存在，-2：指定的用户不存在，-3：指定的栏目不存在，-4：指定的站点，没有权限操作
+        ///     msg = "保存成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月10日10:45:38
+        [HttpPost]
+        object add_category_user(string siteId, string userId, string categoryId)
+        {
+            #region 校验参数
+
+            var site = Site.Get(siteId);
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var user = User.Get(userId);
+            if (user == null) return new { code = -2, msg = "指定的用户不存在" };
+
+            var category = (from q in Category.CreateContext()
+                            where q.SiteId == site.Id && q.Id == categoryId
+                            select q).FirstOrDefault();
+
+            if (category == null) return new { code = -3, msg = "指定的栏目不存在" };
+
+            if (!jc.User.IsInRole("admin") && SiteUsers.Where("SiteId = {0}", site.Id)
+                                                       .Where("UserId = {0}", jc.UserName)
+                                                       .Where("PermissionLevel = {0}", (int)PermissionLevel.ADMIN).Count() == 0)
+            {
+                return new { code = -4, msg = "指定的站点，没有权限操作" };
+            }
+
+            #endregion
+
+            using (ILinqContext<CategoryUsers> cx = CategoryUsers.CreateContext())
+            {
+                var relation = (from q in cx
+                                where q.SiteId == site.Id && q.UserId == user.Id && q.CategoryId == category.Id
+                                select q).FirstOrDefault();
+
+                if (relation == null)
+                {
+                    relation = new CategoryUsers();
+
+                    relation.Id = StringUtil.UniqueId();
+                    relation.CategoryId = category.Id;
+                    relation.UserId = user.Id;
+                    relation.SiteId = site.Id;
+                    relation.DateCreated = DateTime.Now;
+
+                    cx.Add(relation, true);
+                }
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "保存成功" };
+        }
+
+        /// <summary>
+        /// 删除栏目与用户的关系
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="id">栏目与用户关系ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：指定的站点不存在，-2：指定的站点，没有权限操作，-3：指定的栏目与用户的关系不存在
+        ///     msg = "删除成功"
+        /// }
+        /// </returns>
+        [HttpPost]
+        object delete_category_user(string siteId, string id)
+        {
+            #region 校验参数
+
+            var site = Site.Get(siteId);
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            if (!jc.User.IsInRole("admin") && SiteUsers.Where("SiteId = {0}", site.Id)
+                                                       .Where("UserId = {0}", jc.UserName)
+                                                       .Where("PermissionLevel = {0}", (int)PermissionLevel.ADMIN).Count() == 0)
+            {
+                return new { code = -2, msg = "指定的站点，没有权限操作" };
+            }
+
+            #endregion
+
+            using (ILinqContext<CategoryUsers> cx = CategoryUsers.CreateContext())
+            {
+                var relation = (from q in cx
+                                where q.SiteId == site.Id && q.Id == id
+                                select q).FirstOrDefault();
+
+                if (relation == null) return new { code = -3, msg = "指定的栏目与用户的关系不存在" };
+
+                //TODO 之前创建的文章的作者如何处理？
+
+                cx.Remove(relation);
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "删除成功" };
+        }
+
+        #endregion
     }
 }
