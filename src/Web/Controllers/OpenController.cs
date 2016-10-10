@@ -815,5 +815,46 @@ namespace Kiss.Components.Site.Web.Controllers
                 return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
             }
         }
+
+        /// <summary>
+        /// 更新密码
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="oriPassword">原始密码</param>
+        /// <param name="newPassword">新密码</param>
+        /// <returns>
+        /// {
+        ///     code  = 1,          //-1：未登录，不允许修改密码，-2：原始密码不能为空，-3：新密码不能为空，-4：数据错误，请重新登录，-5：原始密码有误，请输入正确的原始密码
+        ///     msg = "更新成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月10日09:56:25
+        [HttpPost]
+        object update_password(string oriPassword, string newPassword)
+        {
+            if (!jc.IsAuth) return new { code = -1, msg = "未登录，不允许修改密码" };
+            if (string.IsNullOrEmpty(oriPassword)) return new { code = -2, msg = "原始密码不能为空" };
+            if (string.IsNullOrEmpty(newPassword)) return new { code = -3, msg = "新密码不能为空" };
+
+            using (ILinqContext<User> cx = User.CreateContext())
+            {
+                var user = User.Get(cx, jc.UserName);
+
+                if (user == null) return new { code = -4, msg = "数据错误，请重新登录" };
+
+                //MD5 加密
+                var schema = DictSchema.GetByName("users", "config");
+                if (schema != null && schema["md5"].ToBoolean()) oriPassword = SecurityUtil.MD5_Hash(oriPassword + schema["md5code"]);
+
+                if (user.Password != oriPassword) return new { code = -5, msg = "原始密码有误，请输入正确的原始密码" };
+
+                user.UpdatePassword(newPassword);
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "更新成功" };
+        }
     }
 }

@@ -11,7 +11,7 @@ define(['../../../js/common'], function () {
         var form = $('#post_form'),
             nav = $('#nav_tools');
 
-        $('#btn_add', nav).prop('href', 'edit.html?siteId=' + util.get_query('siteId')); 
+        $('#btn_add', nav).prop('href', 'edit.html?siteId=' + util.get_query('siteId'));
 
         //批量发布        
         $('.btn_publish', nav).on('click', function () {
@@ -49,8 +49,8 @@ define(['../../../js/common'], function () {
         //批量放入回收站      
         $('.btn_delete', nav).on('click', function () {
 
-            var siteId = util.get_query('siteId'),   
-                ids = $('table:first', form).get_selected_row_id(); 
+            var siteId = util.get_query('siteId'),
+                ids = $('table:first', form).get_selected_row_id();
 
             if (ids.length == 0) {
 
@@ -70,8 +70,10 @@ define(['../../../js/common'], function () {
 
                     r = handleException(r);
 
-                    if (!r || r.code < 0) {
-                        alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                    if (!r) return false;
+                    if (r.code < 0) {
+
+                        alert(r.msg || '发生未知错误，请刷新后尝试');
                         return false;
                     }
 
@@ -104,14 +106,15 @@ define(['../../../js/common'], function () {
 
         //绑定表单
         form.gform({
-            
+
             url: config.host + 'posts/list',
 
             onSuccess: function (r) {
 
                 r = handleException(r);
 
-                if (!r || r.code < 0) {
+                if (!r) return false;
+                if (r.code < 0) {
 
                     alert(r.msg || '发生未知错误，请刷新后尝试');
                     return false;
@@ -138,8 +141,10 @@ define(['../../../js/common'], function () {
 
                         r = handleException(r);
 
-                        if (!r || r.code < 0) {
-                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                        if (!r) return false;
+                        if (r.code < 0) {
+
+                            alert(r.msg || '发生未知错误，请刷新后尝试');
                             return false;
                         }
 
@@ -169,8 +174,10 @@ define(['../../../js/common'], function () {
 
                             r = handleException(r);
 
-                            if (!r || r.code < 0) {
-                                alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                            if (!r) return false;
+                            if (r.code < 0) {
+
+                                alert(r.msg || '发生未知错误，请刷新后尝试');
                                 return false;
                             }
 
@@ -206,7 +213,9 @@ define(['../../../js/common'], function () {
 
                         r = handleException(r);
 
-                        if (!r || r.code < 0) {
+                        if (!r) return false;
+                        if (r.code < 0) {
+
                             alert(r.msg || '发生未知错误，请刷新后尝试');
                             return false;
                         }

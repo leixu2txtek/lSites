@@ -110,6 +110,8 @@
     <Content Include="themes\default\html\posts\trash.html" />
     <Content Include="themes\default\html\settings\config.html" />
     <Content Include="themes\default\html\settings\index.html" />
+    <Content Include="themes\default\html\settings\js\index.js" />
+    <Content Include="themes\default\html\settings\js\widgets.js" />
     <Content Include="themes\default\html\settings\widgets.html" />
     <Content Include="themes\default\html\sites\index.html" />
     <Content Include="themes\default\html\sites\js\index.js" />

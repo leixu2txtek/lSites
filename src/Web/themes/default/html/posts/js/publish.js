@@ -41,14 +41,14 @@ define(['../../../js/common'], function () {
 
 
         // 绑定表单事件
-
         form.gform({
             url: config.host + 'posts/publish_list',
             onSuccess: function (r) {
 
-                 r = handleException(r);
+                r = handleException(r);
 
-                if (!r || r.code < 0) {
+                if (!r) return false;
+                if (r.code < 0) {
 
                     alert(r.msg || '发生未知错误，请刷新后尝试');
                     return false;

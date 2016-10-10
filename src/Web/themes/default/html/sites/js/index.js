@@ -77,7 +77,8 @@ define(['../../../js/common'], function () {
 
                     r = handleException(r);
 
-                    if (!r || r.code < 0) {
+                    if (!r) return false;
+                    if (r.code < 0) {
 
                         alert(r.msg || '发生未知错误，请刷新后尝试');
                         return false;
@@ -98,7 +99,8 @@ define(['../../../js/common'], function () {
 
                 r = handleException(r);
 
-                if (!r || r.code < 0) {
+                if (!r) return false;
+                if (r.code < 0) {
 
                     alert(r.msg || '发生未知错误，请刷新后尝试');
                     return false;
@@ -117,8 +119,10 @@ define(['../../../js/common'], function () {
 
                         r = handleException(r);
 
-                        if (!r || r.code < 0) {
-                            alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                        if (!r) return false;
+                        if (r.code < 0) {
+
+                            alert(r.msg || '发生未知错误，请刷新后尝试');
                             return false;
                         }
 
@@ -179,7 +183,8 @@ define(['../../../js/common'], function () {
 
                                 r = handleException(r);
 
-                                if (!r || r.code < 0) {
+                                if (!r) return false;
+                                if (r.code < 0) {
 
                                     alert(r.msg || '发生未知错误，请刷新后尝试');
                                     return false;
@@ -212,8 +217,10 @@ define(['../../../js/common'], function () {
 
                             r = handleException(r);
 
-                            if (!r || r.code < 0) {
-                                alert(r.msg || '发生未知错误，请刷新页面后尝试');
+                            if (!r) return false;
+                            if (r.code < 0) {
+
+                                alert(r.msg || '发生未知错误，请刷新后尝试');
                                 return false;
                             }
 

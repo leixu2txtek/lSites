@@ -33,15 +33,14 @@ namespace Kiss.Components.Site.Web.Controllers
                 return;
             }
 
-            if (!jc.IsAuth)
+            //只有管理员角色才能访问该控制器下的接口
+            if (!jc.IsAuth || !jc.User.IsInRole("admin"))
             {
                 //权限验证失败
                 ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });
                 e.PreventDefault = true;
                 return;
             }
-
-            //TODO
         }
 
         #region 增加 & 修改站点
