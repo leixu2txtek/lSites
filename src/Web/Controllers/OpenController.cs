@@ -34,7 +34,19 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (relation == null) return new EmptyResult();
 
-            return new RedirectResult(jc.url(string.Format("~/themes/default/html/posts/index.html?siteId={0}", relation.SiteId)));
+            #region 动态获取首页地址
+
+            var host = jc.Context.Request.Url.Authority;
+
+            //支援 NGINX 反向代理时 配置的外网地址
+            if (!string.IsNullOrEmpty(jc.Context.Request.Headers["ORI_HOST"]))
+            {
+                host = jc.Context.Request.Headers["ORI_HOST"];
+            }
+
+            #endregion
+
+            return new RedirectResult(string.Format("{0}/themes/default/html/posts/index.html?siteId={1}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, host), relation.SiteId));
         }
 
         /// <summary>
