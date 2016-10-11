@@ -25,15 +25,6 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <returns></returns>
         ActionResult index()
         {
-            if (!jc.IsAuth) return new RedirectResult(jc.url("~users/login"));
-
-            var relation = (from q in SiteUsers.CreateContext()
-                            where q.UserId == jc.UserName
-                            orderby q.PermissionLevel
-                            select q).FirstOrDefault();
-
-            if (relation == null) return new EmptyResult();
-
             #region 动态获取首页地址
 
             var host = jc.Context.Request.Url.Authority;
@@ -45,6 +36,15 @@ namespace Kiss.Components.Site.Web.Controllers
             }
 
             #endregion
+
+            if (!jc.IsAuth) return new RedirectResult(jc.url(string.Format("/users/login?returnUrl={0}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, host))));
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName
+                            orderby q.PermissionLevel
+                            select q).FirstOrDefault();
+
+            if (relation == null) return new EmptyResult();
 
             return new RedirectResult(string.Format("{0}/themes/default/html/posts/index.html?siteId={1}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, host), relation.SiteId));
         }
