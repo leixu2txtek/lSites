@@ -1,6 +1,5 @@
 ﻿using ImageMagick;
 using Kiss.Components.Security;
-using Kiss.Security;
 using Kiss.Utils;
 using Kiss.Web;
 using Kiss.Web.Mvc;
@@ -10,7 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Web;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
@@ -48,6 +46,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
             return new RedirectResult(string.Format("{0}/themes/default/html/posts/index.html?siteId={1}", string.Format("{0}://{1}", jc.Context.Request.Url.Scheme, host), relation.SiteId));
         }
+
+        #region 站点信息
 
         /// <summary>
         /// 获取站点信息
@@ -98,6 +98,10 @@ namespace Kiss.Components.Site.Web.Controllers
                 }
             };
         }
+
+        #endregion
+
+        #region 挂件信息
 
         /// <summary>
         /// 根据容器ID获取挂件内容信息
@@ -156,6 +160,10 @@ namespace Kiss.Components.Site.Web.Controllers
                 widgets = data
             };
         }
+
+        #endregion
+
+        #region 栏目信息
 
         /// <summary>
         /// 获取站点下的栏目详细信息
@@ -249,6 +257,10 @@ namespace Kiss.Components.Site.Web.Controllers
                 data = categories
             };
         }
+
+        #endregion
+
+        #region 文章信息
 
         /// <summary>
         /// 获取站点下最新文章
@@ -623,6 +635,90 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
+        /// 站内搜索
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="search">关键字</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                           //1：获取成功，-1：指定的站点不存在
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //文章ID
+        ///             display_name = "",          //文章创建者显示名
+        ///             title = "",                 //文章标题
+        ///             date_created = "",          //文章创建时间
+        ///             text = "",                  //文章内容（纯文字）
+        ///             view_count = "",            //文章的查看次数
+        ///         }
+        ///     ],
+        ///     paging = 
+        ///     {
+        ///         total_count = 0,            //总数
+        ///         page_size = 10,             //分页大小
+        ///         page_index = 1              //当前页码
+        ///     }
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月12日09:50:02
+        [HttpPost]
+        object search(string siteId, string search)
+        {
+            var site = Site.Get(siteId);
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            WebQuery q = new WebQuery();
+            q.Id = "posts.list.search";
+            q.LoadCondidtion();
+
+            q["siteId"] = site.Id;
+
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                search = search.Trim();
+                q["search"] = search;
+            }
+
+            q.TotalCount = Posts.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            var dt = Posts.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    display_name = item["displayName"].ToString(),
+                    title = item["title"].ToString().Replace(search, string.Format("<b style='color:red'>{0}</b>", search)),
+                    date_published = item["datePublished"].ToDateTime(),
+                    text = item["text"].ToString().Replace(search, string.Format("<b style='color:red'>{0}</b>", search)),
+                    view_count = item["viewCount"].ToInt()
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                }
+            };
+        }
+
+        #endregion
+
+        #region 用户信息
+
+        /// <summary>
         /// 获取用户信息
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
@@ -710,6 +806,51 @@ namespace Kiss.Components.Site.Web.Controllers
                 }
             };
         }
+
+        /// <summary>
+        /// 更新密码
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="oriPassword">原始密码</param>
+        /// <param name="newPassword">新密码</param>
+        /// <returns>
+        /// {
+        ///     code  = 1,          //-1：未登录，不允许修改密码，-2：原始密码不能为空，-3：新密码不能为空，-4：数据错误，请重新登录，-5：原始密码有误，请输入正确的原始密码
+        ///     msg = "更新成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月10日09:56:25
+        [HttpPost]
+        object update_password(string oriPassword, string newPassword)
+        {
+            if (!jc.IsAuth) return new { code = -1, msg = "未登录，不允许修改密码" };
+            if (string.IsNullOrEmpty(oriPassword)) return new { code = -2, msg = "原始密码不能为空" };
+            if (string.IsNullOrEmpty(newPassword)) return new { code = -3, msg = "新密码不能为空" };
+
+            using (ILinqContext<User> cx = User.CreateContext())
+            {
+                var user = User.Get(cx, jc.UserName);
+
+                if (user == null) return new { code = -4, msg = "数据错误，请重新登录" };
+
+                //MD5 加密
+                var schema = DictSchema.GetByName("users", "config");
+                if (schema != null && schema["md5"].ToBoolean()) oriPassword = SecurityUtil.MD5_Hash(oriPassword + schema["md5code"]);
+
+                if (user.Password != oriPassword) return new { code = -5, msg = "原始密码有误，请输入正确的原始密码" };
+
+                user.UpdatePassword(newPassword);
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "更新成功" };
+        }
+
+        #endregion
+
+        #region 图片信息
 
         /// <summary>
         /// 访问图片文件
@@ -828,45 +969,6 @@ namespace Kiss.Components.Site.Web.Controllers
             }
         }
 
-        /// <summary>
-        /// 更新密码
-        /// </summary>
-        /// <remarks>请求方式：POST</remarks>
-        /// <param name="oriPassword">原始密码</param>
-        /// <param name="newPassword">新密码</param>
-        /// <returns>
-        /// {
-        ///     code  = 1,          //-1：未登录，不允许修改密码，-2：原始密码不能为空，-3：新密码不能为空，-4：数据错误，请重新登录，-5：原始密码有误，请输入正确的原始密码
-        ///     msg = "更新成功"
-        /// }
-        /// </returns>
-        /// leixu
-        /// 2016年10月10日09:56:25
-        [HttpPost]
-        object update_password(string oriPassword, string newPassword)
-        {
-            if (!jc.IsAuth) return new { code = -1, msg = "未登录，不允许修改密码" };
-            if (string.IsNullOrEmpty(oriPassword)) return new { code = -2, msg = "原始密码不能为空" };
-            if (string.IsNullOrEmpty(newPassword)) return new { code = -3, msg = "新密码不能为空" };
-
-            using (ILinqContext<User> cx = User.CreateContext())
-            {
-                var user = User.Get(cx, jc.UserName);
-
-                if (user == null) return new { code = -4, msg = "数据错误，请重新登录" };
-
-                //MD5 加密
-                var schema = DictSchema.GetByName("users", "config");
-                if (schema != null && schema["md5"].ToBoolean()) oriPassword = SecurityUtil.MD5_Hash(oriPassword + schema["md5code"]);
-
-                if (user.Password != oriPassword) return new { code = -5, msg = "原始密码有误，请输入正确的原始密码" };
-
-                user.UpdatePassword(newPassword);
-
-                cx.SubmitChanges();
-            }
-
-            return new { code = 1, msg = "更新成功" };
-        }
+        #endregion
     }
 }

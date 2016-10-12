@@ -28,5 +28,13 @@ namespace Kiss.Components.Site.Web
         internal static readonly string IMAGE_NOT_FOUND = Path.Combine(IMAGE_PATH, "404.JPG");
 
         #endregion
+
+        #region 定义附件的限制条件
+
+        #endregion
+
+        #region 定义视频的限制条件
+        
+        #endregion
     }
 }
