@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
@@ -23,15 +24,14 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <returns></returns>
         ActionResult index()
         {
+            var s = Config.Instance;
+
             #region 动态获取首页地址
 
             var host = jc.Context.Request.Url.Authority;
 
             //支援 NGINX 反向代理时 配置的外网地址
-            if (!string.IsNullOrEmpty(jc.Context.Request.Headers["ORI_HOST"]))
-            {
-                host = jc.Context.Request.Headers["ORI_HOST"];
-            }
+            if (!string.IsNullOrEmpty(jc.Context.Request.Headers["ORI_HOST"])) host = jc.Context.Request.Headers["ORI_HOST"];
 
             #endregion
 
@@ -855,7 +855,8 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <summary>
         /// 访问图片文件
         /// </summary>
-        /// <remarks>请求方式：POST</remarks>
+        /// <remarks>请求方式：GET</remarks>
+        /// <param name="url">图片地址</param>
         /// <param name="width">图片的宽度</param>
         /// <param name="height">图片的高度</param>
         /// <returns>图片文件流</returns>
@@ -864,23 +865,25 @@ namespace Kiss.Components.Site.Web.Controllers
         [HttpGet(60)]
         ActionResult read(string url, int width, int height)
         {
+            var IMAGE_NOT_FOUND = Path.Combine(Config.Instance.IMAGE_PATH, "404.JPG");
+
             try
             {
                 #region 校验文件是否存在
 
-                if (string.IsNullOrEmpty(url)) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+                if (string.IsNullOrEmpty(url)) return new FileContentResult(File.OpenRead(IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
 
                 //校验URL中是否有时间
                 var index = url.IndexOf('-');
-                if (index == -1) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+                if (index == -1) return new FileContentResult(File.OpenRead(IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
 
                 //校验文件夹是否存在
-                var directory = Path.Combine(Config.IMAGE_PATH, url.Substring(0, index));
-                if (!Directory.Exists(directory)) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+                var directory = Path.Combine(Config.Instance.IMAGE_PATH, url.Substring(0, index));
+                if (!Directory.Exists(directory)) return new FileContentResult(File.OpenRead(IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
 
                 //校验文件是否存在
                 var file = Path.Combine(directory, url.Substring(index + 1));
-                if (!File.Exists(file)) return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+                if (!File.Exists(file)) return new FileContentResult(File.OpenRead(IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
 
                 #endregion
 
@@ -965,8 +968,173 @@ namespace Kiss.Components.Site.Web.Controllers
             {
                 logger.Error(ExceptionUtil.WriteException(ex));
 
-                return new FileContentResult(File.OpenRead(Config.IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
+                return new FileContentResult(File.OpenRead(IMAGE_NOT_FOUND).ToBytes(), "image/jpeg");
             }
+        }
+
+        /// <summary>
+        /// 访问附件文件
+        /// </summary>
+        /// <remarks>请求方式：GET</remarks>
+        /// <param name="url">附件地址</param>
+        /// <param name="name">文件名</param>
+        /// <returns>文件流</returns>
+        /// leixu
+        /// 2016年10月12日15:27:40
+        [HttpGet(60)]
+        ActionResult file(string url, string name)
+        {
+            try
+            {
+                #region 校验文件是否存在
+
+                if (string.IsNullOrWhiteSpace(url)) return new EmptyResult();
+                if (string.IsNullOrWhiteSpace(name)) return new EmptyResult();
+
+                //校验URL中是否有时间
+                var index = url.IndexOf('-');
+                if (index == -1) return new EmptyResult();
+
+                //校验文件夹是否存在
+                var directory = Path.Combine(Config.Instance.FILE_PATH, url.Substring(0, index));
+                if (!Directory.Exists(directory)) return new EmptyResult();
+
+                //校验文件是否存在
+                var file = Path.Combine(directory, url.Substring(index + 1));
+                if (!File.Exists(file)) return new EmptyResult();
+
+                #endregion
+
+                jc.Context.Response.ContentType = "application/octet-stream";
+                jc.Context.Response.ContentEncoding = Encoding.UTF8;
+                jc.Context.Response.AddHeader("Connection", "Keep-Alive");
+
+                #region 构造文件下载名称
+
+                var donwload_name = Path.GetFileNameWithoutExtension(name);
+
+                //remove invalide filename char
+                foreach (var _c in Path.GetInvalidFileNameChars()) donwload_name = donwload_name.Replace(_c, new char());
+
+                donwload_name = Uri.EscapeDataString(donwload_name);
+                donwload_name = donwload_name.Trim();
+
+                jc.Context.Response.AddHeader("Content-Disposition", string.Format("attachment; filename*=UTF-8''{0}{1}", donwload_name, Path.GetExtension(name)));
+
+                #endregion
+
+                using (var content = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    jc.Context.Response.AddHeader("Content-Length", content.Length.ToString());
+
+                    byte[] buffer = new byte[1024 * 64];
+
+                    while (true)
+                    {
+                        if (!jc.Context.Response.IsClientConnected) break;
+
+                        var read = content.Read(buffer, 0, buffer.Length);
+
+                        if (read == 0) break;
+
+                        jc.Context.Response.OutputStream.Write(buffer, 0, read);
+                        jc.Context.Response.Flush();
+                    }
+                }
+
+                jc.Context.Response.End();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ExceptionUtil.WriteException(ex));
+            }
+            finally
+            {
+                jc.Context.Response.OutputStream.Close();
+            }
+
+            return new EmptyResult();
+        }
+
+        /// <summary>
+        /// 访问视频文件
+        /// </summary>
+        /// <remarks>请求方式：GET</remarks>
+        /// <param name="url">附件地址</param>
+        /// <returns>文件流</returns>
+        /// leixu
+        /// 2016年10月12日15:27:40
+        [HttpGet(60)]
+        ActionResult video(string url)
+        {
+            try
+            {
+                #region 校验文件是否存在
+
+                if (string.IsNullOrEmpty(url)) return new EmptyResult();
+
+                //校验URL中是否有时间
+                var index = url.IndexOf('-');
+                if (index == -1) return new EmptyResult();
+
+                //校验文件夹是否存在
+                var directory = Path.Combine(Config.Instance.VIDEO_PATH, url.Substring(0, index));
+                if (!Directory.Exists(directory)) return new EmptyResult();
+
+                //校验文件是否存在
+                var file = Path.Combine(directory, url.Substring(index + 1));
+                if (!File.Exists(file)) return new EmptyResult();
+
+                #endregion
+
+                #region 输出视频文件流
+
+                jc.Context.Response.ContentType = "video/mp4";
+                jc.Context.Response.AddHeader("Accept-Ranges", "bytes");
+
+                using (var video = File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    var range = jc.Context.Request.Headers["Range"];
+
+                    if (!string.IsNullOrEmpty(range))
+                    {
+                        var ranges = range.Split(new char[] { '=', '-' });
+                        var start = Int32.Parse(ranges[1]);
+                        video.Seek(start, SeekOrigin.Begin);
+
+                        jc.Context.Response.StatusCode = 206;
+                        jc.Context.Response.AddHeader("Content-Range", String.Format(" bytes {0}-{1}/{2}", start, video.Length - 1, video.Length));
+                    }
+
+                    byte[] buffer = new byte[1024 * 64];
+
+                    while (true)
+                    {
+                        if (!jc.Context.Response.IsClientConnected) break;
+
+                        var read = video.Read(buffer, 0, buffer.Length);
+
+                        if (read == 0) break;
+
+                        jc.Context.Response.OutputStream.Write(buffer, 0, read);
+                        jc.Context.Response.Flush();
+                    }
+                }
+
+                jc.Context.Response.End();
+
+                #endregion
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ExceptionUtil.WriteException(ex));
+            }
+            finally
+            {
+                jc.Context.Response.OutputStream.Close();
+            }
+
+            return new EmptyResult();
         }
 
         #endregion
