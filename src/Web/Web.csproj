@@ -74,7 +74,7 @@
     <Compile Include="CMSInitializer.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
-    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\AttachmentController.cs" />
     <Compile Include="Controllers\OpenController.cs" />
     <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\SiteController.cs" />
