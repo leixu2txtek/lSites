@@ -1,6 +1,6 @@
 define(['../../../js/common'], function () {
 
-    require(['template', 'ztree', 'form', 'select2', 'MDialog', 'ueditor.config', 'ueditor'], function (template) {
+    require(['template', 'ztree', 'form', 'select2', 'MDialog', 'ue', 'ue.file', 'ue.video'], function (template) {
 
         var siteId = util.get_query('siteId'),
             id = util.get_query('id');
@@ -86,23 +86,30 @@ define(['../../../js/common'], function () {
                 //构造HTML
                 container.html(template('post_edit_form', data));
 
-                //init ueditor
-                editor = UE.getEditor('txt_content', {
-                    initialFrameWidth: '100%',
-                    initialFrameHeight: $(window).height() - 255,
-                    imageActionName: 'image/upload?siteId=' + siteId,
-                    imageAllowFiles: [".jpeg", ".jpg", ".png", ".gif"],
-                    imageMaxSize: 1024 * 1024 * 5,
-                    imageCompressBorder: 1600,
-                    imageCompressEnable: true,
-                    imageInsertAlign: "none",
-                    imageUrlPrefix: ""
+                //获取图片，文件，视频上传配置
+                $.ajax({
+                    url: config.host + 'config/get',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { siteId: siteId },
+                    async: false
+                }).done(function (r) {
+
+                    if (!r || r.code < 0) {
+                        alert(r.msg || '发生未知错误，请刷新页面后尝试');
+
+                        window.close();
+                        return false;
+                    }
+
+                    //init ueditor
+                    editor = UE.getEditor('txt_content', { initialFrameWidth: '100%', initialFrameHeight: $(window).height() - 270, image: r.image, file: r.file, video: r.video });
                 });
 
                 //select category
                 $('#btn_category', container).on('click', function () {
 
-                    var p_tree = $('<ul class="ztree" style="max-height:280px;max-width:280px;overflow:auto;"></ul>'),
+                    var p_tree = $('<ul class="ztree" style="max-height:275px;max-width:280px;overflow:auto;"></ul>'),
                         selected = { title: '', id: '' },
                         dlg = $M({
                             title: '选择栏目信息',

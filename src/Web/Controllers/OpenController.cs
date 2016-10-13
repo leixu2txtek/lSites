@@ -24,8 +24,6 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <returns></returns>
         ActionResult index()
         {
-            var s = Config.Instance;
-
             #region 动态获取首页地址
 
             var host = jc.Context.Request.Url.Authority;

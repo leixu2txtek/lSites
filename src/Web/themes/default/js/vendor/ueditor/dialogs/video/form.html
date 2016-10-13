@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>上传视频对话框</title>
+
+    <script type="text/javascript" src="../internal.js"></script>
+
+    <!-- jquery -->
+    <script type="text/javascript" src="../../third-party/jquery-1.10.2.min.js"></script>
+
+    <!-- webuploader -->
+    <script src="../../third-party/webuploader/webuploader.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../../third-party/webuploader/webuploader.css" />
+
+    <style type="text/css">
+        .open-dialog {
+            width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+            .open-dialog .explain {
+                margin: 0 auto;
+                color: #404040;
+                background-color: #f4f4f4;
+                padding: 30px;
+                font-size: 13px;
+            }
+
+                .open-dialog .explain span {
+                    float: left;
+                    padding: 5px;
+                }
+
+            .open-dialog .upload-img {
+                position: relative;
+                padding: 40px;
+            }
+
+        .webuploader-container .webuploader-pick {
+            width: 150px;
+        }
+
+        .open-dialog .m-status {
+            font-size: 14px;
+            font-weight: bold;
+            position: absolute;
+            bottom: 52px;
+            left: 250px;
+        }
+
+            .open-dialog .m-status span {
+                float: left;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+        .open-dialog .m-controlbar {
+            left: 320px;
+        }
+
+            .open-dialog .m-controlbar span {
+                position: absolute;
+                left: 0;
+                bottom: 0;
+            }
+
+        #file_bar {
+            background-color: #00b7ee;
+            z-index: -2;
+            height: 22px;
+        }
+
+        .open-dialog a {
+            text-decoration: none;
+            padding: 7px 20px;
+            background: rgb(0, 183, 238);
+            color: #fff;
+        }
+
+        .open-dialog .btn {
+            position: absolute;
+            bottom: 0px;
+            right: 20px;
+        }
+
+        .open-dialog a.cancel {
+            background: #dbdbdb;
+            color: #404040;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="open-dialog">
+        <h3 class="explain">
+            <span>说明：一次仅允许上传一个文件，上传成功后且转换成功可在文章中直接预览。</span>
+            <span style="margin-left: 40px;">支持的OFFICE文件格式有：doc、docx、ppt、pptx、xls、xlsx</span>
+            <span style="margin-left: 40px;">支持的视频文件文件格式有：mp4、avi、rmvb</span>
+            <div style="clear: both"></div>
+        </h3>
+        <div class="upload-img">
+            <div id="btn_webuploader"></div>
+        </div>
+        <div class="m-status">
+            <span>已选文件：</span>
+        </div>
+        <div class="m-status m-controlbar" style="width: 240px">
+            <span id="file_bar"></span>
+            <span id="file_container" style="width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">还未选择任何文件</span>
+        </div>
+
+        <div class="btn">
+            <a href="#" class="upload disabled">上传</a>
+            <a href="#" class="cancel">取消</a>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(function () {
+
+            var serverUrl = editor.getActionUrl(editor.getOpt('fileActionName')),
+                maxSize = editor.getOpt('fileMaxSize'),
+                acceptExtensions = editor.getOpt('fileAllowFiles');
+
+            var uploader_thumbnail = new WebUploader.Uploader({
+                server: serverUrl,
+                swf: '../../third-party/webuploader/Uploader.swf',
+                pick: {
+                    id: $('#btn_webuploader'),
+                    innerHTML: '选择文件',
+                    multiple: false
+                },
+                auto: false,
+                prepareNextFile: false,
+                threads: 1,
+                sendAsBinary: true,
+                chunked: false,
+                fileSizeLimit: maxSize
+            });
+
+            uploader_thumbnail.on('error', function (type) {
+
+                switch (type) {
+                    case 'Q_EXCEED_SIZE_LIMIT':
+                        alert('文件大小不能超过' + maxSize + 'B');
+                        break;
+                }
+            });
+
+            uploader_thumbnail.on('beforeFileQueued', function (file) {
+                if ($.inArray('.' + file.ext.toLowerCase(), acceptExtensions) == -1) {
+                    alert('要上传的文件只能是' + acceptExtensions.join('、') + '格式的文件！');
+                    return false;
+                }
+
+                //移除上一次添加的封面
+                var prev_file = uploader_thumbnail.getFiles();
+                $.each(prev_file, function (i, v) {
+                    uploader_thumbnail.removeFile(v);
+                });
+
+            });
+
+            uploader_thumbnail.on('fileQueued', function (file) {
+                $('#file_container').text(file.name);
+
+                $('.upload').removeClass('disabled');
+            });
+
+            uploader_thumbnail.on('uploadBeforeSend', function (block, data, headers) {
+                data.extension = block.file.ext;
+            });
+
+            uploader_thumbnail.on('uploadProgress', function (file, percentage) {
+
+                $('#file_bar').css({ width: (percentage * 100) + '%' });
+            });
+
+            uploader_thumbnail.on('uploadSuccess', function (file, response) {
+
+                if (response && response.url) {
+                    //关闭 dialog ，并且将html insert 到 editor 中
+
+                    var download = editor.getOpt('fileUrlPrefix') + response.url + '/download?filename=' + file.name.substr(0, file.name.lastIndexOf('.')),
+                        html = '<span class="cms_file_preview" data-url="' + response.url + '">附件：<a href="' + download + '" target="_blank" title="点击下载文件">' + file.name + '</a></span>';
+
+                    editor.execCommand('insertHtml', html);
+
+                    dialog.close(true);
+                } else {
+                    alert('上传文件失败，请刷新页面后尝试！');
+                }
+            });
+
+            $('.upload').click(function () {
+
+                if ($(this).hasClass('disabled')) return false;
+
+                uploader_thumbnail.upload();
+            });
+
+            $('.cancel').click(function () {
+                dialog.close(false);
+            });
+        });
+    </script>
+</body>
+</html>

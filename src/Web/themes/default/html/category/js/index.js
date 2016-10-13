@@ -24,7 +24,6 @@ define(['../../../js/common'], function () {
                             alert(r.msg || '发生未知错误，请刷新尝试');
 
                             return false;
-
                         }
 
                         var form = $(template('category_form', { item: r.data }));
@@ -53,6 +52,28 @@ define(['../../../js/common'], function () {
 
                         $('select', form).select2({ minimumResultsForSearch: -1 });
 
+                        //选择父级栏目(右侧选择栏目)
+                        $('#select_parent', form).on('click', function () {
+
+                            select_parent(function (node) {
+
+                                $('[name=parentId]', form).val(node.id);
+                                $('#parent_name', form).val(node.title);
+
+                                $('#column-close', form).show();
+                            });
+                        });
+
+                        $('#column-close', form).on('click', function () {
+
+                            $('[name=parentId]', form).val('');
+                            $('#parent_name', form).val('');
+
+                            $(this).hide();
+
+                            return false;
+                        }).css('display', $('[name=parentId]', form).val() ? 'block' : 'none');
+
                         //选择父级栏目
                         form.gform({
                             url: config.host + 'category/save',
@@ -75,25 +96,10 @@ define(['../../../js/common'], function () {
 
                         $('#edit_container').html(form);
 
-                        columClear(node.getParentNode());
-
                     }, 'json');
                 }
             }
         });
-
-        // 清除栏目
-        var columClear = function (node) {
-
-            (node.id) ? $("#column-close").show() : $("#column-close").hide();
-
-            $("#column-close").off('click').on('click', function () {
-
-                $('#parent_name').val('');
-
-                $("#column-close").hide();
-            })
-        };
 
         //绑定添加栏目        
         var nav = $('#nav_tools');
@@ -114,10 +120,19 @@ define(['../../../js/common'], function () {
                     $('[name=parentId]', form).val(node.id);
                     $('#parent_name', form).val(node.title);
 
-                    //TODO 清除父级
-                    columClear(node);
+                    $('#column-close', form).show();
                 });
             });
+
+            $('#column-close', form).on('click', function () {
+
+                $('[name=parentId]', form).val('');
+                $('#parent_name', form).val('');
+
+                $(this).hide();
+
+                return false;
+            }).css('display', $('[name=parentId]', form).val() ? 'block' : 'none');
 
             form.gform({
                 url: config.host + 'category/save',
@@ -144,14 +159,14 @@ define(['../../../js/common'], function () {
         //选择父级栏目
         var select_parent = function (callback) {
 
-            var p_tree = $('<ul class="ztree"></ul>'),
+            var p_tree = $('<ul class="ztree" style="max-height:275px;max-width:280px;overflow:auto;"></ul>'),
                 selected = {},
                 dlg = $M({
                     title: '选择父级栏目',
                     content: p_tree[0],
                     lock: true,
-                    width: '250px',
-                    height: '250px',
+                    width: '300px',
+                    height: '300px',
                     position: '50% 50%',
                     ok: function () {
 

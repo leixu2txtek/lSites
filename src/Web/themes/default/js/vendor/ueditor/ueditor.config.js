@@ -57,6 +57,7 @@ window.UEDITOR_HOME_URL = "../../js/vendor/ueditor/";
 
         , autoFloatEnabled: true      //是否保持toolbar的位置不动,默认true
         , topOffset: 110            //浮动时工具栏距离浏览器顶部的高度，用于某些具有固定头部的页面
+        , sourceEditor: "textarea"
 
         //, toolbarTopOffset: 100 //编辑器底部距离工具栏高度
     };
