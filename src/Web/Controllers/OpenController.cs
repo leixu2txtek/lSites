@@ -848,7 +848,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
         #endregion
 
-        #region 图片信息
+        #region 图片、附件、视频信息
 
         /// <summary>
         /// 访问图片文件

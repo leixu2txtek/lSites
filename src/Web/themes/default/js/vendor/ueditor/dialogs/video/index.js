@@ -1,11 +1,11 @@
 ﻿UE.registerUI('video', function (editor, uiName) {
 
     var dialog = new UE.ui.Dialog({
-        iframeUrl: editor.options.UEDITOR_HOME_URL + 'dialogs/file/form.html',
+        iframeUrl: editor.options.UEDITOR_HOME_URL + 'dialogs/video/form.html',
         editor: editor,
         name: uiName,
         title: '上传视频',
-        cssRules: 'width:600px;height:280px;'
+        cssRules: 'width:600px;height:150px;'
     });
 
     return new UE.ui.Button({

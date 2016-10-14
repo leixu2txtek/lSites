@@ -18,6 +18,8 @@
         if (!editor.getOpt('image')) {
 
             alert('后端配置项没有正常加载，上传插件不能正常使用！');
+            dialog.close(false);
+
             return false;
         }
 

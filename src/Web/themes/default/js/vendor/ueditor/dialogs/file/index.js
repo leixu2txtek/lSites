@@ -5,7 +5,7 @@
         editor: editor,
         name: uiName,
         title: '上传附件',
-        cssRules: 'width:600px;height:280px;'
+        cssRules: 'width:600px;height:150px;'
     });
 
     return new UE.ui.Button({
