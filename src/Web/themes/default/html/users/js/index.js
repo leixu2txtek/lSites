@@ -1,5 +1,6 @@
 define(['../../../js/common'], function () {
 
+
     document.title = '用户管理 - CMS内容管理系统';
 
     require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
@@ -79,6 +80,8 @@ define(['../../../js/common'], function () {
                     alert(r.msg || '发生未知错误，请刷新后尝试');
                     return false;
                 }
+
+                r.site_id = siteId;
 
                 //更新总数
                 $('#total_count', nav).html(r.paging.total_count);

@@ -734,7 +734,13 @@ namespace Kiss.Components.Site.Web.Controllers
         ///             id = "",            //站点ID
         ///             title = ""          //站点标题
         ///         }
-        ///     ]
+        ///     ],
+        ///     current = 
+        ///     {
+        ///         id = "",                //站点ID
+        ///         title = "",             //站点标题
+        ///         role = ""               //用户所在站点角色
+        ///     }
         /// }
         /// </returns>
         /// leixu

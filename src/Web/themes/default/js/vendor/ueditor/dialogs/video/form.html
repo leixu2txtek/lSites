@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>上传视频</title>
@@ -14,53 +15,53 @@
             padding: 15px;
             padding-top: 35px;
         }
-
-            .video-container h3 {
-                margin-bottom: 15px;
-            }
-
-            .video-container .video-selector {
-                display: inline-block;
-            }
-
-            .video-container .video-status {
-                display: inline-block;
-                vertical-align: top;
-                margin-top: 5px;
-                position: relative;
-            }
-
-            .video-container .buttons {
-                text-align: right;
-                width: 100%;
-            }
-
-                .video-container .buttons a {
-                    background: #10a1bb;
-                    padding: 5px 16px;
-                    border-radius: 2px;
-                    color: #fff;
-                    text-decoration: none;
-                }
-
-                    .video-container .buttons a.btn_upload:hover {
-                        background: #1dc6e4;
-                        color: #fff;
-                        text-decoration: none;
-                    }
-
-                    .video-container .buttons a.btn_cancel {
-                        background: #d9534f;
-                    }
-
-                        .video-container .buttons a.btn_cancel:hover {
-                            background: #f16e6a;
-                        }
-
+        
+        .video-container h3 {
+            margin-bottom: 15px;
+        }
+        
+        .video-container .video-selector {
+            display: inline-block;
+        }
+        
+        .video-container .video-status {
+            display: inline-block;
+            vertical-align: top;
+            margin-top: 5px;
+            position: relative;
+        }
+        
+        .video-container .buttons {
+            text-align: right;
+            width: 100%;
+        }
+        
+        .video-container .buttons a {
+            background: #10a1bb;
+            padding: 5px 16px;
+            border-radius: 2px;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .video-container .buttons a.btn_upload:hover {
+            background: #1dc6e4;
+            color: #fff;
+            text-decoration: none;
+        }
+        
+        .video-container .buttons a.btn_cancel {
+            background: #d9534f;
+        }
+        
+        .video-container .buttons a.btn_cancel:hover {
+            background: #f16e6a;
+        }
+        
         .video-info-box {
             padding: 5px;
         }
-
+        
         #video-progress-bar {
             z-index: -10;
             height: 30px;
@@ -159,7 +160,7 @@
                     return false;
                 }
 
-                editor.execCommand('insertHtml', '<br /><span class="cms_preview_video" data-url="' + response.url + '">视频：<span style="color:blue;">' + file.name + '</span></span>');
+                editor.execCommand('insertHtml', '<br /><span class="cms_preview_video" data-url="' + response.url + '">视频：<a href="' + response.url + '" target="_blank" title="点击下载文件">' + file.name + '</a></span>');
                 dialog.close(true);
             });
 
@@ -182,4 +183,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -1197,6 +1197,7 @@ body .has-error .form-control {
 .select-site h2 i {
     margin-right: 10px;
 }
+
 .select-sitelist {
     position: absolute;
     left: 0px;
@@ -1204,7 +1205,7 @@ body .has-error .form-control {
     width: 100%;
     padding: 0px;
     text-align: center;
-    height: 280px;
+    max-height: 280px;
     overflow-x: hidden;
 }
 
@@ -1218,6 +1219,7 @@ body .has-error .form-control {
     display: block;
 }
 
+.select-sitelist li a.active,
 .select-sitelist li a:hover {
     text-decoration: underline;
 }
@@ -1226,7 +1228,7 @@ body .has-error .form-control {
 /*栏目管理*/
 
 .users-name {
-    font-size: 14px;
+    font-size: 16px;
     color: #10a1bb;
-    padding-left:10px; 
+    padding-left: 10px;
 }
