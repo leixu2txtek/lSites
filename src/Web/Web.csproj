@@ -43,6 +43,10 @@
     <DocumentationFile>bin\Kiss.Components.Site.Web.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Kiss, Version=4.9.602.2, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Kiss.4.9.0602.2\lib\Kiss.dll</HintPath>
       <Private>True</Private>

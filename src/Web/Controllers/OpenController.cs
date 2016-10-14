@@ -608,6 +608,9 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 cx.SubmitChanges();
 
+                //触发查看事件
+                post.OnView(new Posts.ViewEventArgs());
+
                 return new
                 {
                     code = 1,
