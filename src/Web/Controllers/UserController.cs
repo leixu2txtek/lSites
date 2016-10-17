@@ -360,6 +360,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="userId">用户ID</param>
+        /// <param name="title">栏目名称</param>
         /// <returns>
         /// {
         ///     code = 1,                           //-1：指定的用户不存在
@@ -380,7 +381,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年10月10日10:09:02
         [HttpPost]
-        object category_list(string userId)
+        object category_list(string userId, string title)
         {
             var site = (Site)jc["site"];
             var user = User.Get(userId);
@@ -393,6 +394,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
             q["siteId"] = site.Id;
             q["userId"] = user.Id;
+
+            if (!string.IsNullOrEmpty(title)) q["title"] = title;
 
             q.TotalCount = CategoryUsers.Count(q);
             if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
@@ -414,6 +417,11 @@ namespace Kiss.Components.Site.Web.Controllers
             return new
             {
                 code = 1,
+                user = new
+                {
+                    id = user.Id,
+                    display_name = user.DisplayName
+                },
                 data = data,
                 paging = new
                 {

@@ -122,6 +122,8 @@
     <Content Include="themes\default\html\sites\js\index.js" />
     <Content Include="themes\default\html\users\index.html" />
     <Content Include="themes\default\html\users\js\index.js" />
+    <Content Include="themes\default\html\users\js\user_category.js" />
+    <Content Include="themes\default\html\users\user_category.html" />
     <Content Include="themes\default\js\common.js" />
     <Content Include="themes\default\js\require.js" />
     <Content Include="themes\default\js\vendor\jquery.form.js" />

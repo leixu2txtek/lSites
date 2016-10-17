@@ -3,7 +3,9 @@ using Kiss.Web;
 using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 
@@ -59,22 +61,6 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #endregion
 
-            #region 校验用户对站点的权限
-
-            var relation = (from q in SiteUsers.CreateContext()
-                            where q.UserId == jc.UserName && q.SiteId == site.Id
-                            select q).FirstOrDefault();
-
-            //只有管理人员才可以对站点的栏目进行编辑
-            if (relation == null || (relation.PermissionLevel != PermissionLevel.ADMIN && relation.PermissionLevel != PermissionLevel.AUDIT))
-            {
-                ResponseUtil.OutputJson(httpContext.Response, new { code = 403, msg = "没有权限访问" });
-                e.PreventDefault = true;
-                return;
-            }
-
-            #endregion
-
             jc["site"] = site;
         }
 
@@ -85,7 +71,6 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="parentId">父级栏目ID</param>
         /// <returns>
         /// {
-        ///    code = 1,
         ///    data = 
         ///    [
         ///         {
@@ -103,9 +88,20 @@ namespace Kiss.Components.Site.Web.Controllers
         {
             var site = (Site)jc["site"];
 
+            #region 校验用户对站点的权限
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+            //如果没有站点的管理权限
+            if (relation == null || relation.PermissionLevel != PermissionLevel.ADMIN) return new { code = 403, msg = "没有权限访问" };
+
+            #endregion
+
             var data = (from q in Category.CreateContext()
                         where q.ParentId == (string.IsNullOrWhiteSpace(parentId) ? string.Empty : parentId) && q.SiteId == site.Id
-                        orderby q.SortOrder ascending
+                        orderby q.SortOrder ascending, q.Title ascending
                         select new
                         {
                             id = q.Id,
@@ -117,26 +113,106 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
+        /// 获取栏目列表
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="parentId">父级栏目ID</param>
+        /// <returns>
+        /// {
+        ///    data = 
+        ///    [
+        ///         {
+        ///             id = "",            //栏目ID
+        ///             title = "",         //栏目标题
+        ///             hasChild = false    //是否有子集
+        ///         }
+        ///    ]
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年6月30日16:37:31
+        [HttpPost]
+        object list_with_permission(string parentId)
+        {
+            var site = (Site)jc["site"];
+
+            #region 校验用户对站点的权限
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+            //如果没有站点的管理权限
+            if (relation == null) return new { code = 403, msg = "没有权限访问" };
+
+            #endregion
+
+            WebQuery qc = new WebQuery();
+            qc.Id = "category.list.permission";
+            qc.LoadCondidtion();
+            qc.NoPaging();
+
+            #region 加载参数
+
+            if (!string.IsNullOrEmpty(parentId)) qc["parentId"] = parentId;
+
+            qc["site"] = site.Id;
+            qc["userId"] = jc.UserName;
+
+            #endregion
+
+            var dt = CategoryUsers.GetDataTable(qc);
+
+            var data = new ArrayList();
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    name = item["title"].ToString(),
+                    isParent = item["hasChildren"].ToBoolean()
+                });
+            }
+
+            return data;
+        }
+
+        /// <summary>
         /// 获取单个栏目详细信息
         /// </summary>
         /// <param name="id">栏目ID</param>
         /// <returns>
         /// {
-        ///     id = "",                //栏目ID
-        ///     site_id = "",           //栏目所在站点
-        ///     title = "",             //栏目标题
-        ///     url = "",               //栏目的URL
-        ///     parent_id = "",         //栏目的父级ID
-        ///     date_created = "",      //栏目的创建时间
-        ///     sort_order = "",        //栏目的排序
-        ///     node_path = "",         //栏目的目录路劲
-        ///     need_login_read = false //栏目下文章是否需要登录后查看
+        ///     code = 1,                           //403：没有权限访问
+        ///     data = 
+        ///     {
+        ///         id = "",                        //栏目ID
+        ///         site_id = "",                   //栏目所在站点
+        ///         title = "",                     //栏目标题
+        ///         url = "",                       //栏目的URL
+        ///         parent_id = "",                 //栏目的父级ID
+        ///         date_created = "",              //栏目的创建时间
+        ///         sort_order = "",                //栏目的排序
+        ///         node_path = "",                 //栏目的目录路劲
+        ///         need_login_read = false         //栏目下文章是否需要登录后查看
+        ///     }
         /// }
         /// </returns>
         [HttpPost]
         object detail(string id)
         {
             var site = (Site)jc["site"];
+
+            #region 校验用户对站点的权限
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+            //如果没有站点的管理权限
+            if (relation == null || relation.PermissionLevel != PermissionLevel.ADMIN) return new { code = 403, msg = "没有权限访问" };
+
+            #endregion
 
             var category = (from q in Category.CreateContext()
                             where q.Id == id && q.SiteId == site.Id
@@ -224,6 +300,17 @@ namespace Kiss.Components.Site.Web.Controllers
 
             var site = (Site)jc["site"];
 
+            #region 校验用户对站点的权限
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+            //如果没有站点的管理权限
+            if (relation == null || relation.PermissionLevel != PermissionLevel.ADMIN) return new { code = 403, msg = "没有权限访问" };
+
+            #endregion
+
             #endregion
 
             using (ILinqContext<Category> cx = Category.CreateContext())
@@ -297,7 +384,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="id">栏目ID</param>
         /// <returns>
         /// {
-        ///     code = 1,           //-1：指定的栏目不存在，删除失败，-2：指定的栏目下存在子栏目，不能删除
+        ///     code = 1,           //-1：指定的栏目不存在，删除失败，-2：指定的栏目下存在子栏目，不能删除，403：没有权限访问
         ///     msg = "删除成功"
         /// }
         /// </returns>
@@ -307,6 +394,17 @@ namespace Kiss.Components.Site.Web.Controllers
         object delete(string id)
         {
             var site = (Site)jc["site"];
+
+            #region 校验用户对站点的权限
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.UserId == jc.UserName && q.SiteId == site.Id
+                            select q).FirstOrDefault();
+
+            //如果没有站点的管理权限
+            if (relation == null || relation.PermissionLevel != PermissionLevel.ADMIN) return new { code = 403, msg = "没有权限访问" };
+
+            #endregion
 
             using (ILinqContext<Category> cx = Category.CreateContext())
             {

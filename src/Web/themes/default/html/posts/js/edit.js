@@ -132,7 +132,7 @@ define(['../../../js/common'], function () {
                     p_tree = $.fn.zTree.init(p_tree, {
                         async: {
                             enable: true,
-                            url: config.host + 'category/list',
+                            url: config.host + 'category/list_with_permission',
                             autoParam: ['id=parentId'],
                             otherParam: { 'siteId': util.get_query('siteId') },
                             type: "post"
