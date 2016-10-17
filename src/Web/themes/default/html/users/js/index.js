@@ -71,7 +71,6 @@ define(['../../../js/common'], function () {
         form.gform({
             url: config.host + 'user/list',
             onSuccess: function (r) {
-
                 r = handleException(r);
 
                 if (!r) return false;
@@ -86,6 +85,7 @@ define(['../../../js/common'], function () {
                 //更新总数
                 $('#total_count', nav).html(r.paging.total_count);
                 $('#table_container', form).html(template('users_table', r));
+             
 
                 //绑定表格                
                 var table = $('table', form).gtable();
