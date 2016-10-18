@@ -5,6 +5,7 @@ using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -440,17 +441,17 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="userId">用户ID</param>
-        /// <param name="categoryId">栏目ID</param>
+        /// <param name="categoryIds">栏目ID数组</param>
         /// <returns>
         /// {
-        ///     code = 1,               //-1：指定的用户不存在，-2：指定的栏目不存在
+        ///     code = 1,               //-1：指定的用户不存在，-2：要添加的栏目不能为空，-3：指定的栏目不存在
         ///     msg = "保存成功"
         /// }
         /// </returns>
         /// leixu
         /// 2016年10月10日10:45:38
         [HttpPost]
-        object add_category_user(string userId, string categoryId)
+        object add_category_user(string userId, string[] categoryIds)
         {
             #region 校验参数
 
@@ -458,27 +459,32 @@ namespace Kiss.Components.Site.Web.Controllers
             var user = User.Get(userId);
 
             if (user == null) return new { code = -1, msg = "指定的用户不存在" };
+            if (categoryIds.Length == 0) return new { code = -2, msg = "要添加的栏目不能为空" };
 
-            var category = (from q in Category.CreateContext()
-                            where q.SiteId == site.Id && q.Id == categoryId
-                            select q).FirstOrDefault();
 
-            if (category == null) return new { code = -2, msg = "指定的栏目不存在" };
+            var categories = (from q in Category.CreateContext()
+                              where q.SiteId == site.Id && new List<string>(categoryIds).Contains(q.Id)
+                              select q).ToList();
+
+            if (categories.Count == 0) return new { code = -3, msg = "指定的栏目不存在" };
 
             #endregion
 
             using (ILinqContext<CategoryUsers> cx = CategoryUsers.CreateContext())
             {
-                var relation = (from q in cx
-                                where q.SiteId == site.Id && q.UserId == user.Id && q.CategoryId == category.Id
-                                select q).FirstOrDefault();
+                var relations = (from q in CategoryUsers.CreateContext()
+                                 where q.SiteId == site.Id && q.UserId == user.Id
+                                 select q).ToList();
 
-                if (relation == null)
+                foreach (var item in categories)
                 {
-                    relation = new CategoryUsers();
+                    //若存在，则不再增加
+                    if (relations.FirstOrDefault(a => { return a.CategoryId == item.Id; }) != null) continue;
+
+                    var relation = new CategoryUsers();
 
                     relation.Id = StringUtil.UniqueId();
-                    relation.CategoryId = category.Id;
+                    relation.CategoryId = item.Id;
                     relation.UserId = user.Id;
                     relation.SiteId = site.Id;
                     relation.DateCreated = DateTime.Now;
@@ -486,7 +492,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     cx.Add(relation, true);
                 }
 
-                cx.SubmitChanges();
+                cx.SubmitChanges(true);
             }
 
             return new { code = 1, msg = "保存成功" };

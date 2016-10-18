@@ -18,7 +18,6 @@ define(['../../../js/common'], function () {
         $('#btn_add_user_category', nav).on('click', function () {
 
             var p_tree = $('<ul class="ztree" style="max-height: 275px; max-width: 280px; overflow: auto;"></ul>'),
-                selected = {},
                 dlg = $M({
                     title: '选择栏目',
                     content: p_tree[0],
@@ -28,9 +27,10 @@ define(['../../../js/common'], function () {
                     position: '50% 50%',
                     ok: function () {
 
-                        dlg.close();
+                        var nodes = p_tree.getSelectedNodes(),
+                            categoryIds = nodes.map(function (a) { return a.id; });
 
-                        if (!selected.id) {
+                        if (categoryIds.length == 0) {
 
                             alert('请选择要添加的栏目信息');
                             return false;
@@ -39,7 +39,7 @@ define(['../../../js/common'], function () {
                         $.post(config.host + 'user/add_category_user', {
                             siteId: siteId,
                             userId: userId,
-                            categoryId: selected.id
+                            categoryIds: categoryIds
                         }, function (r) {
 
                             r = handleException(r);
@@ -50,6 +50,8 @@ define(['../../../js/common'], function () {
                                 alert(r.msg || '发生未知错误，请刷新后尝试');
                                 return false;
                             }
+
+                            dlg.close();
 
                             $('[name=page]', form).val(1);
                             form.submit();
@@ -71,14 +73,6 @@ define(['../../../js/common'], function () {
                         'siteId': siteId
                     },
                     type: "post"
-                },
-                callback: {
-                    onClick: function (event, tId, node) {
-                        selected = {
-                            title: node.name,
-                            id: node.id
-                        };
-                    }
                 }
             });
 

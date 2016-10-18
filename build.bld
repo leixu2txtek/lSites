@@ -137,7 +137,7 @@ default.aspx]]></Ext>
 			<Text><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <system.web>
-    <compilation debug="true" defaultLanguage="c#" targetFramework="4.5"/>
+    <compilation debug="false" defaultLanguage="c#" targetFramework="4.5"/>
     <pages enableViewState="false" validateRequest="false" controlRenderingCompatibilityVersion="4.0">
       <controls>
         <add tagPrefix="JC" namespace="Kiss.Web.Controls" assembly="Kiss.Web"/>
@@ -166,6 +166,10 @@ default.aspx]]></Ext>
         <requestLimits maxAllowedContentLength="209715200"/>
       </requestFiltering>
     </security>
+    <staticContent>
+        <mimeMap fileExtension=".woff" mimeType="application/x-font-woff" />
+        <mimeMap fileExtension=".woff2" mimeType="application/x-font-woff" />
+    </staticContent>
   </system.webServer>
 </configuration>]]></Text>
 			<buildfailsteps type='11'>0</buildfailsteps>
