@@ -626,9 +626,9 @@ namespace Kiss.Components.Site.Web.Controllers
                         view_count = post.ViewCount,
                         category = new
                         {
-                            id = category.Id,
-                            title = category.Title,
-                            url = category.Url
+                            id = category == null ? string.Empty : category.Id,
+                            title = category == null ? string.Empty : category.Title,
+                            url = category == null ? string.Empty : category.Url
                         }
                     }
                 };

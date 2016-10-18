@@ -76,7 +76,8 @@ Kiss.dll
 Kiss.Linq.dll
 Kiss.Web.dll
 Magick.NET-Q16-AnyCPU.dll
-NLog.dllStackExchange.Redis.dll]]></Ext>
+NLog.dllStackExchange.Redis.dll
+CsQuery.dll]]></Ext>
 			<Incremental type='11'>-1</Incremental>
 			<LogCopied type='11'>-1</LogCopied>
 			<ReadOnly type='11'>-1</ReadOnly>

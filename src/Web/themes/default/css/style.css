@@ -39,6 +39,7 @@ body .has-error .form-control {
 
 .select2-dropdown {
     border-radius: 0px;
+    z-index: 2030;
 }
 
 

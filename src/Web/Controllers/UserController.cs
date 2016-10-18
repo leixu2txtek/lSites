@@ -246,7 +246,6 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #endregion
 
-            if (User.Where("UserName = {0}", userName).Count() > 0) return new { code = -6, msg = "指定的用户名已经存在，请更换其他用户名" };
 
             using (ILinqContext<User> cx = User.CreateContext())
             using (ILinqContext<SiteUsers> cx_relation = SiteUsers.CreateContext())
@@ -257,6 +256,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 if (user == null)
                 {
+                    if (User.Where("UserName = {0}", userName).Count() > 0) return new { code = -6, msg = "指定的用户名已经存在，请更换其他用户名" };
+
                     user = new User();
 
                     user.Id = StringUtil.UniqueId();
@@ -265,6 +266,11 @@ namespace Kiss.Components.Site.Web.Controllers
                     user.IsValid = true;
                     user.DateLastVisit = DateTime.Now;
 
+                    user.UserName = userName;
+
+                    //update password
+                    user.UpdatePassword("111111");
+
                     DictSchema schema = DictSchema.GetByName("users", "config");
 
                     if (schema != null && schema["first_login_resetpwd"] != null && schema["first_login_resetpwd"].ToBoolean()) user["needmodifyPwd"] = true.ToString();
@@ -272,13 +278,9 @@ namespace Kiss.Components.Site.Web.Controllers
                     cx.Add(user, true);
                 }
 
-                user.UserName = userName;
                 user.DisplayName = displayName;
                 user.Mobile = mobile;
                 user.Email = email;
-
-                //update password
-                user.UpdatePassword("111111");
 
                 #endregion
 
