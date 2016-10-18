@@ -53,56 +53,94 @@ const util = {
     }
 }
 
-const menus = [{
-    title: '文章',
-    icon: 'group-icon-207',
-    key: 'posts',
-    children: [{
-        title: '我创建的',
-        url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
-        key: 'posts/index'
+const menus = {
+    '管理员': [{
+        title: '文章',
+        icon: 'group-icon-207',
+        key: 'posts',
+        children: [{
+            title: '我创建的',
+            url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/index'
+        }, {
+            title: '待审核的',
+            url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/audit'
+        }, {
+            title: '已发布的',
+            url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/publish'
+        }, {
+            title: '回收站',
+            url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/trash'
+        }]
     }, {
-        title: '待审核的',
-        url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
-        key: 'posts/audit'
+        title: '栏目',
+        icon: 'group-icon-nav',
+        key: 'category',
+        url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
     }, {
-        title: '已发布的',
-        url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
-        key: 'posts/publish'
+        title: '选项',
+        icon: 'group-icon-androidoptions',
+        key: 'settings',
+        children: [{
+            title: '站点信息',
+            url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
+            key: 'settings/index'
+        }, {
+            title: '挂件管理',
+            url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
+            key: 'settings/widgets'
+        }]
     }, {
-        title: '回收站',
-        url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
-        key: 'posts/trash'
+        title: '用户管理',
+        icon: 'group-icon-yonghu',
+        key: 'users/index',
+        url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
+    }, {
+        title: '站点管理',
+        icon: 'group-icon-zhandianguanli',
+        key: 'sites/index',
+        url: config.prefix + 'sites/index.html?siteId=' + util.get_query('siteId'),
+    }],
+    '审核人': [{
+        title: '文章',
+        icon: 'group-icon-207',
+        key: 'posts',
+        children: [{
+            title: '我创建的',
+            url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/index'
+        }, {
+            title: '待审核的',
+            url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/audit'
+        }, {
+            title: '已发布的',
+            url: config.prefix + 'posts/publish.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/publish'
+        }, {
+            title: '回收站',
+            url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/trash'
+        }]
+    }],
+    '编辑': [{
+        title: '文章',
+        icon: 'group-icon-207',
+        key: 'posts',
+        children: [{
+            title: '我创建的',
+            url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/index'
+        }, {
+            title: '回收站',
+            url: config.prefix + 'posts/trash.html?siteId=' + util.get_query('siteId'),
+            key: 'posts/trash'
+        }]
     }]
-}, {
-    title: '栏目',
-    icon: 'group-icon-nav',
-    key: 'category',
-    url: config.prefix + 'category/index.html?siteId=' + util.get_query('siteId'),
-}, {
-    title: '选项',
-    icon: 'group-icon-androidoptions',
-    key: 'settings',
-    children: [{
-        title: '站点信息',
-        url: config.prefix + 'settings/index.html?siteId=' + util.get_query('siteId'),
-        key: 'settings/index'
-    }, {
-        title: '挂件管理',
-        url: config.prefix + 'settings/widgets.html?siteId=' + util.get_query('siteId'),
-        key: 'settings/widgets'
-    }]
-}, {
-    title: '用户管理',
-    icon: 'group-icon-yonghu',
-    key: 'users/index',
-    url: config.prefix + 'users/index.html?siteId=' + util.get_query('siteId'),
-}, {
-    title: '站点管理',
-    icon: 'group-icon-zhandianguanli',
-    key: 'sites/index',
-    url: config.prefix + 'sites/index.html?siteId=' + util.get_query('siteId'),
-}];
+};
 
 const handleException = function (r) {
 
@@ -173,44 +211,6 @@ define(['jquery', 'template', 'pace', 'MDialog'], function ($, template) {
         $('.content_container').show();
     });
 
-    var menu = $('<ul class="nav nav-stacked group-nav-sidebar"></ul>'),
-        path = window.location.pathname;
-
-    $.each(menus, function (i, v) {
-
-        var li = $(['<li>', '<a href="' + (v.url || 'javascript:void(0);') + '" class="inactive">', '<i class="iconfont group-icon ' + v.icon + '"></i>' + v.title + '</a>', '</li>'].join(''));
-
-        //active current menu        
-        if (path.indexOf(v.key) != -1) $('a', li).addClass('active');
-
-        if (v.children && v.children.length > 0) {
-
-            li.find('a:first').append('<i class="glyphicon glyphicon-plus group-nav-more"></i>');
-
-            var subs = '<ul class="nav nav-stacked group-subMenu" style="display: none">';
-
-            $.each(v.children, function (i, v) {
-
-                if (path.indexOf(v.key) != -1) {
-                    subs += '<li class="active"><a href="' + v.url + '">' + v.title + '</a></li>'
-                } else {
-                    subs += '<li><a href="' + v.url + '">' + v.title + '</a></li>'
-                }
-            });
-
-            subs += '</ul>';
-
-            li.append(subs);
-
-            if (li.find('li.active').length != 0) li.find('ul:first').show();
-        }
-
-        menu.append(li);
-    });
-
-    //追加菜单
-    $('.sidebar').append(menu);
-
     //用户信息
     $.ajax({
         url: config.host + 'open/get_user_info',
@@ -228,6 +228,44 @@ define(['jquery', 'template', 'pace', 'MDialog'], function ($, template) {
             history.go(-1);
             return false;
         }
+
+        var menu = $('<ul class="nav nav-stacked group-nav-sidebar"></ul>'),
+            path = window.location.pathname;
+
+        $.each(menus[r.current.role], function (i, v) {
+
+            var li = $(['<li>', '<a href="' + (v.url || 'javascript:void(0);') + '" class="inactive">', '<i class="iconfont group-icon ' + v.icon + '"></i>' + v.title + '</a>', '</li>'].join(''));
+
+            //active current menu        
+            if (path.indexOf(v.key) != -1) $('a', li).addClass('active');
+
+            if (v.children && v.children.length > 0) {
+
+                li.find('a:first').append('<i class="glyphicon glyphicon-plus group-nav-more"></i>');
+
+                var subs = '<ul class="nav nav-stacked group-subMenu" style="display: none">';
+
+                $.each(v.children, function (i, v) {
+
+                    if (path.indexOf(v.key) != -1) {
+                        subs += '<li class="active"><a href="' + v.url + '">' + v.title + '</a></li>'
+                    } else {
+                        subs += '<li><a href="' + v.url + '">' + v.title + '</a></li>'
+                    }
+                });
+
+                subs += '</ul>';
+
+                li.append(subs);
+
+                if (li.find('li.active').length != 0) li.find('ul:first').show();
+            }
+
+            menu.append(li);
+        });
+
+        //追加菜单
+        $('.sidebar').append(menu);
 
         //设置用户信息
         var info = $(template.compile('<div class="navbar-collapse collapsc navbar-right group-top-userbox"><span>欢迎您，{{display_name}}</span> <a href="javascript:(0);" class="group-top-user user_info"><img src="{{avatar}}" class="img-circle" width="38px" height="38px"> <i class="glyphicon glyphicon-chevron-down"></i></a><div class="nav group-user-dropdown" style="display:none"><ul><i class="group-user-dropdownIcon">&nbsp;</i><li><a href="#" title="个人资料" class="">个人资料</a></li><li><a href="#" title="修改密码" class="modifypwd" id="modify_pwd">修改密码</a></li><li><a href="/users/logout" title="退出">退出</a></li></ul></div></div>')({
@@ -253,7 +291,8 @@ define(['jquery', 'template', 'pace', 'MDialog'], function ($, template) {
         //修改密码
         $('#modify_pwd', info).on('click', function () {
 
-            var form = $(template.compile('<form class="form-horizontal password-form" ><div class="form-group"><label class="col-sm-2 control-label">原始密码：</label><div class="col-sm-10 password-input"><input type="password" class="form-control" name="oriPassword" placeholder="原始密码" ></div></div><div class="form-group"><label class="col-sm-2 control-label">新密码：</label><div class="col-sm-10 password-input"><input type="password" class="form-control" name="newPassword" placeholder="新密码" ></div></div><div class="form-group"><label class="col-sm-2 control-label">确认新密码：</label><div class="col-sm-10 password-input"><input type="password" class="form-control" name="newPassword2" placeholder="确认新密码" ></div></div></form>')({}));
+            var form = $(template.compile('<form class="form-horizontal password-form" ><div class="form-group"><label class="col-sm-2 control-label">原始密码：</label><div class="col-sm-10 password-input"><input type="password" class="form-control" name="oriPassword" placeholder="原始密码" ></div></div><div class="form-group"><label class="col-sm-2 control-label">新密码：</label><div class="col-sm-10 password-input"><input type="password" class="form-control" name="newPassword" placeholder="新密码" ></div></div><div class="form-group"><label class="col-sm-2 control-label">确认新密码：</label><div class="col-sm-10 password-input"><input type="password" class="form-control" name="newPassword2" placeholder="确认新密码" ></div></div></form>')({})),
+                dlg = {};
 
             form.gform({
                 url: config.host + 'open/update_password',
@@ -328,7 +367,7 @@ define(['jquery', 'template', 'pace', 'MDialog'], function ($, template) {
 
             $._loadCss(config.host + 'themes/default/js/vendor/Mdialog/MDialog.css', function () {
 
-                $M({
+                dlg = $M({
                     title: '修改密码',
                     content: form[0],
                     lock: true,

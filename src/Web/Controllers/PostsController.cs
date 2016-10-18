@@ -849,10 +849,11 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (!string.IsNullOrEmpty(key)) q["key"] = key;
 
+            q["siteId"] = site.Id;
+            q["userId"] = jc.UserName;
+
             q.TotalCount = Posts.Count(q);
             if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
-
-            q["siteId"] = site.Id;
 
             var dt = Posts.GetDataTable(q);
             var data = new ArrayList();

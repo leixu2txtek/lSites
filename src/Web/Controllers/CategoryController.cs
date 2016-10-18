@@ -93,7 +93,7 @@ namespace Kiss.Components.Site.Web.Controllers
                             select q).FirstOrDefault();
 
             //如果没有站点的管理权限
-            if (relation == null || relation.PermissionLevel != PermissionLevel.ADMIN) return new { code = 403, msg = "没有权限访问" };
+            if (relation == null || (relation.PermissionLevel != PermissionLevel.ADMIN && relation.PermissionLevel != PermissionLevel.AUDIT)) return new { code = 403, msg = "没有权限访问" };
 
             #endregion
 
