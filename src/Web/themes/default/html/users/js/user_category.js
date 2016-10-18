@@ -3,7 +3,7 @@ define(['../../../js/common'], function () {
 
     document.title = '用户栏目管理 - CMS内容管理系统';
 
-    require(['template', 'moment', 'form', 'paging', 'MDialog', 'ztree'], function (template, moment) {
+    require(['template', 'moment', 'form', 'paging', 'ztree'], function (template, moment) {
 
         template.helper('format_date', function (date) {
 
@@ -36,7 +36,11 @@ define(['../../../js/common'], function () {
                             return false;
                         }
 
-                        $.post(config.host + 'user/add_category_user', { siteId: siteId, userId: userId, categoryId: selected.id }, function (r) {
+                        $.post(config.host + 'user/add_category_user', {
+                            siteId: siteId,
+                            userId: userId,
+                            categoryId: selected.id
+                        }, function (r) {
 
                             r = handleException(r);
 
@@ -63,12 +67,17 @@ define(['../../../js/common'], function () {
                     enable: true,
                     url: config.host + 'category/list',
                     autoParam: ['id=parentId'],
-                    otherParam: { 'siteId': siteId },
+                    otherParam: {
+                        'siteId': siteId
+                    },
                     type: "post"
                 },
                 callback: {
                     onClick: function (event, tId, node) {
-                        selected = { title: node.name, id: node.id };
+                        selected = {
+                            title: node.name,
+                            id: node.id
+                        };
                     }
                 }
             });
@@ -134,7 +143,9 @@ define(['../../../js/common'], function () {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) { form.submit(); }
+            callback: function (form) {
+                form.submit();
+            }
         });
     });
 });

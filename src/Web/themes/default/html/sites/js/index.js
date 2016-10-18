@@ -2,7 +2,7 @@ define(['../../../js/common'], function () {
 
     document.title = '站点列表 - 站群管理';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         template.helper('format_date', function (date) {
 
@@ -115,7 +115,9 @@ define(['../../../js/common'], function () {
 
                 $('.edit', table).on('click', function () {
 
-                    $.post(config.host + 'site/detail', { id: $(this).data('id') }, function (r) {
+                    $.post(config.host + 'site/detail', {
+                        id: $(this).data('id')
+                    }, function (r) {
 
                         r = handleException(r);
 
@@ -244,7 +246,9 @@ define(['../../../js/common'], function () {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) { form.submit(); }
+            callback: function (form) {
+                form.submit();
+            }
         });
     });
 });

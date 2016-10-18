@@ -2,7 +2,7 @@ define(['../../../js/common'], function () {
 
     document.title = '栏目管理 - CMS内容管理系统';
 
-    require(['template', 'ztree', 'form', 'select2', 'MDialog'], function (template) {
+    require(['template', 'ztree', 'form', 'select2'], function (template) {
 
         //init ztree
         var tree = $.fn.zTree.init($("#category_tree"), {
@@ -10,14 +10,19 @@ define(['../../../js/common'], function () {
                 enable: true,
                 url: config.host + 'category/list',
                 autoParam: ['id=parentId'],
-                otherParam: { 'siteId': util.get_query('siteId') },
+                otherParam: {
+                    'siteId': util.get_query('siteId')
+                },
                 type: "post"
             },
             callback: {
                 onClick: function (event, tId, node) {
 
                     //绑定点击ztree后事件
-                    $.post(config.host + 'category/detail', { id: node.id, siteId: util.get_query('siteId') }, function (r) {
+                    $.post(config.host + 'category/detail', {
+                        id: node.id,
+                        siteId: util.get_query('siteId')
+                    }, function (r) {
 
                         if (!r || r.code < 0) {
 
@@ -26,7 +31,9 @@ define(['../../../js/common'], function () {
                             return false;
                         }
 
-                        var form = $(template('category_form', { item: r.data }));
+                        var form = $(template('category_form', {
+                            item: r.data
+                        }));
 
                         $('.btn_delete', form).on('click', function () {
 
@@ -34,7 +41,10 @@ define(['../../../js/common'], function () {
 
                             if (!confirm('确认删除该栏目？')) return false;
 
-                            $.post(config.host + 'category/delete', { id: node.id, siteId: util.get_query('siteId') }, function (r) {
+                            $.post(config.host + 'category/delete', {
+                                id: node.id,
+                                siteId: util.get_query('siteId')
+                            }, function (r) {
 
                                 if (!r || r.code < 0) {
 
@@ -50,7 +60,9 @@ define(['../../../js/common'], function () {
                             }, 'json');
                         });
 
-                        $('select', form).select2({ minimumResultsForSearch: -1 });
+                        $('select', form).select2({
+                            minimumResultsForSearch: -1
+                        });
 
                         //选择父级栏目(右侧选择栏目)
                         $('#select_parent', form).on('click', function () {
@@ -106,7 +118,12 @@ define(['../../../js/common'], function () {
 
         $('.add_category', nav).on('click', function () {
 
-            var form = $(template('category_form', { item: { site_id: util.get_query('siteId'), parent: {} } }));
+            var form = $(template('category_form', {
+                item: {
+                    site_id: util.get_query('siteId'),
+                    parent: {}
+                }
+            }));
 
             $('select', form).select2({
                 minimumResultsForSearch: -1
@@ -183,12 +200,17 @@ define(['../../../js/common'], function () {
                     enable: true,
                     url: config.host + 'category/list',
                     autoParam: ['id=parentId'],
-                    otherParam: { 'siteId': util.get_query('siteId') },
+                    otherParam: {
+                        'siteId': util.get_query('siteId')
+                    },
                     type: "post"
                 },
                 callback: {
                     onClick: function (event, tId, node) {
-                        selected = { title: node.name, id: node.id };
+                        selected = {
+                            title: node.name,
+                            id: node.id
+                        };
                     }
                 }
             });

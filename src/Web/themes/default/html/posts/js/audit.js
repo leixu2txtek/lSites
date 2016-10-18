@@ -2,7 +2,7 @@ define(['../../../js/common'], function () {
 
     document.title = '待审核的文章 - CMS内容管理系统';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         var form = $('#trash_form');
 

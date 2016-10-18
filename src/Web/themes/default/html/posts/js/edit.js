@@ -1,6 +1,6 @@
 define(['../../../js/common'], function () {
 
-    require(['template', 'ztree', 'form', 'select2', 'MDialog', 'ue', 'ue.file', 'ue.video'], function (template) {
+    require(['template', 'ztree', 'form', 'select2', 'ue', 'ue.file', 'ue.video'], function (template) {
 
         var siteId = util.get_query('siteId'),
             id = util.get_query('id');
@@ -80,7 +80,10 @@ define(['../../../js/common'], function () {
 
                 for (var p in props) {
 
-                    data.post.props.push({ key: p, value: props[p] });
+                    data.post.props.push({
+                        key: p,
+                        value: props[p]
+                    });
                 }
 
                 //构造HTML
@@ -91,7 +94,9 @@ define(['../../../js/common'], function () {
                     url: config.host + 'config/get',
                     type: 'POST',
                     dataType: 'json',
-                    data: { siteId: siteId },
+                    data: {
+                        siteId: siteId
+                    },
                     async: false
                 }).done(function (r) {
 
@@ -103,14 +108,23 @@ define(['../../../js/common'], function () {
                     }
 
                     //init ueditor
-                    editor = UE.getEditor('txt_content', { initialFrameWidth: '100%', initialFrameHeight: $(window).height() - 270, image: r.image, file: r.file, video: r.video });
+                    editor = UE.getEditor('txt_content', {
+                        initialFrameWidth: '100%',
+                        initialFrameHeight: $(window).height() - 270,
+                        image: r.image,
+                        file: r.file,
+                        video: r.video
+                    });
                 });
 
                 //select category
                 $('#btn_category', container).on('click', function () {
 
                     var p_tree = $('<ul class="ztree" style="max-height:275px;max-width:280px;overflow:auto;"></ul>'),
-                        selected = { title: '', id: '' },
+                        selected = {
+                            title: '',
+                            id: ''
+                        },
                         dlg = $M({
                             title: '选择栏目信息',
                             content: p_tree[0],
@@ -134,12 +148,17 @@ define(['../../../js/common'], function () {
                             enable: true,
                             url: config.host + 'category/list_with_permission',
                             autoParam: ['id=parentId'],
-                            otherParam: { 'siteId': util.get_query('siteId') },
+                            otherParam: {
+                                'siteId': util.get_query('siteId')
+                            },
                             type: "post"
                         },
                         callback: {
                             onClick: function (event, tId, node) {
-                                selected = { title: node.name, id: node.id };
+                                selected = {
+                                    title: node.name,
+                                    id: node.id
+                                };
                             }
                         }
                     });
@@ -148,7 +167,9 @@ define(['../../../js/common'], function () {
                 });
 
                 //select is_top
-                $('[name=cb_top]', container).select2({ minimumResultsForSearch: -1 }).val($('[name=cb_top]', container).data('selected').toString()).trigger('change');
+                $('[name=cb_top]', container).select2({
+                    minimumResultsForSearch: -1
+                }).val($('[name=cb_top]', container).data('selected').toString()).trigger('change');
             };
 
         //保存为草稿
@@ -201,7 +222,11 @@ define(['../../../js/common'], function () {
         //添加
         if (!id) {
 
-            init({ post: { category: {} } });
+            init({
+                post: {
+                    category: {}
+                }
+            });
 
             return false;
         }
@@ -210,7 +235,10 @@ define(['../../../js/common'], function () {
             url: config.host + 'posts/detail',
             type: 'POST',
             dataType: 'json',
-            data: { siteId: siteId, id: id },
+            data: {
+                siteId: siteId,
+                id: id
+            },
             async: false
         }).done(function (r) {
 

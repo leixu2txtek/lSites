@@ -2,7 +2,7 @@ define(['../../../js/common'], function () {
 
     document.title = '挂件列表 - CMS内容管理系统';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
@@ -24,7 +24,9 @@ define(['../../../js/common'], function () {
         // 添加新挂件
         $('.add-widgets', nav).on('click', function () {
 
-            var add_form = $(template('widget_add_form', { site_id: siteId })),
+            var add_form = $(template('widget_add_form', {
+                    site_id: siteId
+                })),
                 dlg = $M({
                     title: '添加新挂件',
                     content: add_form[0],
@@ -99,7 +101,10 @@ define(['../../../js/common'], function () {
                     var siteId = util.get_query('siteId'),
                         id = $(this).data('id');
 
-                    $.post(config.host + 'widget/detail', { id: $(this).data('id'), siteId: siteId }, function (r) {
+                    $.post(config.host + 'widget/detail', {
+                        id: $(this).data('id'),
+                        siteId: siteId
+                    }, function (r) {
 
                         r = handleException(r);
 
@@ -200,7 +205,9 @@ define(['../../../js/common'], function () {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) { form.submit(); }
+            callback: function (form) {
+                form.submit();
+            }
         });
 
     });

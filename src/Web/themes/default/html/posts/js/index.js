@@ -231,7 +231,9 @@ define(['../../../js/common'], function () {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) { form.submit(); }
+            callback: function (form) {
+                form.submit();
+            }
         });
     });
 });

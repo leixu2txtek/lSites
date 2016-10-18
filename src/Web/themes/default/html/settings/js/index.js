@@ -2,7 +2,7 @@ define(['../../../js/common'], function () {
 
     document.title = '站点信息 - 站群管理';
 
-    require(['template', 'form', 'select2', 'MDialog'], function (template) {
+    require(['template', 'form', 'select2'], function (template) {
 
         var siteId = util.get_query('siteId'),
             nav = $('#nav_tools'),
@@ -20,7 +20,9 @@ define(['../../../js/common'], function () {
             url: config.host + 'site/detail',
             type: 'POST',
             dataType: 'json',
-            data: { id: siteId },
+            data: {
+                id: siteId
+            },
             async: false
         }).done(function (r) {
 
@@ -66,7 +68,6 @@ define(['../../../js/common'], function () {
                 beforeSubmit: function () {
 
                     // 验证数据是否正确
-
                     var title = $('[name=title]', form).val(),
                         domain = $('[name=domain]', form).val(),
                         keyWords = $('[name=keyWords]', form).val(),

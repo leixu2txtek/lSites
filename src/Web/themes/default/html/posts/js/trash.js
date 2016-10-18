@@ -6,6 +6,7 @@ define(['../../../js/common'], function () {
 
         var form = $('#trash_form'),
             nav = $('#nav_tools');
+
         template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });

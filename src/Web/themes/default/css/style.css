@@ -1232,3 +1232,23 @@ body .has-error .form-control {
     color: #10a1bb;
     padding-left: 10px;
 }
+
+
+/*修改密码*/
+
+.password-form label {
+    width: 120px;
+    text-align: right;
+    padding: 0px;
+    font-weight: normal;
+    margin-right: 11px;
+}
+
+.password-input {
+    width: 200px;
+}
+
+.password-input input {
+    border-radius: 0px;
+    border: 1px solid #b6b6b6;
+}

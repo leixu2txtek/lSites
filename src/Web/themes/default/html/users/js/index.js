@@ -3,7 +3,7 @@ define(['../../../js/common'], function () {
 
     document.title = '用户管理 - CMS内容管理系统';
 
-    require(['template', 'moment', 'select2', 'form', 'paging', 'MDialog'], function (template, moment) {
+    require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
         template.helper('format_date', function (date) {
 
@@ -16,7 +16,9 @@ define(['../../../js/common'], function () {
 
         $('#btn_add_user', nav).on('click', function () {
 
-            var edit_form = $(template('users_edit_form', { siteId: util.get_query('siteId') })),
+            var edit_form = $(template('users_edit_form', {
+                    siteId: util.get_query('siteId')
+                })),
                 dlg = $M({
                     title: '添加用户信息',
                     content: edit_form[0],
@@ -85,7 +87,7 @@ define(['../../../js/common'], function () {
                 //更新总数
                 $('#total_count', nav).html(r.paging.total_count);
                 $('#table_container', form).html(template('users_table', r));
-             
+
 
                 //绑定表格                
                 var table = $('table', form).gtable();
@@ -183,7 +185,9 @@ define(['../../../js/common'], function () {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) { form.submit(); }
+            callback: function (form) {
+                form.submit();
+            }
         });
     });
 });

@@ -4,7 +4,6 @@ define(['../../../js/common'], function () {
 
     require(['template', 'moment', 'select2', 'form', 'paging', 'ztree'], function (template, moment) {
 
-
         template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
         });
@@ -26,7 +25,9 @@ define(['../../../js/common'], function () {
                 enable: true,
                 url: config.host + 'category/list',
                 autoParam: ['id=parentId'],
-                otherParam: { 'siteId': util.get_query('siteId') },
+                otherParam: {
+                    'siteId': util.get_query('siteId')
+                },
                 type: "post"
             },
             callback: {
@@ -105,7 +106,9 @@ define(['../../../js/common'], function () {
                 $('.x-paging-container', form).paging(r.paging);
 
             },
-            callback: function (form) { form.submit(); }
+            callback: function (form) {
+                form.submit();
+            }
 
         });
     });
