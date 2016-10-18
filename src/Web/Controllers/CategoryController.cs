@@ -152,7 +152,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #region 加载参数
 
-            if (!string.IsNullOrEmpty(parentId)) qc["parentId"] = parentId;
+            qc["parentId"] = string.IsNullOrWhiteSpace(parentId) ? string.Empty : parentId;
 
             qc["site"] = site.Id;
             qc["userId"] = jc.UserName;

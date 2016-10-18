@@ -5,7 +5,7 @@
         editor: editor,
         name: uiName,
         title: '上传视频',
-        cssRules: 'width:600px;height:150px;'
+        cssRules: 'width:600px;height:180px;'
     });
 
     return new UE.ui.Button({
