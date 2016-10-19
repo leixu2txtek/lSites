@@ -447,6 +447,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <remarks>请求方式：POST</remarks>
         /// <param name="siteId">站点ID</param>
         /// <param name="categoryId">栏目ID</param>
+        /// <param name="withChildren">包含子栏目</param>
         /// <returns>
         /// {
         ///     code = 1,                           //1：获取成功，-1：指定的站点不存在，-2：指定的栏目不存在
@@ -481,7 +482,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年3月15日19:56:19
         [HttpPost]
-        object get_posts_by_category(string siteId, string categoryId)
+        object get_posts_by_category(string siteId, string categoryId, bool withChildren)
         {
             var site = Site.Get(siteId);
             if (site == null) return new { code = -1, msg = "指定的站点不存在" };
@@ -493,8 +494,24 @@ namespace Kiss.Components.Site.Web.Controllers
             q.Id = "posts.category.list";
             q.LoadCondidtion();
 
+            #region 构造查询参数
+
             q["siteId"] = site.Id;
-            q["categoryId"] = category.Id;
+
+            var categoryIds = new List<string>();
+
+            if (withChildren)
+            {
+                categoryIds = (from c in Category.CreateContext()
+                               where c.NodePath.StartsWith(category.NodePath)
+                               select c.Id).ToList();
+            }
+
+            categoryIds.Add(category.Id);
+
+            q["categoryIds"] = StringUtil.CollectionToDelimitedString(categoryIds, ",", "'");
+
+            #endregion
 
             q.TotalCount = Posts.Count(q);
             if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);

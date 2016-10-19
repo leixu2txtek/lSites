@@ -88,7 +88,6 @@ define(['../../../js/common'], function () {
                 $('#total_count', nav).html(r.paging.total_count);
                 $('#table_container', form).html(template('users_table', r));
 
-
                 //绑定表格                
                 var table = $('table', form).gtable();
 

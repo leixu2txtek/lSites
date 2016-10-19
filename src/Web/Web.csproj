@@ -232,7 +232,9 @@
     <Content Include="App_Data\routes.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\query.open.config" />
+    <Content Include="App_Data\query.open.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="themes\default\fonts\glyphicons-halflings-regular.eot" />

@@ -247,7 +247,6 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #endregion
 
-
             using (ILinqContext<User> cx = User.CreateContext())
             using (ILinqContext<SiteUsers> cx_relation = SiteUsers.CreateContext())
             {

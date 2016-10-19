@@ -25,8 +25,8 @@ requirejs.config({
 });
 
 const config = {
-    host: '/',
-    prefix: '/themes/default/html/',
+    host: '/cms/',
+    prefix: '/cms/themes/default/html/',
 };
 
 const util = {
