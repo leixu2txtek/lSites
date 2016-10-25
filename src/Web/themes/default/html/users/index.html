@@ -78,7 +78,7 @@
                 {{if data.length > 0}} {{each data as item i}}
                 <tr id="{{item.id}}">
                     <td>{{item.user_name}}</td>
-                    <td>{{item.display_name}}</td>
+                    <td class="users-width"><div class="users-autocut">{{item.display_name}}</div></td>
                     <td>{{item.mobile}}</td>
                     <td>{{item.email}}</td>
                     <td>{{item.permission}}</td>

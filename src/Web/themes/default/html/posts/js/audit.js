@@ -4,7 +4,8 @@ define(['../../../js/common'], function () {
 
     require(['template', 'moment', 'select2', 'form', 'paging'], function (template, moment) {
 
-        var form = $('#trash_form');
+        var form = $('#trash_form'),
+            siteId = util.get_query('siteId');
 
         template.helper('format_date', function (date) {
             return moment(date).format('YYYY-MM-DD');
@@ -30,6 +31,8 @@ define(['../../../js/common'], function () {
                     return false;
                 }
 
+                r.siteId = siteId;
+
                 // 更新
                 $('#trash_count').html(r.paging.total_count);
                 $('#trashtable_container', form).html(template('trash_table', r));
@@ -39,8 +42,7 @@ define(['../../../js/common'], function () {
                 // 审核通过
                 $('.q-approved', table).on('click', function () {
 
-                    var siteId = util.get_query('siteId'),
-                        id = $(this).data('id'),
+                    var id = $(this).data('id'),
                         dlg = undefined,
                         audit = function (pass) {
 
@@ -66,12 +68,12 @@ define(['../../../js/common'], function () {
                         content: '<p>是否通过审核</p>',
                         ok: function () {
 
-                            audit(1);
+                            audit(true);
                         },
                         okVal: '审核通过',
                         cancel: function () {
 
-                            audit(0);
+                            audit(false);
                         },
                         cancelVal: '审核不通过',
 

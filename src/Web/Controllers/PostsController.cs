@@ -78,6 +78,7 @@ namespace Kiss.Components.Site.Web.Controllers
             #endregion
 
             jc["site"] = site;
+            jc["relation"] = relation;
         }
 
         #region 文章
@@ -345,7 +346,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 post.CategoryId = category == null ? string.Empty : category.Id;
                 post.SortOrder = sortOrder;
-                post.ViewCount = viewCount;
+                post.ViewCount = viewCount == 0 ? post.ViewCount : viewCount;
                 post.DisplayName = jc.User.Info.DisplayName;
 
                 //同一个栏目下只能有一个文章被置顶
@@ -368,10 +369,19 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 #region 审核
 
-                //只有第一次发布更新发布时间
-                if (post.Status == Status.DRAFT && publish)
+                if (post.Status == Status.DRAFT || post.Status == Status.AUDIT_FAILD)
                 {
-                    post.Status = site.NeedAuditPost ? Status.PENDING : Status.PUBLISHED;
+                    var relation = (SiteUsers)jc["relation"];
+
+                    if (relation.PermissionLevel == PermissionLevel.EDIT)
+                    {
+                        post.Status = (publish && site.NeedAuditPost) ? Status.PENDING : Status.PUBLISHED;
+                    }
+                    else
+                    {
+                        //站点管理员 && 审核人 直接发布文章，无需审核
+                        post.Status = Status.PUBLISHED;
+                    }
 
                     if (post.Status == Status.PUBLISHED)
                     {
