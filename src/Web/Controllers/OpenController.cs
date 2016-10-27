@@ -335,7 +335,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     id = item["id"].ToString(),
                     display_name = item["displayName"].ToString(),
                     title = item["title"].ToString(),
-                    date_published = item["datePublished"].ToDateTime(),
+                    date_published = item["datePublished"].ToDateTime().ToUniversalTime(),
                     sub_title = item["subTitle"].ToString(),
                     summary = item["summary"].ToString(),
                     text = item["text"].ToString(),
@@ -543,7 +543,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     id = item["id"].ToString(),
                     display_name = item["displayName"].ToString(),
                     title = item["title"].ToString(),
-                    date_published = item["datePublished"].ToDateTime(),
+                    date_published = item["datePublished"].ToDateTime().ToUniversalTime(),
                     sub_title = item["subTitle"].ToString(),
                     summary = item["summary"].ToString(),
                     text = item["text"].ToString(),
@@ -713,7 +713,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     id = item["id"].ToString(),
                     display_name = item["displayName"].ToString(),
                     title = item["title"].ToString().Replace(search, string.Format("<b style='color:red'>{0}</b>", search)),
-                    date_published = item["datePublished"].ToDateTime(),
+                    date_published = item["datePublished"].ToDateTime().ToUniversalTime(),
                     text = item["text"].ToString().Replace(search, string.Format("<b style='color:red'>{0}</b>", search)),
                     view_count = item["viewCount"].ToInt()
                 });
