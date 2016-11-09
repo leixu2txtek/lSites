@@ -12,7 +12,7 @@ define(['../../../js/common'], function () {
         var nav = $('#nav_tools'),
             container = $('#editor_container'),
             editor = {},
-            save = function (publish, callback) {
+            save = function (e, publish, callback) {
 
                 var title = $('#txt_title', container).val(),
                     content = editor.getContent(),
@@ -23,6 +23,33 @@ define(['../../../js/common'], function () {
                     date_created = $('#txt_date_created', container).val(),
                     is_top = $('[name=cb_top]', container).val(),
                     props = {};
+
+                if (title.length == 0) {
+
+                    alert('文章的标题不能为空');
+                    $('#txt_title', container).focus();
+
+                    e.data('pending', false);
+                    return false;
+                }
+
+                if (content.length == 0) {
+
+                    alert('文章的内容不能为空');
+                    editor.focus(true);
+
+                    e.data('pending', false);
+                    return false;
+                }
+
+                if (category.length == 0) {
+
+                    alert('文章的栏目不能为空');
+                    $('#btn_category', container).trigger('click');
+
+                    e.data('pending', false);
+                    return false;
+                }
 
                 //处理自定义属性
                 var has_error = false;
@@ -42,7 +69,11 @@ define(['../../../js/common'], function () {
                     props[key] = $(this).next('.prop_value').val();
                 });
 
-                if (has_error) return;
+                if (has_error) {
+
+                    e.data('pending', false);
+                    return false;
+                }
 
                 $.post(config.host + 'posts/save', {
                     siteId: siteId,
@@ -181,7 +212,7 @@ define(['../../../js/common'], function () {
 
             _this.data('pending', true);
 
-            save(false, function (r) {
+            save(_this, false, function (r) {
 
                 _this.data('pending', false);
 
@@ -207,7 +238,7 @@ define(['../../../js/common'], function () {
 
             _this.data('pending', true);
 
-            save(true, function (r) {
+            save(_this, true, function (r) {
 
                 _this.data('pending', false);
 
@@ -222,11 +253,7 @@ define(['../../../js/common'], function () {
         //添加
         if (!id) {
 
-            init({
-                post: {
-                    category: {}
-                }
-            });
+            init({ post: { category: {} } });
 
             return false;
         }

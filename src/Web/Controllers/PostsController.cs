@@ -305,14 +305,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
             #region 获取文章所属分类
 
-            Category category = null;
-
-            if (!string.IsNullOrWhiteSpace(categoryId))
-            {
-                category = Category.Get(categoryId);
-
-                if (categoryId == null) return new { code = -3, msg = "指定的分类不存在" };
-            }
+            Category category = category = Category.Get(categoryId);
+            if (category == null) return new { code = -3, msg = "指定的分类不存在" };
 
             #endregion
 
@@ -334,6 +328,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     post.DateCreated = !string.IsNullOrEmpty(dateCreated) ? dateCreated.ToDateTime() : DateTime.Now;
                     post.UserId = jc.UserName;
                     post.SiteId = site.Id;
+                    post.DisplayName = jc.User.Info.DisplayName;
 
                     cx.Add(post, true);
                 }
@@ -344,10 +339,9 @@ namespace Kiss.Components.Site.Web.Controllers
                 post.Text = text;
                 post.Summary = summary;
 
-                post.CategoryId = category == null ? string.Empty : category.Id;
+                post.CategoryId = category.Id;
                 post.SortOrder = sortOrder;
                 post.ViewCount = viewCount == 0 ? post.ViewCount : viewCount;
-                post.DisplayName = jc.User.Info.DisplayName;
 
                 //同一个栏目下只能有一个文章被置顶
                 if (isTop) Posts.Where("CategoryId = {0}", post.CategoryId).Set("IsTop", false).Update();
