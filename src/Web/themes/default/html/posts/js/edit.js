@@ -97,6 +97,8 @@ define(['../../../js/common'], function () {
                     if (r.code < 0) {
 
                         alert(r.msg || '发生未知错误，请刷新后尝试');
+
+                        e.data('pending', false);
                         return false;
                     }
 
