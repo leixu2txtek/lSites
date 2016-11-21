@@ -164,7 +164,7 @@ namespace Kiss.Components.Site.Web.Controllers
         #region 栏目信息
 
         /// <summary>
-        /// 获取站点下的栏目详细信息
+        /// 获取站点下的栏目详细信息（包含子栏目）
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="siteId">站点ID</param>
@@ -174,10 +174,19 @@ namespace Kiss.Components.Site.Web.Controllers
         ///     data = 
         ///     [
         ///         {
-        ///             id = "",            //栏目的ID
-        ///             title = "",         //栏目的标题
-        ///             url = "",           //栏目的Url
-        ///             show_in_menu = ""   //栏目是否在菜单上显示
+        ///             id = "",                //栏目的ID
+        ///             title = "",             //栏目的标题
+        ///             url = "",               //栏目的Url
+        ///             show_in_menu = "",      //栏目是否在菜单上显示
+        ///             children = 
+        ///             [
+        ///                 {
+        ///                     id = "",                //栏目的ID
+        ///                     title = "",             //栏目的标题
+        ///                     url = "",               //栏目的Url
+        ///                     show_in_menu = "",      //栏目是否在菜单上显示
+        ///                 }
+        ///             ]
         ///         }
         ///     ]
         /// }
@@ -191,21 +200,91 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (site == null) return new { code = -1, msg = "指定的站点不存在" };
 
-            var categories = (from q in Category.CreateContext()
-                              where q.SiteId == site.Id
-                              orderby q.SortOrder ascending
-                              select new
-                              {
-                                  id = q.Id,
-                                  title = q.Title,
-                                  url = q.Url,
-                                  show_in_menu = q.ShowInMenu
-                              }).ToList();
+            var all = (from q in Category.CreateContext()
+                       where q.SiteId == site.Id
+                       orderby q.SortOrder ascending
+                       select q).ToList();
+
+            var categories = new ArrayList();
+
+            foreach (var item in all.Where(a => { return a.ParentId == string.Empty; }).ToList())
+            {
+                categories.Add(new
+                {
+                    id = item.Id,
+                    title = item.Title,
+                    url = item.Url,
+                    show_in_menu = item.ShowInMenu,
+                    children = (from q in all
+                                where q.ParentId == item.Id
+                                select new
+                                {
+                                    id = q.Id,
+                                    title = q.Title,
+                                    url = q.Url,
+                                    show_in_menu = q.ShowInMenu
+                                }).ToList()
+                });
+            }
 
             return new
             {
                 code = 1,
                 data = categories
+            };
+        }
+
+        /// <summary>
+        /// 获取相同级别的栏目信息
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="categoryId">栏目ID</param>
+        /// <returns></returns>
+        /// leixu
+        /// 2016年11月21日14:05:01
+        [HttpPost]
+        object get_same_level_categories(string siteId, string categoryId)
+        {
+            var site = Site.Get(siteId);
+
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var category = (from q in Category.CreateContext()
+                            where q.SiteId == site.Id && q.Id == categoryId
+                            select q).FirstOrDefault();
+
+            if (category == null) return new { code = -2, msg = "指定的栏目不存在" };
+
+            var same_categories = (from q in Category.CreateContext()
+                                   where q.ParentId == category.ParentId
+                                   select new
+                                   {
+                                       id = q.Id,
+                                       title = q.Title,
+                                       url = q.Url,
+                                       show_in_menu = q.ShowInMenu
+                                   }).ToList();
+
+            #region 如果父级不存在，则展示自己本身
+
+            var parent = Category.Get(category.ParentId);
+
+            if (parent == null) parent = category;
+
+            #endregion
+
+            return new
+            {
+                code = 1,
+                parent = new
+                {
+                    id = parent.Id,
+                    title = parent.Title,
+                    url = parent.Url,
+                    show_in_menu = parent.ShowInMenu
+                },
+                categories = same_categories
             };
         }
 
