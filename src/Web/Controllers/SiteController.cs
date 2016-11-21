@@ -235,6 +235,20 @@ namespace Kiss.Components.Site.Web.Controllers
                     site.UserId = jc.UserName;
 
                     cx.Add(site, true);
+
+                    #region 将当前用户加入该站点
+
+                    var relation = new SiteUsers();
+
+                    relation.Id = StringUtil.UniqueId();
+                    relation.DateCreated = DateTime.Now;
+                    relation.SiteId = site.Id;
+                    relation.UserId = jc.UserName;
+                    relation.PermissionLevel = PermissionLevel.ADMIN;
+
+                    cx_relation.Add(relation, true);
+
+                    #endregion
                 }
 
                 site.Title = title;
@@ -248,21 +262,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 site.NeedAuditPost = needAuditPost;
 
                 cx.SubmitChanges();
-
-                #region 将当前用户加入该站点
-
-                var relation = new SiteUsers();
-
-                relation.Id = StringUtil.UniqueId();
-                relation.DateCreated = DateTime.Now;
-                relation.SiteId = site.Id;
-                relation.UserId = jc.UserName;
-                relation.PermissionLevel = PermissionLevel.ADMIN;
-
-                cx_relation.Add(relation, true);
                 cx_relation.SubmitChanges();
-
-                #endregion
             }
 
             return new { code = 1, msg = "保存成功" };

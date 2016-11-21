@@ -15,10 +15,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display:none;">
+    <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display: none;">
         <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
     </nav>
-    <div class="container-fluid group-container content_container" style="display:none;">
+    <div class="container-fluid group-container content_container" style="display: none;">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
             </div>
@@ -57,13 +57,13 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">名称：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" name="title" placeholder="名称" value={{title}}>
+                    <input type="text" class="form-control" name="title" placeholder="名称" value="{{title}}">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">域名：</label>
                 <div class="col-sm-10 group-information-input">
-                    <input type="text" class="form-control" name="domain" placeholder="域名" value={{domain}}>
+                    <input type="text" class="form-control" name="domain" placeholder="域名" value="{{domain}}">
                 </div>
             </div>
             <div class="form-group">
@@ -76,7 +76,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">关键字：</label>
                 <div class="col-sm-10 group-information-input">
-                    <textarea rows="5" style="height:80px;" name="keyWords" class="form-control">{{key_words}}</textarea>
+                    <textarea rows="5" style="height: 80px;" name="keyWords" class="form-control">{{key_words}}</textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -88,9 +88,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label">主题：</label>
                 <div class="col-sm-10 group-information-input">
-                    <select class="form-control" style="width: 100%;" name="theme" data-placeholder="站点主题" data-selected="{{theme}}">
-                        <option value="default">default</option>
-                    </select>
+                    <input type="text" class="form-control" name="theme" placeholder="站点主题" value="{{theme}}">
                 </div>
             </div>
             <div class="form-group">

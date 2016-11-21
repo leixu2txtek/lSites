@@ -143,10 +143,6 @@ define(['../../../js/common'], function () {
                                 cancelVal: '取消'
                             });
 
-                        $('[name=theme]', edit_form).select2({
-                            minimumResultsForSearch: -1
-                        }).val($('[name=theme]', edit_form).data('selected')).trigger('change');
-
                         edit_form.gform({
                             url: config.host + 'site/save',
                             beforeSubmit: function () {
@@ -171,7 +167,6 @@ define(['../../../js/common'], function () {
                                     return false;
                                 }
 
-
                                 if (keyWords.length == 0) {
 
                                     $('[name=keyWords]', edit_form).parent().addClass('has-error');
@@ -179,7 +174,6 @@ define(['../../../js/common'], function () {
 
                                     return false;
                                 }
-
                             },
                             onSuccess: function (r) {
 

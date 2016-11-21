@@ -37,10 +37,6 @@ define(['../../../js/common'], function () {
 
             form = $(template('setting_form', r.data));
 
-            $('[name=theme]', form).select2({
-                minimumResultsForSearch: -1
-            }).val($('[name=theme]', form).data('selected')).trigger('change');
-
             $('.btn_preview', form).on('click', function () {
 
                 var url = $('[name=logo]', form).data('file');
