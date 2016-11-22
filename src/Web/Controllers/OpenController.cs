@@ -240,7 +240,27 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <remarks>请求方式：POST</remarks>
         /// <param name="siteId">站点ID</param>
         /// <param name="categoryId">栏目ID</param>
-        /// <returns></returns>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：指定的站点不存在，-2：指定的栏目不存在
+        ///     parent = 
+        ///     {
+        ///         id = "",                        //父级栏目ID          
+        ///         title = "",                     //父级栏目标题
+        ///         url = "",                       //父级栏目地址
+        ///         show_in_menu = false            //是否显示在菜单上
+        ///     },
+        ///     categories = 
+        ///     [
+        ///         {
+        ///             id = "",                    //栏目ID
+        ///             title = "",                 //栏目标题
+        ///             url = "",                   //栏目地址
+        ///             show_in_menu = false        //是否显示在菜单上
+        ///         }
+        ///     ]
+        /// }
+        /// </returns>
         /// leixu
         /// 2016年11月21日14:05:01
         [HttpPost]
@@ -257,7 +277,7 @@ namespace Kiss.Components.Site.Web.Controllers
             if (category == null) return new { code = -2, msg = "指定的栏目不存在" };
 
             var same_categories = (from q in Category.CreateContext()
-                                   where q.ParentId == category.ParentId
+                                   where q.ParentId == category.ParentId && q.SiteId == site.Id
                                    select new
                                    {
                                        id = q.Id,
