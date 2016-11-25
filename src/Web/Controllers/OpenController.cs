@@ -458,6 +458,108 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
+        /// 获取指定栏目下带图片的文章
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="categoryId">栏目ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                           //1：获取成功
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //文章ID
+        ///             display_name = "",          //文章创建者显示名
+        ///             title = "",                 //文章标题
+        ///             date_created = "",          //文章创建时间
+        ///             sub_title = "",             //文章子标题
+        ///             summary = "",               //文章的摘要
+        ///             text = "",                  //文章内容（纯文字）
+        ///             view_count = "",            //文章的查看次数
+        ///             image_url = ""              //文章的第一个图片
+        ///         }
+        ///     ],
+        ///     paging = 
+        ///     {
+        ///         total_count = 0,            //总数
+        ///         page_size = 10,             //分页大小
+        ///         page_index = 1              //当前页码
+        ///     }
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年11月25日10:36:57
+        [HttpPost]
+        object get_post_with_images(string siteId, string categoryId)
+        {
+            var site = Site.Get(siteId);
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var category = Category.Get(categoryId);
+            if (category == null) return new { code = -2, msg = "指定的栏目不存在" };
+
+            WebQuery q = new WebQuery();
+            q.Id = "posts.list.images";
+            q.LoadCondidtion();
+
+            q["siteId"] = site.Id;
+            q["categoryId"] = category.Id;
+
+            q.TotalCount = Posts.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            var dt = Posts.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                #region 处理扩展字段
+
+                var props = new Dictionary<string, string>();
+
+                if (!(item["propertyName"] is DBNull) && !(item["propertyValue"] is DBNull))
+                {
+                    var attributes = new ExtendedAttributes();
+                    attributes.SetData(item["propertyName"].ToString(), item["propertyValue"].ToString());
+
+                    foreach (string key in attributes.Keys)
+                    {
+                        props.Add(key, attributes[key]);
+                    }
+                }
+
+                #endregion
+
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    display_name = item["displayName"].ToString(),
+                    title = item["title"].ToString(),
+                    date_published = item["datePublished"].ToDateTime().ToUniversalTime(),
+                    sub_title = item["subTitle"].ToString(),
+                    summary = item["summary"].ToString(),
+                    text = item["text"].ToString(),
+                    view_count = item["viewCount"].ToInt(),
+                    image_url = item["imageUrl"].ToString(),
+                    props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
+                });
+            }
+
+            return new
+            {
+                code = 1,
+                data = data,
+                paging = new
+                {
+                    total_count = q.TotalCount,
+                    page_size = q.PageSize,
+                    page_index = q.PageIndex1
+                }
+            };
+        }
+
+        /// <summary>
         /// 获取指定栏目下最新一篇文章
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
