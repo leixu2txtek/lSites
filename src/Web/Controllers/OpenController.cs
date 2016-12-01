@@ -913,9 +913,9 @@ namespace Kiss.Components.Site.Web.Controllers
                 {
                     id = item["id"].ToString(),
                     display_name = item["displayName"].ToString(),
-                    title = item["title"].ToString().Replace(search, string.Format("<b style='color:red'>{0}</b>", search)),
+                    title = item["title"].ToString(),
                     date_published = item["datePublished"].ToDateTime().ToUniversalTime(),
-                    text = item["text"].ToString().Replace(search, string.Format("<b style='color:red'>{0}</b>", search)),
+                    text = item["text"].ToString(),
                     view_count = item["viewCount"].ToInt()
                 });
             }
