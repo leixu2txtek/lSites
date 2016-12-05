@@ -28,16 +28,13 @@ define(['../../../js/common'], function () {
                     lock: true,
                     position: '50% 50%',
                     ok: function () {
+
                         add_form.submit();
                     },
                     okVal: '保存',
                     cancel: false,
                     cancelVal: '取消'
                 });
-
-            $('[name=theme]', add_form).select2({
-                minimumResultsForSearch: -1
-            });
 
             add_form.gform({
                 url: config.host + 'site/save',
@@ -63,7 +60,6 @@ define(['../../../js/common'], function () {
                         return false;
                     }
 
-
                     if (keyWords.length == 0) {
 
                         $('[name=keyWords]', add_form).parent().addClass('has-error');
@@ -71,7 +67,6 @@ define(['../../../js/common'], function () {
 
                         return false;
                     }
-
                 },
                 onSuccess: function (r) {
 
