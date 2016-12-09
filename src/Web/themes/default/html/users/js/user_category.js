@@ -25,46 +25,85 @@ define(['../../../js/common'], function () {
                     width: '300px',
                     height: '300px',
                     position: '50% 50%',
-                    ok: function () {
+                    button: [
+                        {
+                            name: '添加所有',
+                            callback: function () {
 
-                        var nodes = p_tree.getSelectedNodes(),
-                            categoryIds = nodes.map(function (a) { return a.id; });
+                                if (!confirm('确认添加所有栏目至当前用户？')) return false;
 
-                        if (categoryIds.length == 0) {
+                                $.post(config.host + 'user/add_category_user', {
+                                    siteId: siteId,
+                                    userId: userId,
+                                    all: true
+                                }, function (r) {
 
-                            alert('请选择要添加的栏目信息');
-                            return false;
-                        }
+                                    r = handleException(r);
 
-                        $.post(config.host + 'user/add_category_user', {
-                            siteId: siteId,
-                            userId: userId,
-                            categoryIds: categoryIds
-                        }, function (r) {
+                                    if (!r) return false;
+                                    if (r.code < 0) {
 
-                            r = handleException(r);
+                                        alert(r.msg || '发生未知错误，请刷新后尝试');
+                                        return false;
+                                    }
 
-                            if (!r) return false;
-                            if (r.code < 0) {
+                                    dlg.close();
 
-                                alert(r.msg || '发生未知错误，请刷新后尝试');
+                                    $('[name=page]', form).val(1);
+                                    form.submit();
+
+                                }, 'json');
+
+                                return false;
+                            },
+                            focus: true
+                        },
+                        {
+                            name: '添加选中',
+                            callback: function () {
+
+                                var nodes = p_tree.getCheckedNodes(),
+                                    categoryIds = nodes.map(function (a) { return a.id; });
+
+                                if (categoryIds.length == 0) {
+
+                                    alert('请选择要添加的栏目信息');
+                                    return false;
+                                }
+
+                                if (!confirm('确认添加选中栏目至当前用户？')) return false;
+
+                                $.post(config.host + 'user/add_category_user', {
+                                    siteId: siteId,
+                                    userId: userId,
+                                    categoryIds: categoryIds
+                                }, function (r) {
+
+                                    r = handleException(r);
+
+                                    if (!r) return false;
+                                    if (r.code < 0) {
+
+                                        alert(r.msg || '发生未知错误，请刷新后尝试');
+                                        return false;
+                                    }
+
+                                    dlg.close();
+
+                                    $('[name=page]', form).val(1);
+                                    form.submit();
+
+                                }, 'json');
+
                                 return false;
                             }
-
-                            dlg.close();
-
-                            $('[name=page]', form).val(1);
-                            form.submit();
-
-                        }, 'json');
-
-                    },
-                    okVal: '保存',
-                    cancel: false,
-                    cancelVal: '取消'
+                        }]
                 });
 
             p_tree = $.fn.zTree.init(p_tree, {
+                check: {
+                    enable: true
+                },
                 async: {
                     enable: true,
                     url: config.host + 'category/list',

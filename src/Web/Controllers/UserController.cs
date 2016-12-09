@@ -342,7 +342,10 @@ namespace Kiss.Components.Site.Web.Controllers
                 if (relation.UserId == jc.UserName) return new { code = -2, msg = "不能删除自己的账号" };
 
                 //删除用户信息
-                User.Where("Id = {0}", userId).Delete();
+                User.Where("Id = {0}", relation.UserId).Delete();
+
+                //删除栏目与用户的关系
+                CategoryUsers.Where("SiteId = {0}", site.Id).Where("UserId = {0}", relation.UserId).Delete();
 
                 //删除站点用户关系
 
@@ -351,6 +354,45 @@ namespace Kiss.Components.Site.Web.Controllers
             }
 
             return new { code = 1, msg = "删除成功" };
+        }
+
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="userId">用户ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,               //-1：指定的用户在该站点下不存在，-2：指定的用户已不存在
+        ///     msg = "重置成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年12月9日13:57:38
+        [HttpPost]
+        object reset(string userId)
+        {
+            var site = (Site)jc["site"];
+
+            var relation = (from q in SiteUsers.CreateContext()
+                            where q.SiteId == site.Id && q.UserId == userId
+                            select q).FirstOrDefault();
+
+            if (relation == null) return new { code = -1, msg = "指定的用户在该站点下不存在" };
+
+            using (ILinqContext<User> cx = User.CreateContext())
+            {
+                var user = User.Get(cx, relation.UserId);
+
+                if (user == null) return new { code = -2, msg = "指定的用户已不存在" };
+
+                //重置密码
+                user.UpdatePassword("111111");
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "重置成功" };
         }
 
         #endregion
@@ -440,6 +482,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="userId">用户ID</param>
+        /// <param name="all">全部栏目</param>
         /// <param name="categoryIds">栏目ID数组</param>
         /// <returns>
         /// {
@@ -450,7 +493,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年10月10日10:45:38
         [HttpPost]
-        object add_category_user(string userId, string[] categoryIds)
+        object add_category_user(string userId, bool all, string[] categoryIds)
         {
             #region 校验参数
 
@@ -458,12 +501,29 @@ namespace Kiss.Components.Site.Web.Controllers
             var user = User.Get(userId);
 
             if (user == null) return new { code = -1, msg = "指定的用户不存在" };
-            if (categoryIds.Length == 0) return new { code = -2, msg = "要添加的栏目不能为空" };
+            if (!all && categoryIds.Length == 0) return new { code = -2, msg = "要添加的栏目不能为空" };
 
+            #region 处理栏目
 
-            var categories = (from q in Category.CreateContext()
-                              where q.SiteId == site.Id && new List<string>(categoryIds).Contains(q.Id)
-                              select q).ToList();
+            List<Category> categories = null;
+            IQueryable<Category> query = null;
+
+            if (all)
+            {
+                query = (from q in Category.CreateContext()
+                         where q.SiteId == site.Id
+                         select q);
+            }
+            else
+            {
+                query = (from q in Category.CreateContext()
+                         where q.SiteId == site.Id && new List<string>(categoryIds).Contains(q.Id)
+                         select q);
+            }
+
+            categories = query.ToList();
+
+            #endregion
 
             if (categories.Count == 0) return new { code = -3, msg = "指定的栏目不存在" };
 
