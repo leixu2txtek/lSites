@@ -17,8 +17,8 @@ define(['../../../js/common'], function () {
         $('#btn_add_user', nav).on('click', function () {
 
             var edit_form = $(template('users_edit_form', {
-                    siteId: util.get_query('siteId')
-                })),
+                siteId: util.get_query('siteId')
+            })),
                 dlg = $M({
                     title: '添加用户信息',
                     content: edit_form[0],
@@ -118,6 +118,7 @@ define(['../../../js/common'], function () {
                     return false;
                 });
 
+                //编辑用户信息                
                 $('.edit', table).on('click', function () {
 
                     $.post(config.host + 'user/detail', {
@@ -175,6 +176,33 @@ define(['../../../js/common'], function () {
                                 form.submit();
                             }
                         });
+
+                    }, 'json');
+
+                    return false;
+                });
+
+                //重置密码
+                $('.reset', table).on('click', function () {
+
+                    if (!confirm('是否确认重置密码？')) return false;
+
+                    $.post(config.host + 'user/reset', {
+                        userId: $(this).data('id'),
+                        siteId: siteId
+                    }, function (r) {
+
+                        r = handleException(r);
+
+                        if (!r) return false;
+                        if (r.code < 0) {
+
+                            alert(r.msg || '发生未知错误，请刷新后尝试');
+                            return false;
+                        }
+
+                        alert('密码已初始化为111111');
+                        form.submit();
 
                     }, 'json');
 

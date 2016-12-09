@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CMS内容管理系统</title>
-
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
@@ -27,9 +26,12 @@
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3>
                             <i class="iconfont group-icon group-icon-207"></i>用户管理
-							<span>（共<span id="total_count">...</span>位）</span>
-                            <a href="javascript:(0);" class="btn btn-link group-article-addButton" id="btn_add_user">
-                                <i class="glyphicon glyphicon-plus group-nav-more"></i>新增用户
+                            <span>（共<span id="total_count">...</span>位）</span>
+                            <a href="javascript:voide(0);" class="btn btn-link group-article-addButton" id="btn_add_user">
+                                <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新用户
+                            </a>
+                            <a href="javascript:voide(0);" class="btn btn-link group-article-addButton" id="btn_add_user">
+                                <i class="glyphicon glyphicon-plus group-nav-more"></i>添加已有用户
                             </a>
                         </h3>
                     </nav>
@@ -86,13 +88,16 @@
                     <td>{{item.date_created | format_date}}</td>
                     <td>{{item.date_last_visit | format_date}}</td>
                     <td class="group-article-tabelTools">
-                        <a href="javascript:(0);" title="编辑用户信息" target="_blank" class="edit" data-id="{{item.id}}">
-                            <i class="iconfont group-icon group-icon-bianji"></i></a>
-                        <a href="javascript:(0);" title="删除" class="delete" data-id="{{item.id}}">
-                            <i class="iconfont group-icon group-icon-shanchu"></i>
+                        <a href="javascript:void(0);" title="编辑用户信息" target="_blank" class="edit" data-id="{{item.id}}">
+                            <i class="iconfont group-icon-bianji"></i></a>
+                        <a href="javascript:void(0);" title="删除" class="delete" data-id="{{item.id}}" style="padding-right: 1px;">
+                            <i class="iconfont group-icon-shanchu"></i>
+                        </a>
+                           <a href="javascript:void(0);" title="重置密码" class="reset" data-id="{{item.id}}" style="padding-right: 0px;">
+                            <i class="iconfont group-icon-set"></i>
                         </a>
                         <a href="user_category.html?siteId={{site_id}}&userId={{item.id}}" title="栏目管理" class="admin" data-id="{{item.id}}">
-                            <i class="iconfont group-icon group-icon-lmgl"></i>
+                            <i class="iconfont group-icon-lmgl"></i>
                         </a>
                     </td>
                 </tr>

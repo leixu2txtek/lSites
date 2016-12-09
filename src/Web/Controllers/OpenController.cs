@@ -278,6 +278,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
             var same_categories = (from q in Category.CreateContext()
                                    where q.ParentId == category.ParentId && q.SiteId == site.Id
+                                   orderby q.SortOrder ascending
                                    select new
                                    {
                                        id = q.Id,
