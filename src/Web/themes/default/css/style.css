@@ -298,7 +298,9 @@ body .has-error .form-control {
     border: none;
     font-size: 12px;
     padding: 5px 10px 5px 7px;
-    margin-left: 24px;
+    margin-right: 21px;
+    float: right;
+    margin-top: 14px;
 }
 
 .group-article-addButton:hover,
@@ -685,7 +687,7 @@ body .has-error .form-control {
     padding: 0px 8px;
 }
 
-.users-width{
+.users-width {
     width: 200px;
     text-align: left !important;
 }
