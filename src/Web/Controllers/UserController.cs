@@ -341,9 +341,6 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 if (relation.UserId == jc.UserName) return new { code = -2, msg = "不能删除自己的账号" };
 
-                //删除用户信息
-                User.Where("Id = {0}", relation.UserId).Delete();
-
                 //删除栏目与用户的关系
                 CategoryUsers.Where("SiteId = {0}", site.Id).Where("UserId = {0}", relation.UserId).Delete();
 
