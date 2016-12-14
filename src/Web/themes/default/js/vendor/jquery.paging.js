@@ -11,7 +11,7 @@
 
             var page_count = Math.ceil(opts.total_count / opts.page_size),
                 container = $('<div class="x-paging"></div>'),
-                left = '<div class="x-paging-left">共 <span style="height:20px;">{{total_count}}</span> 条，每页显示<select name="pageSize" style="width: 50px; margin: 0px 5px;"></select>条</div>',
+                left = '<div class="x-paging-left">共 <span style="height:20px;">{{total_count}}</span> 条<span class="x-paging-left-page">，每页显示<select name="pageSize" style="width: 50px; margin: 0px 5px;"></select>条</span></div>',
                 right = '<ul class="x-paging-right"></ul>';
 
             //render left
@@ -20,25 +20,31 @@
                 left = left.replace('{{total_count}}', opts.total_count);
                 left = $(left);
 
-                var options = [10, 20, 50, 100],
-                    temp = [];
+                if (!opts.show_left_page) {
 
-                if (options.filter(function (a) { return a == opts.page_size; }).length == 0) {
+                    left.find('.x-paging-left-page').remove();
+                } else {
 
-                    temp = options.filter(function (a) { return a > opts.page_size; });
+                    var options = [10, 20, 50, 100],
+                        temp = [];
 
-                    options.splice(temp.indexOf(temp[0]), 0, opts.page_size);
+                    if (options.filter(function (a) { return a == opts.page_size; }).length == 0) {
+
+                        temp = options.filter(function (a) { return a > opts.page_size; });
+
+                        options.splice(temp.indexOf(temp[0]), 0, opts.page_size);
+                    }
+
+                    //构造选项HTML                
+                    temp = '';
+                    $.each(options, function (i, v) {
+                        temp += '<option value="' + v + '" >' + v + '</option>';
+                    });
+
+                    $('select', left).append(temp);
+
+                    $('select', left).val(opts.page_size);
                 }
-
-                //构造选项HTML                
-                temp = '';
-                $.each(options, function (i, v) {
-                    temp += '<option value="' + v + '" >' + v + '</option>';
-                });
-
-                $('select', left).append(temp);
-
-                $('select', left).val(opts.page_size);
 
                 container.append(left);
             }
@@ -90,7 +96,7 @@
                 }
 
                 //构造当前页码附近的页数，右边2个
-                for (var i = 1; i <= (display_count - p.length + 1); i++) {
+                for (var i = 1; i <= (display_count - p.length + 1) ; i++) {
 
                     if (opts.page_index + i > page_count) continue;
 
@@ -151,7 +157,7 @@
                 '.x-paging-right .x-paging-ellipsis { margin: 0px 4px; border: 0px; }'].join('');
 
             $('head').append('<style type="text/css" data-type="x-paging">' + css + '</style>');
-        } ();
+        }();
 
         return $(this).each(function (i, v) {
 
@@ -175,6 +181,9 @@
                 form.submit();
             });
 
+            //保留自定义的CSS
+            container.attr('style', $(this).attr('style'));
+
             $(this).replaceWith(container);
         });
     };
@@ -185,13 +194,14 @@
         page_size: 10,          //分页大小
         show_prev: true,        //显示上一页
         show_next: true,        //显示下一页
-        prev_txt: '上一页',	 //上一页文字
+        prev_txt: '上一页',	    //上一页文字
         next_txt: '下一页',   　//下一页文字
         show_start: false,      //显示首页
         show_end: false,        //显示尾页
         start_txt: '首页',      //首页显示文字
         end_txt: '尾页',        //末页显示文字
-        show_left_info: true    //是否显示左侧总数信息
+        show_left_info: true,  //是否显示左侧总数信息
+        show_left_page: true    //显示分页数
     };
 
 })(jQuery);

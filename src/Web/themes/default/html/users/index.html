@@ -27,10 +27,10 @@
                         <h3>
                             <i class="iconfont group-icon group-icon-207"></i>用户管理
                             <span>（共<span id="total_count">...</span>位）</span>
-                            <a href="javascript:voide(0);" class="btn btn-link group-article-addButton" id="btn_add_user">
+                            <a href="#" class="btn btn-link group-article-addButton" id="btn_add_user">
                                 <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新用户
                             </a>
-                            <a href="javascript:voide(0);" class="btn btn-link group-article-addButton" id="btn_add_user">
+                            <a href="#" class="btn btn-link group-article-addButton" id="btn_add_exist_user">
                                 <i class="glyphicon glyphicon-plus group-nav-more"></i>添加已有用户
                             </a>
                         </h3>
@@ -40,7 +40,7 @@
                             <div class="group-articleform-top">
                                 <div class="form-group group-users-form">
                                     <label class="control-label">用户名：</label>
-                                    <input placeholder="用户名" class="form-control" name="displayName">
+                                    <input placeholder="用户名" class="form-control" name="userName">
                                 </div>
                                 <div class="form-group group-users-form">
                                     <label class="control-label">角色：</label>
@@ -80,7 +80,9 @@
                 {{if data.length > 0}} {{each data as item i}}
                 <tr id="{{item.id}}">
                     <td>{{item.user_name}}</td>
-                    <td class="users-width"><div class="users-autocut">{{item.display_name}}</div></td>
+                    <td class="users-width">
+                        <div class="users-autocut">{{item.display_name}}</div>
+                    </td>
                     <td>{{item.mobile}}</td>
                     <td>{{item.email}}</td>
                     <td>{{item.permission}}</td>
@@ -93,8 +95,8 @@
                         <a href="javascript:void(0);" title="删除" class="delete" data-id="{{item.id}}" style="padding-right: 1px;">
                             <i class="iconfont group-icon-shanchu"></i>
                         </a>
-                           <a href="javascript:void(0);" title="重置密码" class="reset" data-id="{{item.id}}" style="padding-right: 0px;">
-                            <i class="iconfont group-icon-set"></i>
+                        <a href="javascript:void(0);" title="重置密码" class="reset" data-id="{{item.id}}" style="padding-right: 0px;">
+                            <i class="iconfont group-icon-set" style="font-size: 16px;"></i>
                         </a>
                         <a href="user_category.html?siteId={{site_id}}&userId={{item.id}}" title="栏目管理" class="admin" data-id="{{item.id}}">
                             <i class="iconfont group-icon-lmgl"></i>
@@ -139,6 +141,29 @@
             <div class="form-group addForm-input">
                 <label class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>角色：</label>
                 <select data-placeholder="选择角色" name="permission" style="width: 280px;" data-selected="{{permission}}">
+                    <option></option>
+                    <option value="0">管理员</option>
+                    <option value="1">审核人</option>
+                    <option value="2">编辑</option>
+                </select>
+            </div>
+        </form>
+    </script>
+
+    <script type="text/html" id="exist_user_form">
+        <form class="add-form" method="post">
+            <input type="hidden" name="siteId" value="{{site_id}}" />
+
+            <div class="form-group addForm-input">
+                <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>用户名：</label>
+                <select style="width: 280px;" name="userId">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="form-group addForm-input">
+                <label class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>角色：</label>
+                <select data-placeholder="请选择角色" name="permission" style="width: 280px;">
                     <option></option>
                     <option value="0">管理员</option>
                     <option value="1">审核人</option>

@@ -85,11 +85,12 @@ namespace Kiss.Components.Site.Web.Controllers
                     title = site.Title,
                     domain = site.Domain,
                     logo = site.Logo,
+                    ico = site.ICO,
                     key_words = site.KeyWords,
                     description = site.Description,
                     theme = site.Theme,
                     sort_order = site.SortOrder,
-                    need_audit_post = site.NeedAuditPost
+                    need_audit_post = site.NeedAuditPost ? 1 : 0
                 }
             };
         }
@@ -115,7 +116,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年6月29日19:55:25
         [HttpPost]
-        object save(string id, string title, string domain, string keyWords, string description, string theme, int sortOrder, bool needAuditPost)
+        object save(string id, string title, string domain, string keyWords, string description, string theme, int sortOrder, int needAuditPost)
         {
             #region 校验参数 & 校验参数的长度
 
@@ -194,7 +195,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     ico = Convert.ToBase64String(file.InputStream.ToBytes());
 
                     //存储为 BASE64 格式的
-                    ico = string.Format("data:image/{0};base64,{1}", extension, logo);
+                    ico = string.Format("data:image/x-icon;base64,{1}", extension, ico);
                 }
             }
             catch (Exception ex)
@@ -259,7 +260,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 site.SortOrder = sortOrder;
                 site.Logo = logo;
                 site.ICO = ico;
-                site.NeedAuditPost = needAuditPost;
+                site.NeedAuditPost = needAuditPost.ToBoolean();
 
                 cx.SubmitChanges();
                 cx_relation.SubmitChanges();

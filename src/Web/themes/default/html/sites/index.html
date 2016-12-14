@@ -26,7 +26,7 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                            <i class="iconfont group-icon group-icon-207"></i>站点列表
+                            <i class="iconfont group-icon-207"></i>站点列表
                           <span>（共<span id="total_count">...</span>个）</span>
                             <a href="javascript:(0);" class="btn btn-link group-article-addButton add-site" title="添加新站点">
                                 <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新站点</a>
@@ -84,15 +84,15 @@
                 <td>{{item.display_name}}</td>
                 <td>{{item.date_created | format_date}}</td>
                 <td class="group-site-tabelTools">
-                    <a href="javascript:(0);" class="tabelTools-edit edit" data-id="{{item.id}}" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="javascript:(0);" class="tabelTools-edit edit" data-id="{{item.id}}" title="编辑"><i class="iconfont group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}{{else}}
             <tr class="no-data-tr" style="background-color: none;">
                 <td colspan="9">
                     <div class="no-data">
-                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <i class="iconfont group-icon-zanwuneirong"></i>
                         <p>暂无数据</p>
                     </div>
                 </td>
@@ -105,28 +105,24 @@
 <script type="text/html" id="site_add_form">
     <form class="add-form" method="post">
         <input type="hidden" name="id" value="{{id}}" />
-        <div class="form-group addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>名称：</label>
+        <div class="addForm-input">
+            <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>名称：</label>
             <input type="text" name="title" class="form-control" value="{{title}}" />
         </div>
         <div class="addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>域名：</label>
+            <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>域名：</label>
             <input type="text" name="domain" class="form-control" value="{{domain}}" />
         </div>
-        <div class="form-group addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>LOGO：</label>
-            <input type="text" name="logo" class="form-control" value="" />
-        </div>
         <div class="addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>关键字：</label>
+            <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>关键字：</label>
             <textarea style="resize: none; height: 50px;" name="keyWords" class="form-control">{{key_words}}</textarea>
         </div>
         <div class="addForm-input">
             <label class="addForm-label">描述：</label>
             <textarea style="resize: none; height: 50px;" name="description" class="form-control">{{description}}</textarea>
         </div>
-        <div class=" form-group addForm-input ">
-            <label class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>主题：</label>
+        <div class="addForm-input ">
+            <label class="addForm-label "><em class="iconfont group-icon-xinghao "></em>主题：</label>
             <input type="text" name="theme" class="form-control" value="{{theme}}" />
         </div>
         <div class="addForm-input ">

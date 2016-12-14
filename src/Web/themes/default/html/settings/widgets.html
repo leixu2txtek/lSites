@@ -26,10 +26,10 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon group-icon-207"></i>挂件列表
+                          <i class="iconfont group-icon-207"></i>挂件列表
                           <span>（共<span id="total_count">...</span>个）</span>
                         <a href="javascript:(0);" class="btn btn-link group-article-addButton add-widgets" title="添加新挂件">
-                            <i class="iconfont group-icon group-icon-tianjia"></i>添加新挂件</a>
+                            <i class="iconfont group-icon-tianjia"></i>添加新挂件</a>
                         </h3>
                     </nav>
 
@@ -76,15 +76,15 @@
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{item.display_name}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="javascript:(0);" title="编辑" data-id="{{item.id}}" class="edit"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="删除挂件" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="javascript:(0);" title="编辑" data-id="{{item.id}}" class="edit"><i class="iconfont group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="删除挂件" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}} {{else}}
             <tr class="no-data-tr" style="background-color:none;">
                 <td colspan="7">
                     <div class="no-data">
-                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <i class="iconfont group-icon-zanwuneirong"></i>
                         <p>暂无数据</p>
                     </div>
                 </td>
@@ -100,15 +100,15 @@
         <input type="hidden" name="siteId" value="{{site_id}}" />
 
         <div class="addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>挂件ID：</label>
+            <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>挂件ID：</label>
             <input type="text" name="name" class="form-control" value="{{name}}" />
         </div>
         <div class="addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>挂件名称：</label>
+            <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>挂件名称：</label>
             <input type="text" name="title" class="form-control" value="{{title}}" />
         </div>
         <div class="addForm-input">
-            <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>占位符ID：</label>
+            <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>占位符ID：</label>
             <input type="text" name="containerId" class="form-control" value="{{container_id}}" />
         </div>
     </form>

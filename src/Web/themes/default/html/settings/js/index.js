@@ -20,9 +20,7 @@ define(['../../../js/common'], function () {
             url: config.host + 'site/detail',
             type: 'POST',
             dataType: 'json',
-            data: {
-                id: siteId
-            },
+            data: { id: siteId },
             async: false
         }).done(function (r) {
 
@@ -37,27 +35,7 @@ define(['../../../js/common'], function () {
 
             form = $(template('setting_form', r.data));
 
-            $('.btn_preview', form).on('click', function () {
-
-                var url = $('[name=logo]', form).data('file');
-
-                if (url.length == 0) {
-
-                    alert('图片地址不正确，预览失败');
-                    return false;
-                }
-
-                $M({
-                    title: '预览',
-                    content: '<img title="LOGO 预览" src="' + url + '"></img',
-                    lock: true,
-                    position: '50 % 50 %',
-                    cancel: false,
-                    cancelVal: '取消'
-                });
-
-                return false;
-            });
+            $('[name=needAuditPost]', form).select2({ minimumResultsForSearch: -1 }).val($('[name=needAuditPost]', form).prop('data-value')).trigger('change');
 
             form.gform({
                 url: config.host + 'site/save',
@@ -115,6 +93,50 @@ define(['../../../js/common'], function () {
                     // 保存成功后
                     alert('保存成功');
                 }
+            });
+
+            $('.btn_preview_logo', form).on('click', function () {
+
+                var url = $('[name=logo]', form).data('file');
+
+                if (url.length == 0) {
+
+                    alert('图片地址不正确，预览失败');
+                    return false;
+                }
+
+                $M({
+                    title: '预览',
+                    content: '<img title="LOGO 预览" src="' + url + '"></img',
+                    lock: true,
+                    position: '50 % 50 %',
+                    cancel: false,
+                    cancelVal: '取消'
+                });
+
+                return false;
+            });
+
+            $('.btn_preview_ico', form).on('click', function () {
+
+                var url = $('[name=ico]', form).data('file');
+
+                if (url.length == 0) {
+
+                    alert('图片地址不正确，预览失败');
+                    return false;
+                }
+
+                $M({
+                    title: '预览',
+                    content: '<img title="ICO 预览" src="' + url + '"></img',
+                    lock: true,
+                    position: '50 % 50 %',
+                    cancel: false,
+                    cancelVal: '取消'
+                });
+
+                return false;
             });
 
             $('#setting_form_container').html(form);

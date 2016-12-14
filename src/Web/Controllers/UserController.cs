@@ -83,7 +83,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// 查询站点下用户信息
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
-        /// <param name="displayName">用户姓名</param>
+        /// <param name="userName">用户名</param>
         /// <param name="permission">用户角色</param>
         /// <returns>
         /// {
@@ -107,7 +107,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月27日10:42:09
         [HttpPost]
-        object list(string displayName, string permission)
+        object list(string userName, string permission)
         {
             var site = (Site)jc["site"];
 
@@ -115,8 +115,8 @@ namespace Kiss.Components.Site.Web.Controllers
             q.Id = "users.list";
             q.LoadCondidtion();
 
-            if (!string.IsNullOrEmpty(displayName)) q["displayName"] = displayName;
-            if (!string.IsNullOrEmpty(displayName)) q["permission"] = permission;
+            if (!string.IsNullOrEmpty(userName)) q["userName"] = userName;
+            if (!string.IsNullOrEmpty(permission)) q["permission"] = permission;
 
             q["siteId"] = site.Id;
 
@@ -393,6 +393,103 @@ namespace Kiss.Components.Site.Web.Controllers
             }
 
             return new { code = 1, msg = "重置成功" };
+        }
+
+        /// <summary>
+        /// 添加已有用户至站点
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="userId">用户ID</param>
+        /// <param name="permission">用户权限</param>
+        /// <returns>
+        /// {
+        ///     code = 1,               //-1：指定的用户不存在，-2：指定的用户在站点下已经存在
+        ///     msg = "用户添加成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年12月14日16:41:04
+        [HttpPost]
+        object add_exist_user(string userId, string permission)
+        {
+            var user = User.Get(userId);
+            if (user == null) return new { code = -1, msg = "指定的用户不存在" };
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<SiteUsers> cx = SiteUsers.CreateContext())
+            {
+                var relation = (from q in cx
+                                where q.UserId == user.Id && q.SiteId == site.Id
+                                select q).FirstOrDefault();
+
+                if (relation != null) return new { code = -2, msg = "指定的用户在站点下已经存在" };
+
+                relation = new SiteUsers();
+
+                relation.Id = StringUtil.UniqueId();
+                relation.SiteId = site.Id;
+                relation.DateCreated = DateTime.Now;
+                relation.UserId = user.Id;
+
+                cx.Add(relation, true);
+
+                relation.PermissionLevel = StringEnum<PermissionLevel>.SafeParse(permission);
+
+                cx.SubmitChanges();
+            }
+
+            return new { code = 1, msg = "用户添加成功" };
+        }
+
+        /// <summary>
+        /// 查询系统中已有的用户
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="displayName">用户显示名称</param>
+        /// <returns>
+        /// {
+        ///     total_count = 0,                    //总数
+        ///     data = 
+        ///     [
+        ///         {
+        ///             id = "",                    //用户ID
+        ///             text = "",                  //用户显示名称
+        ///         }
+        ///     ]
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年12月14日16:59:19
+        [HttpGet]
+        object exists(string displayName)
+        {
+            WebQuery q = new WebQuery();
+            q.Id = "users.exists";
+            q.LoadCondidtion();
+
+            if (!string.IsNullOrEmpty(displayName)) q["displayName"] = displayName;
+
+            q.TotalCount = User.Count(q);
+            if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
+
+            var dt = User.GetDataTable(q);
+            var data = new ArrayList();
+
+            foreach (DataRow item in dt.Rows)
+            {
+                data.Add(new
+                {
+                    id = item["id"].ToString(),
+                    text = item["displayName"] is DBNull ? "用户不存在" : item["displayName"].ToString()
+                });
+            }
+
+            return new
+            {
+                total_count = q.TotalCount,
+                results = data
+            };
         }
 
         #endregion

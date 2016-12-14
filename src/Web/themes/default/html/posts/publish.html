@@ -26,7 +26,7 @@
                 <div class="group-page2">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon group-icon-207"></i>已发布文章
+                          <i class="iconfont group-icon-207"></i>已发布文章
                           <span>（共<span id="total_count">...</span>个）</span>
                         </h3>
                     </nav>
@@ -77,15 +77,15 @@
                 <td>{{item.date_published | format_date}}</td>
                 <td>{{item.view_count}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="edit.html?siteId={{item.site_id}}&id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="edit.html?siteId={{item.site_id}}&id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}{{else}}
             <tr class="no-data-tr" style="background-color:none;">
                 <td colspan="9">
                     <div class="no-data">
-                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <i class="iconfont group-icon-zanwuneirong"></i>
                         <p>暂无数据</p>
                     </div>
                 </td>

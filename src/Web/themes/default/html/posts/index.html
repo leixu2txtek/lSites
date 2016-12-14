@@ -25,10 +25,10 @@
 				<div class="group-page1 group-article">
 					<nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
 						<h3 class="navbar-brand">
-							<i class="iconfont group-icon group-icon-207"></i>我创建的文章
+							<i class="iconfont group-icon-207"></i>我创建的文章
 							<span>（共<span id="total_count">...</span>篇）</span>
 							<a href="javascript:void(0);" class="btn btn-link group-article-addButton" id="btn_add" title="添加新文章">
-								<i class="iconfont group-icon group-icon-tianjia"></i>添加新文章</a>
+								<i class="iconfont group-icon-tianjia"></i>添加新文章</a>
 						</h3>
 						<div class="navbar-collapse collapsc navbar-right group-operation-btn">
 							<button type="button" class="btn btn-default btn-primary btn_publish" title="将选中的文章发布">发布</button>
@@ -94,22 +94,22 @@
                 <td>{{item.view_count}}</td>
                 <td>{{item.status}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="edit.html?siteId={{item.site_id}}&id={{item.id}}" title="编辑"><i class="iconfont group-icon group-icon-bianji"></i></a>
+                    <a href="edit.html?siteId={{item.site_id}}&id={{item.id}}" title="编辑"><i class="iconfont group-icon-bianji"></i></a>
 
                     {{if item.status == '已发布' }}
-                        <a href="javascript:void(0);" title="取消发布" data-id="{{item.id}}" class="unpublished"><i class="iconfont group-icon group-icon-quxiao"></i></a>
+                        <a href="javascript:void(0);" title="取消发布" data-id="{{item.id}}" class="unpublished"><i class="iconfont group-icon-quxiao"></i></a>
                     {{else}}
-                        <a href="javascript:void(0);" title="发布" data-id="{{item.id}}" data-status='{{item.status}}' class="publish"><i class="iconfont group-icon group-icon-fabu1"></i></a>
+                        <a href="javascript:void(0);" title="发布" data-id="{{item.id}}" data-status='{{item.status}}' class="publish"><i class="iconfont group-icon-fabu1"></i></a>
                     {{/if}}
 
-                    <a href="javascript:void(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="javascript:void(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}} {{else}}
             <tr class="no-data-tr" style="background-color: none;">
                 <td colspan="9">
                     <div class="no-data">
-                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <i class="iconfont group-icon-zanwuneirong"></i>
                         <p>暂无数据</p>
                     </div>
                 </td>

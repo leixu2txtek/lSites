@@ -24,7 +24,7 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon group-icon-207"></i>回收站
+                          <i class="iconfont group-icon-207"></i>回收站
                           <span>（共<span id="trash_count">...</span>篇）</span>
                         </h3>
                         <div class="navbar-collapse collapsc navbar-right group-operation-btn">
@@ -87,16 +87,16 @@
                 <td>{{item.view_count}}</td>
                 <td>{{item.status}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="edit.html?id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="撤回" data-id="{{item.id}}" class="restore q-restore"><i class="iconfont group-icon group-icon-chexiao"></i></a>
-                    <a href="javascript:(0);" title="彻底删除" data-id="{{item.id}}" class="remove"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    <a href="edit.html?id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon-bianji"></i></a>
+                    <a href="javascript:(0);" title="撤回" data-id="{{item.id}}" class="restore q-restore"><i class="iconfont group-icon-chexiao"></i></a>
+                    <a href="javascript:(0);" title="彻底删除" data-id="{{item.id}}" class="remove"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}{{else}}
             <tr class="no-data-tr" style="background-color:none;">
                 <td colspan="9">
                     <div class="no-data">
-                        <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                        <i class="iconfont group-icon-zanwuneirong"></i>
                         <p>暂无数据</p>
                     </div>
                 </td>

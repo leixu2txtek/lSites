@@ -12,10 +12,7 @@ define(['../../../js/common'], function () {
         var form = $('#site_form'),
             nav = $('#nav_tools');
 
-        $('select', form).select2({
-            minimumResultsForSearch: -1,
-            allowClear: true
-        });
+        $('select', form).select2({ minimumResultsForSearch: -1, allowClear: true });
 
         // 添加新站点    
         $('.add-site', nav).on('click', function () {
