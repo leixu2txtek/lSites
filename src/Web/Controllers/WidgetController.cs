@@ -1,4 +1,5 @@
-﻿using Kiss.Utils;
+﻿using Kiss.Json;
+using Kiss.Utils;
 using Kiss.Web;
 using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
@@ -6,7 +7,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
@@ -327,6 +330,94 @@ namespace Kiss.Components.Site.Web.Controllers
             }
 
             return new { code = 1, msg = "删除成功" };
+        }
+
+        #endregion
+
+        #region 导入 & 导出
+
+        /// <summary>
+        /// 导出挂件数据
+        /// </summary>
+        /// <remarks>请求方式：GET</remarks>
+        /// <returns>json 文件流</returns>
+        /// leixu
+        /// 2016年12月16日16:46:04
+        [HttpGet]
+        ActionResult export()
+        {
+            var site = (Site)jc["site"];
+
+            var widgets = (from q in Widget.CreateContext()
+                           where q.SiteId == site.Id
+                           select q).ToList();
+
+            if (widgets.Count == 0) return new EmptyResult();
+
+            return new FileContentResult(Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(widgets)), "application/json") { FileDownloadName = "widgets.json" };
+        }
+
+        /// <summary>
+        /// 导入挂件数据
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：请选择要上传的JSON数据，-2：必须上传一个JSON文件，-3：指定的JSON文件中没有数据
+        ///     msg = "导入成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年12月16日17:02:14
+        [HttpPost]
+        object import()
+        {
+            #region 参数验证
+
+            if (jc.Context.Request.Files.Count == 0) return new { code = -1, msg = "请选择要上传的JSON数据" };
+
+            var file = jc.Context.Request.Files[0];
+
+            if (!file.FileName.EndsWith(".json")) return new { code = -2, msg = "必须上传一个JSON文件" };
+
+            var jsons = new JavaScriptSerializer().Deserialize<List<Widget>>(Encoding.UTF8.GetString(file.InputStream.ToBytes()));
+
+            if (jsons.Count == 0) return new { code = -3, msg = "指定的JSON文件中没有数据" };
+
+            #endregion
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Widget> cx = Widget.CreateContext())
+            {
+                foreach (var item in jsons)
+                {
+                    var widget = new Widget();
+
+                    widget.Id = item.Id;
+                    widget.DateCreated = DateTime.Now;
+                    widget.ContainerId = item.ContainerId;
+                    widget.Name = item.Name;
+                    widget.SiteId = site.Id;
+                    widget.SortOrder = item.SortOrder;
+                    widget.Title = item.Title;
+                    widget.UserId = jc.UserName;
+
+                    #region 扩展字段
+
+                    foreach (string key in item.ExtAttrs.Keys) widget[key] = item.ExtAttrs[key];
+
+                    widget.SerializeExtAttrs();
+
+                    #endregion
+
+                    cx.Add(item, true);
+                }
+
+                cx.SubmitChanges(true);
+            }
+
+            return new { code = 1, msg = "导入成功" };
         }
 
         #endregion
