@@ -26,10 +26,14 @@
                 <div class="group-page2">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3>
-                            <i class="iconfont group-icon group-icon-207"></i> 栏目
+                            <i class="iconfont group-icon group-icon-207"></i>栏目
                             <a href="javascript:void(0);" class="btn btn-link group-article-addButton add_category">
-                                <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新栏目</a>
+                                <i class="group-nav-more"></i>添加新栏目</a>
                         </h3>
+                        <div class="navbar-collapse collapsc navbar-right group-operation-btn">
+                            <button type="button" class="btn btn-default btn-primary" id="btn_export" title="导出栏目数据">导出</button>
+                            <button type="button" class="btn btn-default btn-primary" id="btn_import" title="导入栏目数据">导入</button>
+                        </div>
                     </nav>
                     <div class="group-Columns">
                         <div class="group-Columns-list">
@@ -108,8 +112,10 @@
                 </div>
             </div>
             <div class="form-group group-Columns-button">
-                <button type="submit" class="btn btn-default group-Columns-save">保存</button> {{if item.id}}
-                <button type="button" class="btn btn-default group-Columns-dele btn_delete" data-id="{{item.id}}">删除</button>                {{/if}}
+                <button type="submit" class="btn btn-default group-Columns-save">保存</button>
+                {{if item.id}}
+                <button type="button" class="btn btn-default group-Columns-dele btn_delete" data-id="{{item.id}}">删除</button>
+                {{/if}}
             </div>
         </form>
     </script>

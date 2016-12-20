@@ -1,11 +1,14 @@
-﻿using Kiss.Utils;
+﻿using Kiss.Json;
+using Kiss.Utils;
 using Kiss.Web;
 using Kiss.Web.Mvc;
 using Kiss.Web.Utils;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 
 namespace Kiss.Components.Site.Web.Controllers
 {
@@ -423,5 +426,120 @@ namespace Kiss.Components.Site.Web.Controllers
 
             return new { code = 1, msg = "删除成功" };
         }
+
+        #region 导入 & 导出
+
+        /// <summary>
+        /// 导出栏目数据
+        /// </summary>
+        /// <remarks>请求方式：GET</remarks>
+        /// <returns>json 文件流</returns>
+        /// leixu
+        /// 2016年12月20日14:27:26
+        [HttpGet]
+        ActionResult export()
+        {
+            var site = (Site)jc["site"];
+
+            var categories = (from q in Category.CreateContext()
+                              where q.SiteId == site.Id
+                              select q).ToList();
+
+            if (categories.Count == 0) return new EmptyResult();
+
+            return new FileContentResult(Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(categories)), "application/json") { FileDownloadName = "categories.json" };
+        }
+
+        /// <summary>
+        /// 导入栏目数据
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <returns>
+        /// {
+        ///     code = 1,           //-1：请选择要上传的JSON数据，-2：必须上传一个JSON文件，-3：指定的JSON文件中没有数据
+        ///     msg = "导入成功"
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年12月20日14:28:19
+        [HttpPost]
+        object import()
+        {
+            #region 参数验证
+
+            if (jc.Context.Request.Files.Count == 0) return new { code = -1, msg = "请选择要上传的JSON数据" };
+
+            var file = jc.Context.Request.Files[0];
+
+            if (!file.FileName.EndsWith(".json")) return new { code = -2, msg = "必须上传一个JSON文件" };
+
+            var categories = new JavaScriptSerializer().Deserialize<List<Category>>(Encoding.UTF8.GetString(file.InputStream.ToBytes()));
+
+            if (categories.Count == 0) return new { code = -3, msg = "指定的JSON文件中没有数据" };
+
+            //根据层级排序，按层级由浅至深来处理
+            categories = (from q in categories
+                          orderby StringUtil.Split(q.NodePath, "/", true, true).Count()
+                          select q).ToList();
+
+            #endregion
+
+            var site = (Site)jc["site"];
+
+            using (ILinqContext<Category> cx = Category.CreateContext())
+            {
+                foreach (var item in categories)
+                {
+                    var category = new Category();
+
+                    category.Id = StringUtil.UniqueId();
+                    category.DateCreated = DateTime.Now;
+                    category.UserId = jc.UserName;
+                    category.SiteId = site.Id;
+
+                    category.Title = item.Title;
+                    category.Url = item.Url;
+                    category.ParentId = item.ParentId;
+
+                    category.SortOrder = item.SortOrder;
+                    category.NeedLogin2Read = item.NeedLogin2Read;
+                    category.ShowInMenu = item.ShowInMenu;
+
+                    #region 处理子集数据
+
+                    category.HasChildren = item.HasChildren;
+                    category.NodePath = item.NodePath.Replace(item.Id, category.Id);
+
+                    if (category.HasChildren)
+                    {
+                        var children = categories.Where(a => { return a.ParentId == item.Id; }).ToList();
+
+                        foreach (var child in children)
+                        {
+                            child.ParentId = category.Id;
+                            child.NodePath = child.NodePath.Replace(item.NodePath, category.NodePath);
+                        }
+                    }
+
+                    #endregion
+
+                    #region 扩展字段
+
+                    foreach (string key in item.ExtAttrs.Keys) category[key] = item.ExtAttrs[key];
+
+                    category.SerializeExtAttrs();
+
+                    #endregion
+
+                    cx.Add(category, true);
+                }
+
+                cx.SubmitChanges(true);
+            }
+
+            return new { code = 1, msg = "导入成功" };
+        }
+
+        #endregion
     }
 }
