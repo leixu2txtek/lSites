@@ -27,12 +27,12 @@
                         <h3 class="navbar-brand">
                             <i class="iconfont group-icon-207"></i>挂件列表
                             <span>（共<span id="total_count">...</span>个）</span>
-                            <a href="javascript:void(0);" class="btn btn-link group-article-addButton add-widgets" title="添加新挂件">
+                            <a href="javascript:void(0);" class="btn btn-link group-article-addButton" id="btn_add" title="添加新挂件">
                                 <i class="iconfont group-icon-tianjia"></i>添加新挂件</a>
                         </h3>
                         <div class="navbar-collapse collapsc navbar-right group-operation-btn">
-                            <button type="button" class="btn btn-default btn-primary" title="">导出</button>
-                            <button type="button" class="btn btn-default btn-primary" title="">导入</button>
+                            <button type="button" class="btn btn-default btn-primary" id="btn_export" title="导出挂件数据">导出</button>
+                            <button type="button" class="btn btn-default btn-primary" id="btn_import" title="导入挂件数据">导入</button>
                         </div>
                     </nav>
                     <div class="table-responsive group-article-table">

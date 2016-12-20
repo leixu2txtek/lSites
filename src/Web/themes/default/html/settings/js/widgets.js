@@ -21,12 +21,12 @@ define(['../../../js/common'], function () {
             form.append('<input type="hidden" name="siteId" value="' + siteId + '" />');
         }
 
-        // 添加新挂件
-        $('.add-widgets', nav).on('click', function () {
+        //添加新挂件
+        $('#btn_add', nav).on('click', function () {
 
             var add_form = $(template('widget_add_form', {
-                    site_id: siteId
-                })),
+                site_id: siteId
+            })),
                 dlg = $M({
                     title: '添加新挂件',
                     content: add_form[0],
@@ -73,6 +73,19 @@ define(['../../../js/common'], function () {
                 }
             });
 
+        });
+
+        //导出挂件
+        $('#btn_export', nav).on('click', function () {
+
+            window.location.href = '/widget/export?siteId=' + siteId;
+            return false;
+        });
+
+        //导出挂件
+        $('#btn_import', nav).on('click', function () {
+
+            return false;
         });
 
         // 绑定表单
@@ -205,9 +218,7 @@ define(['../../../js/common'], function () {
                 //绑定分页信息                
                 $('.x-paging-container', form).paging(r.paging);
             },
-            callback: function (form) {
-                form.submit();
-            }
+            callback: function (form) { form.submit(); }
         });
 
     });
