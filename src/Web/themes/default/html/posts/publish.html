@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>站群管理</title>
-
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
@@ -16,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display:none;">
-        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <a href="javascript:void(0);" class="navbar-brand">站群管理 </a>
     </nav>
     <div class="container-fluid group-container content_container" style="display:none;">
         <div class="row">
@@ -26,8 +25,8 @@
                 <div class="group-page2">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon-207"></i>已发布文章
-                          <span>（共<span id="total_count">...</span>个）</span>
+                            <i class="iconfont group-icon-207"></i>已发布文章
+                            <span>（共<span id="total_count">...</span>个）</span>
                         </h3>
                     </nav>
                     <div class="group-Columns">
@@ -78,7 +77,7 @@
                 <td>{{item.view_count}}</td>
                 <td class="group-article-tabelTools">
                     <a href="edit.html?siteId={{item.site_id}}&id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
+                    <a href="javascript:void(0);" title="放入回收站" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}{{else}}

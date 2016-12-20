@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>站群管理</title>
-
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
@@ -15,10 +14,10 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display:none;">
-        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+    <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display: none;">
+        <a href="javascript:void(0);" class="navbar-brand">站群管理 </a>
     </nav>
-    <div class="container-fluid group-container content_container" style="display:none;">
+    <div class="container-fluid group-container content_container" style="display: none;">
         <div class="row">
             <div class="col-sm-3 col-md-2 sidebar">
             </div>
@@ -26,13 +25,16 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
-                          <i class="iconfont group-icon-207"></i>挂件列表
-                          <span>（共<span id="total_count">...</span>个）</span>
-                        <a href="javascript:(0);" class="btn btn-link group-article-addButton add-widgets" title="添加新挂件">
-                            <i class="iconfont group-icon-tianjia"></i>添加新挂件</a>
+                            <i class="iconfont group-icon-207"></i>挂件列表
+                            <span>（共<span id="total_count">...</span>个）</span>
+                            <a href="javascript:void(0);" class="btn btn-link group-article-addButton add-widgets" title="添加新挂件">
+                                <i class="iconfont group-icon-tianjia"></i>添加新挂件</a>
                         </h3>
+                        <div class="navbar-collapse collapsc navbar-right group-operation-btn">
+                            <button type="button" class="btn btn-default btn-primary" title="">导出</button>
+                            <button type="button" class="btn btn-default btn-primary" title="">导入</button>
+                        </div>
                     </nav>
-
                     <div class="table-responsive group-article-table">
                         <form class="form-inline form-horizontal" id="post_form">
                             <div class="group-articleform-top">
@@ -55,7 +57,8 @@
     <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
         <thead>
             <tr>
-                <th class="group-article-checkbox"><input type="checkbox" title="全选"></th>
+                <th class="group-article-checkbox">
+                    <input type="checkbox" title="全选"></th>
                 <th id="name">挂件ID</th>
                 <th id="title">挂件名称</th>
                 <th id="containerId">占位符ID</th>
@@ -76,12 +79,12 @@
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{item.display_name}}</td>
                 <td class="group-article-tabelTools">
-                    <a href="javascript:(0);" title="编辑" data-id="{{item.id}}" class="edit"><i class="iconfont group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="删除挂件" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
+                    <a href="javascript:void(0);" title="编辑" data-id="{{item.id}}" class="edit"><i class="iconfont group-icon-bianji"></i></a>
+                    <a href="javascript:void(0);" title="删除挂件" data-id="{{item.id}}" class="delete"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}} {{else}}
-            <tr class="no-data-tr" style="background-color:none;">
+            <tr class="no-data-tr" style="background-color: none;">
                 <td colspan="7">
                     <div class="no-data">
                         <i class="iconfont group-icon-zanwuneirong"></i>
@@ -94,11 +97,9 @@
     <div class="x-paging-container"></div>
 </script>
 <script type="text/html" id="widget_add_form">
-
     <form class="add-form" method="post">
         <input type="hidden" name="id" value="{{id}}" />
         <input type="hidden" name="siteId" value="{{site_id}}" />
-
         <div class="addForm-input">
             <label class="addForm-label"><em class="iconfont group-icon-xinghao"></em>挂件ID：</label>
             <input type="text" name="name" class="form-control" value="{{name}}" />

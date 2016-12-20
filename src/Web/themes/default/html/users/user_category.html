@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CMS内容管理系统</title>
-
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
@@ -17,7 +16,7 @@
 
 <body>
     <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display: none;">
-        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <a href="javascript:void(0);" class="navbar-brand">站群管理 </a>
     </nav>
     <div class="container-fluid group-container content_container" style="display: none;">
         <div class="row">
@@ -28,9 +27,9 @@
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3>
                             <i class="iconfont group-icon group-icon-207"></i>用户管理
-							<span class="users-name">/ &nbsp;&nbsp;栏目关系（<span id="current_user">....</span>）</span>
-                            <a href="javascript:(0);" id="btn_add_user_category" class="btn btn-link group-article-addButton" title="新增用户与栏目关系">
-                                <i class="glyphicon glyphicon-plus group-nav-more"></i>添加</a>
+                            <span class="users-name">/ &nbsp;&nbsp;栏目关系（<span id="current_user">....</span>）</span>
+                            <a href="javascript:void(0);" id="btn_add_user_category" class="btn btn-link group-article-addButton" title="新增用户与栏目关系">
+                                <i class="iconfont group-icon-tianjia"></i>添加</a>
                         </h3>
                     </nav>
                     <div class="table-responsive group-users-table">
@@ -49,7 +48,6 @@
             </div>
         </div>
     </div>
-
     <script type="text/html" id="user_category_table">
         <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
             <thead>
@@ -61,26 +59,24 @@
                 </tr>
             </thead>
             <tbody>
-                {{if data.length > 0}} 
-                {{each data as item i}}
-                    <tr>
-                        <td>{{item.category_title}}</td>
-                        <td>{{item.date_created | format_date}}</td>
-                        <td>{{item.post_count }}</td>
-                        <td class="group-article-tabelTools ">
-                            <a href="javascript:void(0);" data-id="{{item.id}}" title="删除" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
-                        </td>
-                    </tr>
-                {{/each}} 
-                {{else}}
-                    <tr class="no-data-tr" style="background-color: none;">
-                        <td colspan="9">
-                            <div class="no-data">
-                                <i class="iconfont group-icon group-icon-zanwuneirong"></i>
-                                <p>暂无数据</p>
-                            </div>
-                        </td>
-                    </tr>
+                {{if data.length > 0}} {{each data as item i}}
+                <tr>
+                    <td>{{item.category_title}}</td>
+                    <td>{{item.date_created | format_date}}</td>
+                    <td>{{item.post_count }}</td>
+                    <td class="group-article-tabelTools ">
+                        <a href="javascript:void(0);" data-id="{{item.id}}" title="删除" class="delete"><i class="iconfont group-icon group-icon-shanchu"></i></a>
+                    </td>
+                </tr>
+                {{/each}} {{else}}
+                <tr class="no-data-tr" style="background-color: none;">
+                    <td colspan="9">
+                        <div class="no-data">
+                            <i class="iconfont group-icon group-icon-zanwuneirong"></i>
+                            <p>暂无数据</p>
+                        </div>
+                    </td>
+                </tr>
                 {{/if}}
             </tbody>
         </table>

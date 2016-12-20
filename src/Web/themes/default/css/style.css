@@ -131,7 +131,6 @@ body .has-error .form-control {
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
     border-bottom: 8px solid #10a1bb;
-    ;
 }
 
 
@@ -693,6 +692,11 @@ body .has-error .form-control {
 .users-width {
     width: 200px;
     text-align: left !important;
+}
+
+.btn_add_user {
+    float: right;
+    margin-top: 8px;
 }
 
 

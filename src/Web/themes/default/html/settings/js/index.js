@@ -35,7 +35,7 @@ define(['../../../js/common'], function () {
 
             form = $(template('setting_form', r.data));
 
-            $('[name=needAuditPost]', form).select2({ minimumResultsForSearch: -1 }).val($('[name=needAuditPost]', form).prop('data-value')).trigger('change');
+            $('[name=needAuditPost]', form).select2({ minimumResultsForSearch: -1 }).val($('[name=needAuditPost]', form).data('value')).trigger('change');
 
             form.gform({
                 url: config.host + 'site/save',

@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display: none;">
-        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <a href="javascript:void(0);" class="navbar-brand">站群管理 </a>
     </nav>
     <div class="container-fluid group-container content_container" style="display: none;">
         <div class="row">
@@ -25,8 +25,8 @@
                 <div class="group-page1 group-article">
                     <nav class="navbar group-article-top navbar-fixed-top">
                         <h3 class="navbar-brand">
-                            <i class="iconfont group-icon group-icon-207"></i>待审核的文章
-                          <span>（共<span id="trash_count">...</span>篇）</span>
+                            <i class="iconfont group-icon group-icon-207"></i>文章审核列表
+                            <span>（共<span id="trash_count">...</span>篇）</span>
                         </h3>
                     </nav>
                     <div class="table-responsive group-article-table">
@@ -35,6 +35,15 @@
                                 <div class="form-group group-article-form">
                                     <label class="control-label">关键字：</label>
                                     <input placeholder="关键字" class="form-control" name="key">
+                                </div>
+                                <div class="form-group group-article-form">
+                                    <label class="control-label">文章状态：</label>
+                                    <select data-placeholder="请选择文章状态" name="status" style="width: 210px;">
+                                        <option></option>
+                                        <option value="1" selected="selected">待审核</option>
+                                        <option value="2">审核通过</option>
+                                        <option value="-1">审核不通过</option>
+                                    </select>
                                 </div>
                                 <button type="submit" class="btn group-article-form-btn">查询</button>
                             </div>
@@ -76,7 +85,7 @@
                 <td>{{item.display_name}}</td>
                 <td class="group-article-tabelTools">
                     <a href="edit.html?siteId={{siteId}}&id={{item.id}}" title="编辑" target="_blank"><i class="iconfont group-icon group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" title="审核" data-id="{{item.id}}" class="approved q-approved addNwes-choice"><i class="iconfont group-icon group-icon-audit-pass2"></i></a>
+                    <a href="javascript:void(0);" title="审核" data-id="{{item.id}}" class="approved q-approved addNwes-choice"><i class="iconfont group-icon group-icon-audit-pass2"></i></a>
                 </td>
             </tr>
             {{/each}} {{else}}
@@ -92,7 +101,6 @@
     </table>
     <div class="x-paging-container"></div>
 </script>
-
 <div class="ui-MDialog-lock" style="display: none;"></div>
 <script type="text/html" id="choice-dialog">
     <div class="choice-dialog">

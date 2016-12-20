@@ -278,10 +278,15 @@ define(['../../../js/common'], function () {
                 return false;
             }
 
-            //更新时不需要保存草稿
-            $('.btn_save').data('disable', true);
+            init(r);
 
-            $('.btn_publish').text('更新').prop('title', '更新当前文章内容') && init(r);
+            if (r.post.is_published) {
+
+                //更新时不需要保存草稿
+                $('.btn_save').data('disable', true);
+
+                $('.btn_publish').text('更新').prop('title', '更新当前文章内容');
+            }
         });
     });
 });

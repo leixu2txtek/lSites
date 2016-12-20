@@ -12,10 +12,7 @@ define(['../../../js/common'], function () {
         });
 
         // select2
-        $('select', form).select2({
-            minimumResultsForSearch: -1,
-            allowClear: true
-        });
+        $('select', form).select2({ minimumResultsForSearch: -1 });
 
         if (form.find('input[name=siteId]').length == 0) {
             form.append('<input type="hidden" name="siteId" value="' + util.get_query('siteId') + '" />');
@@ -83,11 +80,7 @@ define(['../../../js/common'], function () {
                 // 绑定分页
                 $('.x-paging-container', form).paging(r.paging);
             },
-
-            callback: function (form) {
-                form.submit();
-            }
-
+            callback: function (form) { form.submit(); }
         });
     });
 });

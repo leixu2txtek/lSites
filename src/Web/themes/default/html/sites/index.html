@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>站群管理</title>
-
     <link href="../../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../fonts/iconfonts/iconfont.css">
     <link href="../../js/vendor/select2/select2.css" rel="stylesheet">
@@ -16,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display: none;">
-        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <a href="javascript:void(0);" class="navbar-brand">站群管理 </a>
     </nav>
     <div class="container-fluid group-container content_container" style="display: none;">
         <div class="row">
@@ -27,12 +26,11 @@
                     <nav class="navbar group-article-top navbar-fixed-top" id="nav_tools">
                         <h3 class="navbar-brand">
                             <i class="iconfont group-icon-207"></i>站点列表
-                          <span>（共<span id="total_count">...</span>个）</span>
-                            <a href="javascript:(0);" class="btn btn-link group-article-addButton add-site" title="添加新站点">
+                            <span>（共<span id="total_count">...</span>个）</span>
+                            <a href="javascript:void(0);" class="btn btn-link group-article-addButton add-site" title="添加新站点">
                                 <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新站点</a>
                         </h3>
                     </nav>
-
                     <div class="table-responsive group-article-table">
                         <form class="form-inline form-horizontal" id="site_form">
                             <div class="group-articleform-top">
@@ -84,8 +82,8 @@
                 <td>{{item.display_name}}</td>
                 <td>{{item.date_created | format_date}}</td>
                 <td class="group-site-tabelTools">
-                    <a href="javascript:(0);" class="tabelTools-edit edit" data-id="{{item.id}}" title="编辑"><i class="iconfont group-icon-bianji"></i></a>
-                    <a href="javascript:(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon-shanchu"></i></a>
+                    <a href="javascript:void(0);" class="tabelTools-edit edit" data-id="{{item.id}}" title="编辑"><i class="iconfont group-icon-bianji"></i></a>
+                    <a href="javascript:void(0);" class="delete" data-id="{{item.id}}" title="删除站点"><i class="iconfont group-icon-shanchu"></i></a>
                 </td>
             </tr>
             {{/each}}{{else}}
@@ -101,7 +99,6 @@
     </table>
     <div class="x-paging-container"></div>
 </script>
-
 <script type="text/html" id="site_add_form">
     <form class="add-form" method="post">
         <input type="hidden" name="id" value="{{id}}" />

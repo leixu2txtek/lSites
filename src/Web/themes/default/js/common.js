@@ -63,7 +63,7 @@ const menus = {
             url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
             key: 'posts/index'
         }, {
-            title: '待审核的',
+            title: '文章审核',
             url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
             key: 'posts/audit'
         }, {
@@ -113,7 +113,7 @@ const menus = {
             url: config.prefix + 'posts/index.html?siteId=' + util.get_query('siteId'),
             key: 'posts/index'
         }, {
-            title: '待审核的',
+            title: '文章审核',
             url: config.prefix + 'posts/audit.html?siteId=' + util.get_query('siteId'),
             key: 'posts/audit'
         }, {

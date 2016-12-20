@@ -88,7 +88,8 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="key">关键字</param>
-        /// <param name="status">文章状态，为空则表示查询所有状态文章，0：草稿，1：待审核，2：已发布</param>
+        /// <param name="isPublished">是否发布</param>
+        /// <param name="status">文章状态，为空则表示查询所有状态文章，0：草稿，1：待审核，2：审核通过，-2：审核不通过</param>
         /// <returns>
         /// {
         ///     code = 1,                           //1：获取成功
@@ -114,7 +115,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月1日17:37:13
         [HttpPost]
-        object list(string key, string status)
+        object list(string key, string isPublished, string status)
         {
             var site = (Site)jc["site"];
 
@@ -124,6 +125,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
             if (!string.IsNullOrEmpty(key)) q["key"] = key;
             if (!string.IsNullOrEmpty(status)) q["status"] = status;
+            if (!string.IsNullOrEmpty(isPublished)) q["isPublished"] = isPublished;
 
             q["userId"] = jc.UserName;
             q["siteId"] = site.Id;
@@ -145,6 +147,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     date_created = item["dateCreated"].ToDateTime(),
                     view_count = item["viewCount"].ToInt(),
                     sort_order = item["sortOrder"].ToInt(),
+                    is_published = item["isPublished"].ToBoolean(),
                     status = StringEnum<Status>.ToString(StringEnum<Status>.SafeParse(item["status"].ToString())),
                     date_published = item["datePublished"].ToDateTime()
                 });
@@ -241,8 +244,7 @@ namespace Kiss.Components.Site.Web.Controllers
                     date_created = post.DateCreated.ToUniversalTime(),
                     view_count = post.ViewCount,
                     sort_order = post.SortOrder,
-                    status = StringEnum<Status>.ToString(post.Status),
-                    date_published = post.DatePublished.ToUniversalTime(),
+                    is_published = post.IsPublished,
                     image_url = post.ImageUrl,
                     is_top = post.IsTop.ToString().ToLowerInvariant(),
                     props = new Kiss.Json.JavaScriptSerializer().Serialize(props)
@@ -363,22 +365,20 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 #region 审核
 
-                if (post.Status == Status.DRAFT || post.Status == Status.AUDIT_FAILD)
+                if (publish && (post.Status == Status.DRAFT || post.Status == Status.AUDIT_FAILD))
                 {
                     var relation = (SiteUsers)jc["relation"];
 
-                    if (relation.PermissionLevel == PermissionLevel.EDIT)
+                    if (relation.PermissionLevel == PermissionLevel.EDIT && site.NeedAuditPost)
                     {
-                        post.Status = (publish && site.NeedAuditPost) ? Status.PENDING : Status.PUBLISHED;
+                        post.Status = Status.PENDING;
                     }
                     else
                     {
-                        //站点管理员 && 审核人 直接发布文章，无需审核
-                        post.Status = Status.PUBLISHED;
-                    }
+                        //站点管理员 或者 站点不需要审核文章 则直接发布
+                        post.Status = Status.NEED_NOT_AUDIT;
+                        post.IsPublished = true;
 
-                    if (post.Status == Status.PUBLISHED)
-                    {
                         post.PublishUserId = jc.UserName;
                         post.DatePublished = DateTime.Now;
                     }
@@ -405,7 +405,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// <param name="ids">文章ID数组</param>
         /// <returns>
         /// {
-        ///     code = 1,           //-1：要删除的文章ID不能为空，-3：指定的文章不存在，2：文章已被发布，是否确认删除
+        ///     code = 1,               //-1：要删除的文章ID不能为空，-3：指定的文章不存在，2：文章已被发布，是否确认删除
         ///     msg = "移至回收站成功"
         /// }
         /// </returns>
@@ -424,7 +424,7 @@ namespace Kiss.Components.Site.Web.Controllers
                              where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsDeleted == false
                              select q).ToList();
 
-                if (posts.Count == 1 && !confirmed && posts[0].Status == Status.PUBLISHED) return new { code = 2, msg = "文章已被发布，是否确认删除" };
+                if (posts.Count == 1 && !confirmed && posts[0].IsPublished) return new { code = 2, msg = "文章已被发布，是否确认删除" };
 
                 foreach (var post in posts)
                 {
@@ -558,8 +558,6 @@ namespace Kiss.Components.Site.Web.Controllers
             if (!string.IsNullOrEmpty(key)) q["key"] = key;
             if (!string.IsNullOrEmpty(category)) q["category"] = category;
 
-            q["status"] = (int)Status.PUBLISHED;
-
             q.TotalCount = Posts.Count(q);
             if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
 
@@ -627,7 +625,8 @@ namespace Kiss.Components.Site.Web.Controllers
 
                 foreach (var item in posts)
                 {
-                    item.Status = Status.PUBLISHED;
+                    item.Status = Status.NEED_NOT_AUDIT;
+                    item.IsPublished = true;
                     item.PublishUserId = jc.UserName;
                     item.DatePublished = DateTime.Now;
                 }
@@ -661,7 +660,7 @@ namespace Kiss.Components.Site.Web.Controllers
             using (ILinqContext<Posts> cx = Posts.CreateContext())
             {
                 var posts = (from q in cx
-                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.Status == Status.PUBLISHED
+                             where new List<string>(ids).Contains(q.Id) && q.SiteId == site.Id && q.IsPublished == true
                              select q).ToList();
 
                 if (posts.Count == 0) return new { code = -2, msg = "指定的文章未查询到" };
@@ -669,6 +668,8 @@ namespace Kiss.Components.Site.Web.Controllers
                 foreach (var item in posts)
                 {
                     item.Status = Status.DRAFT;
+                    item.IsPublished = false;
+
                     item.PublishUserId = string.Empty;
                     item.DatePublished = DateTime.MinValue;
                 }
@@ -688,6 +689,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <param name="key"></param>
+        /// <param name="status">文章状态</param>
         /// <returns>
         /// {
         ///     code = 1,                           //1：获取成功
@@ -711,7 +713,7 @@ namespace Kiss.Components.Site.Web.Controllers
         /// leixu
         /// 2016年7月14日10:14:54
         [HttpPost]
-        object audit(string key)
+        object audit(string key, string status)
         {
             var site = (Site)jc["site"];
 
@@ -719,12 +721,13 @@ namespace Kiss.Components.Site.Web.Controllers
             q.Id = "audit.list";
             q.LoadCondidtion();
 
+            q["siteId"] = site.Id;
+
             if (!string.IsNullOrEmpty(key)) q["key"] = key;
+            if (!string.IsNullOrEmpty(status)) q["status"] = status;
 
             q.TotalCount = Posts.Count(q);
             if (q.PageIndex1 > q.PageCount) q.PageIndex = Math.Max(q.PageCount - 1, 0);
-
-            q["siteId"] = site.Id;
 
             var dt = Posts.GetDataTable(q);
             var data = new ArrayList();
@@ -791,7 +794,9 @@ namespace Kiss.Components.Site.Web.Controllers
                 {
                     if (pass)
                     {
-                        item.Status = Status.PUBLISHED;
+                        item.Status = Status.AUDIT_PASSED;
+                        item.IsPublished = true;
+
                         item.DatePublished = DateTime.Now;
                         item.PublishUserId = jc.UserName;
                     }
@@ -800,6 +805,7 @@ namespace Kiss.Components.Site.Web.Controllers
                         //TODO 
 
                         item.Status = Status.AUDIT_FAILD;
+                        item.IsPublished = false;
                     }
                 }
 

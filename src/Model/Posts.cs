@@ -102,6 +102,12 @@ namespace Kiss.Components.Site
         public Status Status { get; set; }
 
         /// <summary>
+        /// 文章是否发布
+        /// </summary>
+        [NotNull(0)]
+        public bool IsPublished { get; set; }
+
+        /// <summary>
         /// 文章发布时间
         /// </summary>
         public DateTime DatePublished { get; set; }
@@ -250,9 +256,15 @@ namespace Kiss.Components.Site
         AUDIT_FAILD = -1,
 
         /// <summary>
-        /// 已发布 2
+        /// 审核通过 2
         /// </summary>
-        [Description("已发布")]
-        PUBLISHED = 2
+        [Description("审核通过")]
+        AUDIT_PASSED = 2,
+
+        /// <summary>
+        /// 无需审核 -2
+        /// </summary>
+        [Description("无需审核")]
+        NEED_NOT_AUDIT = -2
     }
 }

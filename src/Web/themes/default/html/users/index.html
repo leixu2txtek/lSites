@@ -15,7 +15,7 @@
 
 <body>
     <nav class="navbar navbar-default navbar-fixed-top group-top content_container" id="nav_header" style="display: none;">
-        <a href="javascript:(0);" class="navbar-brand">站群管理 </a>
+        <a href="javascript:void(0);" class="navbar-brand">站群管理 </a>
     </nav>
     <div class="container-fluid group-container content_container" style="display: none;">
         <div class="row">
@@ -27,11 +27,11 @@
                         <h3>
                             <i class="iconfont group-icon group-icon-207"></i>用户管理
                             <span>（共<span id="total_count">...</span>位）</span>
-                            <a href="#" class="btn btn-link group-article-addButton" id="btn_add_user">
-                                <i class="glyphicon glyphicon-plus group-nav-more"></i>添加新用户
+                            <a href="#" class="btn btn-link group-article-addButton btn_add_user" id="btn_add_user">
+                                <i class="iconfont group-icon-tianjia"></i>添加新用户
                             </a>
-                            <a href="#" class="btn btn-link group-article-addButton" id="btn_add_exist_user">
-                                <i class="glyphicon glyphicon-plus group-nav-more"></i>添加已有用户
+                            <a href="#" class="btn btn-link group-article-addButton btn_add_user" id="btn_add_exist_user">
+                                <i class="iconfont group-icon-tianjia"></i>添加已有用户
                             </a>
                         </h3>
                     </nav>
@@ -114,7 +114,6 @@
                 </tr>
                 {{/if}}
             </tbody>
-
         </table>
         <div class="x-paging-container"></div>
     </script>
@@ -149,18 +148,15 @@
             </div>
         </form>
     </script>
-
     <script type="text/html" id="exist_user_form">
         <form class="add-form" method="post">
             <input type="hidden" name="siteId" value="{{site_id}}" />
-
             <div class="form-group addForm-input">
                 <label class="addForm-label"><em class="iconfont group-icon group-icon-xinghao"></em>用户名：</label>
                 <select style="width: 280px;" name="userId">
                     <option></option>
                 </select>
             </div>
-
             <div class="form-group addForm-input">
                 <label class="addForm-label "><em class="iconfont group-icon group-icon-xinghao "></em>角色：</label>
                 <select data-placeholder="请选择角色" name="permission" style="width: 280px;">
