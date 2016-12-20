@@ -57,8 +57,6 @@
     <table class="table table-bordered table-striped" data-orderbys="{{orderbys}}">
         <thead>
             <tr>
-                <th class="group-article-checkbox">
-                    <input type="checkbox" title="全选"></th>
                 <th id="name">挂件ID</th>
                 <th id="title">挂件名称</th>
                 <th id="containerId">占位符ID</th>
@@ -70,9 +68,6 @@
         <tbody>
             {{if data.length > 0}} {{each data as item i}}
             <tr id="{{item.id}}">
-                <td class="group-article-checkbox">
-                    <input type="checkbox">
-                </td>
                 <td>{{item.name}}</td>
                 <td>{{item.title}}</td>
                 <td>{{item.container_id}}</td>

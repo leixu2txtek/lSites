@@ -82,8 +82,55 @@ define(['../../../js/common'], function () {
             return false;
         });
 
-        //导出挂件
+        //导入挂件
         $('#btn_import', nav).on('click', function () {
+
+            var import_form = $(template.compile('<form class="add-form" method="post"><input type="hidden" name="siteId" value="{{site_id}}" /><div class="addForm-input"><label class="addForm-label"><em class="iconfont"></em>数据文件：</label><input style="padding: 2px 4px; height: 34px; line-height: 30px;" type="file" name="file" class="form-control"></div></form>')({ site_id: siteId })),
+                dlg = $M({
+                    title: '导入挂件',
+                    content: import_form[0],
+                    width: '450px',
+                    lock: true,
+                    position: '50% 50%',
+                    ok: function () {
+                        import_form.submit();
+                    },
+                    okVal: '立即导入',
+                    cancel: false,
+                    cancelVal: '取消'
+                });
+
+            import_form.gform({
+                url: config.host + 'widget/import',
+                beforeSubmit: function () {
+
+                    var file = $('[name=file]', import_form).val();
+
+                    if (file.length == 0) {
+
+                        $('[name=file]', import_form).parent().addClass('has-error');
+
+                        alert('要导入的挂件数据不能为空');
+                        return false;
+                    }
+                },
+                onSuccess: function (r) {
+
+                    r = handleException(r);
+
+                    if (!r) return false;
+                    if (r.code < 0) {
+
+                        alert(r.msg || '发生未知错误，请刷新后尝试');
+                        return false;
+                    }
+
+                    dlg.close();
+
+                    alert('导入成功');
+                    form.submit(); //重新刷新挂件列表
+                }
+            });
 
             return false;
         });
@@ -130,7 +177,7 @@ define(['../../../js/common'], function () {
 
                         var edit_form = $(template('widget_add_form', r.widget)),
                             dlg = $M({
-                                title: '编辑站点',
+                                title: '编辑挂件',
                                 content: edit_form[0],
                                 width: '450px',
                                 lock: true,
@@ -144,9 +191,7 @@ define(['../../../js/common'], function () {
                             });
 
                         edit_form.gform({
-
                             url: config.host + 'widget/save',
-
                             beforeSubmit: function () {
 
                                 var name = $('[name=name]', edit_form).val();
@@ -220,6 +265,5 @@ define(['../../../js/common'], function () {
             },
             callback: function (form) { form.submit(); }
         });
-
     });
 });

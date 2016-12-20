@@ -394,7 +394,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 {
                     var widget = new Widget();
 
-                    widget.Id = item.Id;
+                    widget.Id = StringUtil.UniqueId();
                     widget.DateCreated = DateTime.Now;
                     widget.ContainerId = item.ContainerId;
                     widget.Name = item.Name;
@@ -411,7 +411,7 @@ namespace Kiss.Components.Site.Web.Controllers
 
                     #endregion
 
-                    cx.Add(item, true);
+                    cx.Add(widget, true);
                 }
 
                 cx.SubmitChanges(true);
