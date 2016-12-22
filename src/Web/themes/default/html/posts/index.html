@@ -95,7 +95,9 @@
                 <td class="group-article-zy">
                     <div class="autocut" title="{{item.title}}">{{item.title}}</div>
                 </td>
-                <td>{{item.category}}</td>
+                <td class="group-article-zy">
+                    <div class="autocut" title="{{item.category}}">{{item.category}}</div>
+                </td>
                 <td>{{item.date_created | format_date}}</td>
                 <td>{{if item.is_published }}{{item.date_published | format_date}}{{else}}未发布{{/if}}</td>
                 <td>{{item.view_count}}</td>

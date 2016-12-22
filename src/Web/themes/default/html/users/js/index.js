@@ -77,7 +77,6 @@ define(['../../../js/common'], function () {
 
             $('[name=userId]', users_form).select2({
                 placeholder: '请选择用户',
-                language: 'zh-CN',
                 ajax: {
                     url: config.host + 'user/exists',
                     dataType: 'json',
