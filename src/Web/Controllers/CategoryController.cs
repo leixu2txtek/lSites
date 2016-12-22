@@ -451,7 +451,8 @@ namespace Kiss.Components.Site.Web.Controllers
         }
 
         /// <summary>
-        /// 导入栏目数据
+        /// 导入栏目数据（ID不变更）
+        /// 注：同一个系统不能采用该方法导入
         /// </summary>
         /// <remarks>请求方式：POST</remarks>
         /// <returns>
@@ -492,7 +493,7 @@ namespace Kiss.Components.Site.Web.Controllers
                 {
                     var category = new Category();
 
-                    category.Id = StringUtil.UniqueId();
+                    category.Id = item.Id;
                     category.DateCreated = DateTime.Now;
                     category.UserId = jc.UserName;
                     category.SiteId = site.Id;
