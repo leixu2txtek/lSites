@@ -83,7 +83,7 @@ define(['../../../js/common'], function () {
                     dataType: 'json',
                     delay: 250,
                     data: function (params) {
-                        return { userName: params.term, page: params.page, siteId: siteId };
+                        return { displayName: params.term, page: params.page, siteId: siteId };
                     },
                     processResults: function (data, params) {
 
