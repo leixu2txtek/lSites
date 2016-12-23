@@ -390,7 +390,7 @@ define(['jquery', 'template', 'pace', 'MDialog'], function ($, template) {
         $('#nav_header').append(info);
 
         //设置当前站点，以及用户所管理的站点
-        var html = $(template.compile('<div class="select-site"><h2 class="select-act"><i class="iconfont group-icon group-icon-home"></i>{{current.title}}<em class="iconfont group-icon group-icon-jiantou"></em></h2><ul class="select-sitelist" style="display:none">{{each sites as item i}}<li><a href="' + config.host + 'themes/default/html/posts/index.html?siteId={{item.id}}" class="{{if item.id == current.id}}active{{/if}}">{{item.title}}</a></li>{{/each}}</ul></div>')({
+        var html = $(template.compile('<div class="select-site"><h2 class="select-act"><i class="iconfont group-icon group-icon-home"></i>{{current.title}}<em class="iconfont group-icon group-icon-jiantou"></em></h2><ul class="select-sitelist" style="display:none">{{each sites as item i}}<li><a href="' + config.host + 'themes/default/html/posts/index.html?siteId={{item.id}}" title="{{item.title}}" class="{{if item.id == current.id}}active{{/if}}">{{item.title}}</a></li>{{/each}}</ul></div>')({
             sites: r.sites,
             current: r.current
         }));
