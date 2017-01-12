@@ -356,6 +356,48 @@ namespace Kiss.Components.Site.Web.Controllers
             };
         }
 
+        /// <summary>
+        /// 获取最新的栏目
+        /// </summary>
+        /// <remarks>请求方式：POST</remarks>
+        /// <param name="siteId">站点ID</param>
+        /// <param name="parentId">栏目ID</param>
+        /// <returns>
+        /// {
+        ///     code = 1,                   //-1：指定的站点不存在，1：成功获取
+        ///     data = 
+        ///     {
+        ///         id = "",            //栏目的ID
+        ///         title = "",         //栏目的标题
+        ///         url = "",           //栏目的Url
+        ///         show_in_menu = ""   //栏目是否在菜单上显示
+        ///     }
+        /// }
+        /// </returns>
+        /// leixu
+        /// 2016年10月9日11:38:19
+        object get_first_category(string siteId, string parentId)
+        {
+            var site = Site.Get(siteId);
+
+            if (site == null) return new { code = -1, msg = "指定的站点不存在" };
+
+            var category = (from q in Category.CreateContext()
+                            where q.SiteId == site.Id && q.ParentId == parentId
+                            orderby q.DateCreated descending
+                            select new
+                            {
+                                id = q.Id,
+                                title = q.Title,
+                                url = q.Url,
+                                show_in_menu = q.ShowInMenu
+                            }).FirstOrDefault();
+
+            if (category == null) return new { code = -2, msg = "指定的父级栏目下不存在子栏目" };
+
+            return new { code = 1, data = category };
+        }
+
         #endregion
 
         #region 文章信息
