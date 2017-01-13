@@ -28,6 +28,7 @@ body .has-error .form-control {
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
 }
 
+.x-table-container tbody td .autocut {
     width: inherit;
     overflow: hidden;
     white-space: nowrap;
@@ -503,9 +504,10 @@ body .has-error .form-control {
     border-left: 2px solid #23b7d2;
 }
 
-        .group-Columns .group-Columns-ul li a:hover {
-            text-decoration: none;
-        }
+.group-Columns .group-Columns-ul .group-Columns-Active a {
+    color: #10a1bb;
+}
+
 .group-Columns .group-Columns-ul li a:hover {
     text-decoration: none;
 }
