@@ -81,13 +81,19 @@
             <tbody>
                 {{if data.length > 0}} {{each data as item i}}
                 <tr id="{{item.id}}">
-                    <td>{{item.user_name}}</td>
-                    <td class="users-width">
-                        <div class="users-autocut">{{item.display_name}}</div>
+                    <td style="width:53px;">
+                        <div class="autocut" title="{{item.user_name}}">{{item.user_name}}</div>
+                    </td>
+                    <td style="width:165px;" title="{{item.display_name}}">
+                        <div class="autocut">{{item.display_name}}</div>
                     </td>
                     <td>{{item.mobile}}</td>
-                    <td>{{item.email}}</td>
-                    <td>{{item.permission}}</td>
+                    <td style="width:165px;" title="{{item.email}}">
+                        <div class="autocut">{{item.email}}</div>
+                    </td>
+                    <td style="width:65px;">
+                        <div class="autocut" title="{{item.permission}}">{{item.permission}}</div>
+                    </td>
                     <td>{{item.post_count}}</td>
                     <td>{{item.date_created | format_date}}</td>
                     <td>{{item.date_last_visit | format_date}}</td>

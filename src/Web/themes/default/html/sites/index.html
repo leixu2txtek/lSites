@@ -71,15 +71,21 @@
             {{if data.length > 0}}{{each data as item i}}
             <tr id="{{item.id}}">
                 <td>{{item.sort_order}}</td>
-                <td>{{item.title}}</td>
-                <td>{{item.domain}}</td>
-                <td class="site-Keyword">
-                    <div class="site-Keyword-con">{{item.key_words}}</div>
+                <td title="{{item.title}}" style="width:220px;">
+                    <div class="autocut">{{item.title}}</div>
                 </td>
-                <td class="group-article-zy">
+                <td title="{{item.domain}}" style="width:80px;">
+                    <div class="autocut">{{item.domain}}</div>
+                </td>
+                <td title="{{item.key_words}}" style="width:220px;">
+                    <div class="autocut">{{item.key_words}}</div>
+                </td>
+                <td title="{{item.description}}" style="width:220px;">
                     <div class="autocut" title="{{item.description}}">{{item.description}}</div>
                 </td>
-                <td>{{item.display_name}}</td>
+                <td title="{{item.display_name}}" style="width:98px;">
+                    <div class="autocut">{{item.display_name}}</div>
+                </td>
                 <td>{{item.date_created | format_date}}</td>
                 <td class="group-site-tabelTools">
                     <a href="javascript:void(0);" class="tabelTools-edit edit" data-id="{{item.id}}" title="编辑"><i class="iconfont group-icon-bianji"></i></a>
